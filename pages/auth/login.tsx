@@ -1,43 +1,45 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import AuthContainer from '../../../components/auth/container'
-import Input from '../../../components/global/Input'
-import { BiReset } from 'react-icons/bi'
-import api from '../../../utils/api'
-import validate from '../../../utils/formValidate'
+import AuthContainer from '../../components/auth/container'
+import Input from '../../components/global/Input'
+import { FiLogIn } from 'react-icons/fi'
+import api from '../../utils/api'
+import validate from '../../utils/formValidate'
 import Link from 'next/link'
+import cookies from '../../utils/cookies'
+
+const Login: NextPage = (props: any) => {
 
 
-const Recovery: NextPage = (props: any) => {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState()
 
   const [isEmailValidated, setIsEmailValidated] = useState(false)
   const [isPasswordValidated, setIsPasswordValidated] = useState(false)
 
   const router = useRouter()
-  const { token } = router.query
 
   const resetPassword = async (e: any) => {
     e.preventDefault()
 
-    await api
-      .post(`http://localhost:8080/api/v1/password-reset/${token}`, {
+    if(isEmailValidated && isPasswordValidated){
+      await api
+      .post(`http://localhost:8080/api/v1/auth`, {
         password,
         email,
       })
-      .then((data) => {
-        router.push({pathname: '/auth/login'})
+      .then((data:any) => {
+        cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
+        router.push({pathname: '/'})
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((error) => {})
+    }
   }
 
   return (
-    <AuthContainer title="Tela de Recuperação da Conta!">
+    <AuthContainer title="Tela de Login!">
       <Input
         type="email"
         placeholder="Email ou número de celular"
@@ -52,9 +54,9 @@ const Recovery: NextPage = (props: any) => {
       />
       <Input
         type="password"
-        placeholder="Nova senha"
-        label="Nova senha"
-        error="Introduza pelo menos 8 caracteres, uma letra e um digito!"
+        placeholder="Introduza a senha"
+        label="Senha"
+        error="Senha Inválida!"
         onChange={(e: any) => setPassword(e.target.value)}
         value={password}
         validated={isPasswordValidated}
@@ -63,28 +65,21 @@ const Recovery: NextPage = (props: any) => {
         }}
       />
       <Input
-        type="password"
-        placeholder="Confirmar senha"
-        label="Confirmar senha"
-        error="As senhas não coincidem!"
-        onChange={(e: any) => setPasswordConfirm(e.target.value)}
-        value={passwordConfirm}
-        validated={password === passwordConfirm}
-      />
-      <Input
         type="submit"
-        value="Resetar Senha"
+        value="Entrar"
         onClick={resetPassword}
-        icon={<BiReset size={20} />}
+        icon={<FiLogIn size={20} />}
       />
       <span className="text-center">
-        Voltar a tela de{' '}
-        <Link href="/auth/login">
-          <span className="text-emerald-400 cursor-pointer">Login</span>
+        Não tem conta ainda?
+        <Link href="/auth/register">
+          <span className="cursor-pointer gap-2 text-emerald-400">
+            Criar conta
+          </span>
         </Link>
       </span>
     </AuthContainer>
   )
 }
 
-export default Recovery
+export default Login

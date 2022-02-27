@@ -16,13 +16,16 @@ const Input = (props: any) => {
     case 'url': 
     case 'search':{
       return (
-        <div className="my-2 flex w-96 flex-col">
+        <div className="my-2 flex flex-col">
           <label>{props.label}</label>
           <input
             {...props}
-            className="my-1 rounded-md border border-emerald-400 p-3" onBlur={()=> setVisited(true) }
+            className="my-1 rounded-md border border-emerald-400 p-3"
+            onBlur={() => setVisited(true)}
           />
-          {!props.validated  && visited? <small className="text-red-500">{props.error}</small> : null}
+          {!props.validated && visited ? (
+            <small className="text-red-500">{props.error}</small>
+          ) : null}
         </div>
       )
     }
