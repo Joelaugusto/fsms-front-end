@@ -10,6 +10,7 @@ const Stepper = (props: {
         <button
           onClick={() => props.setStep(i)}
           className="h-1.5 w-5 rounded-md bg-emerald-400"
+          key={i}
         ></button>
       )
     } else {
@@ -17,6 +18,7 @@ const Stepper = (props: {
         <button
           onClick={() => props.setStep(i)}
           className="h-1.5 w-1.5 rounded-md border-none bg-emerald-200"
+          key={i}
         ></button>
       )
     }
