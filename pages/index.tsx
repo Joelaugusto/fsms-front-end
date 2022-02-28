@@ -1,34 +1,40 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import AdsContainer from '../components/home/ads/container'
+import LeftSidebar from '../components/home/leftSidebar'
+import Navbar from '../components/home/navbar'
+import PostContainer from '../components/home/post/container'
 
 const Home: NextPage = () => {
 
 
-    
-  
+
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Head>
-        <title>Página Inicial</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-      
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
+    <div>
+      <div className="flex">
+        <Head>
+          <title>Início</title>
+          <meta name="Início" content="Página Inicial" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <div className="hidden h-screen w-2/5 border-r bg-white md:flex md:w-1/4">
+          <div className="mx-auto py-10">
+            <h1 className="mb-10 cursor-pointer text-2xl font-bold text-emerald-400 duration-150">
+              GCSA
+            </h1>
+            <LeftSidebar />
+          </div>
+        </div>
+        <main className="min-h-screen w-full bg-white">
+          <Navbar />
+          <AdsContainer />
+          <PostContainer />
+        </main>
+      </div>
+      <footer className="w-full text-center py-6 text-xl">
+        <p>Gestão de Cadeia de suplementos agricolas</p>
       </footer>
     </div>
   )
