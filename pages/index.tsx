@@ -33,7 +33,7 @@ const Home: NextPage = () => {
           <PostContainer />
         </main>
       </div>
-      <footer className="w-full text-center py-6 text-xl">
+      <footer className="w-full text-center py-6 text">
         <p>Gestão de Cadeia de suplementos agricolas</p>
       </footer>
     </div>
