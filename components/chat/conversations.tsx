@@ -4,7 +4,7 @@ import ChatGroup from "./chatGroup";
 const Conversations = () => {
 
   return (
-    <div className="mt-8 flex flex-col">
+    <div className="mt-8 flex flex-col max-h-full">
       <div className="flex w-full mb-10 items-center space-x-3 rounded-md bg-gray-100 px-4 py-2">
         <input
           type="text"
@@ -14,7 +14,7 @@ const Conversations = () => {
         <FiSearch />
       </div>
       <ChatGroup title="Conversas Activas" />
-      <ChatGroup title="Conversas Arquivadas" />
+      {/* <ChatGroup title="Conversas Arquivadas" /> */}
     </div>
   )
 }
