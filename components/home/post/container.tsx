@@ -11,10 +11,9 @@ const PostContainer = () => {
           title="Rotação de Culturas"
           views="53K visualizações"
           date="2 semanas atrás"
-          userImage="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-          postBg="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29kZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60"
+          userImage="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+          postBg="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
         />
-        
       </div>
     </div>
   )

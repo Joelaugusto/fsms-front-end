@@ -9,13 +9,13 @@ const Navbar = () => {
           placeholder="pesquisar"
           className="w-full bg-gray-100 outline-none"
         />
-        <FiSearch/>
+        <FiSearch />
       </div>
       <div className="flex items-center space-x-4">
         <img
           className="w-8 rounded-full"
-          src="https://imagez.tmz.com/image/f7/1by1/2021/12/14/f7703994b69d48ca802df55729a2325c_xl.jpg"
-          alt="Elon Musk"
+          src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+          alt="Joel Augusto"
         />
         <p className="hidden md:block">Joel Augusto</p>
       </div>

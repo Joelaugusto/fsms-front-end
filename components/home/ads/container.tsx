@@ -11,14 +11,14 @@ const AdsContainer = () => {
           user="Joel Augusto"
           views="53K visualizações"
           date="2 semanas atrás"
-          userImage="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+          userImage="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
         />
         <Ads
-          title="How to do Basic Jumping and how to landing safely"
-          user="Thomas Hope"
-          views="53K views"
-          date="2 weeks ago"
-          userImage="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+          title="Hoje é dia de ação! Ação de amor e solidariedade para a agricultura"
+          user="Joel Augusto"
+          views="53K visualizações"
+          date="2 semanas atrás"
+          userImage="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
         />
       </div>
     </div>
