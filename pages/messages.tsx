@@ -1,11 +1,28 @@
-import { NextPage } from "next";
-import Chat from "../components/chat/chat";
+import { useState } from 'react'
+import Container from './../components/chat/Message/container'
+import Sidebar from './../components/chat/sidebar'
 
-const Messages:NextPage = () => {
+const Message = () => {
+  const [isChatSelected, setIsChatSelected] = useState(false)
+
+  const selectChat = () => {
+    setIsChatSelected(!isChatSelected)
+  }
+
   return (
-    <Chat/>
+    <div className="flex h-screen text-gray-800 antialiased">
+      <div className="flex w-full flex-row ">
+        <Sidebar
+          className={isChatSelected ? 'hidden' : ''}
+          onSelectChat={selectChat}
+        />
+        <Container
+          className={!isChatSelected ? 'hidden' : ''}
+          goBack={selectChat}
+        />
+      </div>
+    </div>
   )
 }
 
-
-export default Messages;
+export default Message
