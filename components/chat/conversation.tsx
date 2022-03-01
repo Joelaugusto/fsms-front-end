@@ -1,7 +1,7 @@
-const Conversation = () => {
+const Conversation = (props: {onSelectChat: any}) => {
 
   return (
-    <button className="flex flex-row items-center rounded-xl p-2 hover:bg-gray-100">
+    <button onClick={props.onSelectChat} className="flex flex-row items-center rounded-xl p-2 hover:bg-gray-100">
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200">
         M
       </div>

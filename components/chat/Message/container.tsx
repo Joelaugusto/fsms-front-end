@@ -3,14 +3,14 @@ import MessageInput from './../messageInput'
 import MessageUserInfo from './../Message/messageUserInfo'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 
-const Container = () => {
+const Container = (props: {className: string, goBack: Function}) => {
   return (
-    <div className="flex h-screen flex-auto flex-col p-6 ">
+    <div className={`${props.className} p-6" h-screen flex-auto flex-col md:flex`}>
       <div className="flex flex-auto flex-shrink-0 flex-col rounded-2xl bg-gray-100 p-4">
         <div className="mb-4 flex h-full flex-col">
           <div className="px flex h-full flex-col">
             <div className="flex h-20 justify-between border-b-2 border-gray-200 py-3 sm:items-center">
-              <MessageUserInfo />
+              <MessageUserInfo goBack={props.goBack}/>
               <div className="flex items-center space-x-2">
                 <button
                   type="button"
@@ -26,7 +26,7 @@ const Container = () => {
                 </button>
               </div>
             </div>
-            <div className="grid h-[calc(100vh-240px)] grid-cols-12 gap-y-2 overflow-y-auto">
+            <div className="h-[calc(100vh-240px)] gap-y-2 overflow-y-auto">
               <Message received={true} text="Ola! tudo bem contigo?" />
               <Message received={false} text="Tudo e ai?" />
               <Message received={true} text="Ola! tudo bem contigo?" />

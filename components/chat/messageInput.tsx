@@ -22,8 +22,8 @@ const MessageInput = () => {
         </div>
       </div>
       <div className="ml-4">
-        <button className="flex flex-shrink-0 items-center justify-center rounded-xl bg-emerald-400 px-4 py-1 text-white hover:bg-emerald-600">
-          <span>Enviar</span>
+        <button className="flex flex-shrink-0 items-center justify-center rounded-xl bg-emerald-400 py-1 text-white hover:bg-emerald-600 md:px-4">
+          <span className="hidden md:flex">Enviar</span>
           <FiSend className="ml-2" />
         </button>
       </div>

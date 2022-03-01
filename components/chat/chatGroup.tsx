@@ -1,6 +1,6 @@
 import Conversation from "./conversation";
 
-const ChatGroup = (props: {title: string}) => {
+const ChatGroup = (props: {title: string, onSelectChat: Function}) => {
   
   return (
     <>
@@ -10,21 +10,24 @@ const ChatGroup = (props: {title: string}) => {
           4
         </span>
       </div>
-      <div className="-mx-2 mt-4 flex flex-col space-y-1 overflow-y-auto h-[calc(100vh-450px)]">
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
-        <Conversation />
+      <div className="-mx-2 mt-4 flex h-[calc(100vh-450px)] flex-col space-y-1 overflow-y-auto">
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
+        <Conversation onSelectChat={props.onSelectChat} />
       </div>
     </>
   )
