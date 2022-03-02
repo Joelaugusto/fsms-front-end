@@ -1,8 +1,10 @@
+import { NextPage, GetServerSideProps } from 'next'
 import { useState } from 'react'
 import Container from './../components/chat/Message/container'
 import Sidebar from './../components/chat/sidebar'
+import api from './../utils/api';
 
-const Message = () => {
+const Message:NextPage = () => {
   const [isChatSelected, setIsChatSelected] = useState(false)
 
   const selectChat = () => {
@@ -24,5 +26,7 @@ const Message = () => {
     </div>
   )
 }
+
+
 
 export default Message
