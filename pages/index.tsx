@@ -1,4 +1,4 @@
-import type { NextPage, GetServerSideProps } from 'next'
+import type { NextPage, GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import AdsContainer from '../components/home/ads/container'
@@ -42,7 +42,7 @@ const Home: NextPage = (props:any) => {
 }
 
 
-export async function getServerSideProps(context:any) {
+export async function getServerSideProps(context:GetServerSidePropsContext) {
 
 
   const { accessToken } = context.req.cookies
