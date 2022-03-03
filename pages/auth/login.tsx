@@ -34,6 +34,7 @@ const Login: NextPage = (props: any) => {
       })
       .then((data:any) => {
         cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
+        console.log(data)
         router.push({pathname: '/'})
       })
       .catch((error) => {})

@@ -1,23 +1,30 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import api from '../utils/api'
 
 export async function middleware(request: NextRequest) {
-//   const url = request.nextUrl.clone()
 
-//   // if (url.pathname.includes('auth')) {
-//   //   url.pathname = '/auth/login'
-//   //   return NextResponse.redirect(url)
-//   // }
+  // const url = request.nextUrl.clone()
+  
 
-//  await api.get('auth/me').then(() => {
-//   url.pathname = '/true'
-//   return NextResponse.redirect(url)
-//  }).catch(() => {
-//   url.pathname = '/else'
-//   return NextResponse.redirect(url)
-//  });
+  // const { accessToken } = request.cookies;
 
+  // //url.pathname = accessToken;
+
+  // const resp = await fetch('http://localhost:8080/api/v1/auth/me', {
+  //   method: 'get',
+  //   headers: new Headers({
+  //     Authorization: 'Bearer ' + accessToken,
+  //   }),
+  // })
+  
+
+  // if (resp.ok) {
+  //     return NextResponse.next()
+  //     // props: { user: await resp.json() }, // will be passed to the page component as props
+    
+  // } else {
+  //   return NextResponse.redirect(url)
+  // }
 
   
   

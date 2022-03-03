@@ -1,10 +1,12 @@
-import { NextPage, GetServerSideProps } from 'next'
+import { NextPage } from 'next'
+import type { GetServerSidePropsContext } from 'next'
+
 import { useState } from 'react'
 import Container from './../components/chat/Message/container'
 import Sidebar from './../components/chat/sidebar'
-import api from './../utils/api';
+import session from '../utils/session'
 
-const Message:NextPage = () => {
+const Message:NextPage = (props: any) => {
   const [isChatSelected, setIsChatSelected] = useState(false)
 
   const selectChat = () => {
@@ -14,7 +16,7 @@ const Message:NextPage = () => {
   return (
     <div className="flex h-screen text-gray-800 antialiased">
       <div className="flex w-full flex-row ">
-        <Sidebar
+        <Sidebar user={props.user}
           className={isChatSelected ? 'hidden' : ''}
           onSelectChat={selectChat}
         />
@@ -27,6 +29,8 @@ const Message:NextPage = () => {
   )
 }
 
-
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return session.getLoggedUser(context)
+}
 
 export default Message
