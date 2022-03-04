@@ -4,13 +4,27 @@ const setAccessToken = (token: string, time: number):void => {
   document.cookie = `accessToken=${token};expires=${date.toUTCString()};path=/;`
 }
 
-// const getCookie = () => {
-//   const value = document.cookie;
 
-//   console.log(value)
-// }
+function getCookie(cname: any):string {
+  if (typeof document === 'undefined') {
+    return ''
+  }
 
-// getCookie()
+  let name = cname + '='
+  let decodedCookie = decodeURIComponent(document.cookie)
+  let ca = decodedCookie.split(';')
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i]
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1)
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length)
+    }
+  }
+  return ''
+}
 
+const cookies = {setAccessToken, getCookie}
 
-export default {setAccessToken}
+export default cookies;

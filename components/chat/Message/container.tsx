@@ -29,7 +29,6 @@ const Container = (props: {className: string, goBack: Function, messages: [any]}
               </div>
             </div>
             <div className="h-[calc(100vh-240px)] gap-y-2 overflow-y-auto">
-              {console.log(props.messages)}
               {props.messages.map((message) => (
                 <Message received={message.received} text="Ola! tudo bem contigo?" key={message.id} />
               ))}
