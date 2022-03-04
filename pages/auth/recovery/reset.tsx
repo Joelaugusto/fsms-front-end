@@ -24,12 +24,9 @@ const Login: NextPage = (props: any) => {
           email,
         })
         .then((data: any) => {
-          console.log(data)
           router.push({pathname: '/'})
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        
     }
   }
 

@@ -189,7 +189,6 @@ const Login: NextPage = () => {
     ]
 
     const validate = async () => {
-        console.log('sfds')
         axios.get(`http://localhost:8080/api/v1/users/unique?email=${email}&phone=${phone}`).then(e => {
             const email: string = e.data.email;
             const phone: string = e.data.phone;
@@ -222,8 +221,7 @@ const Login: NextPage = () => {
                 latitude,
                 longitude
             }
-        }).then(r => console.log(r)).catch(e => console.log(e))
-        console.log({name, email, contact: phone, password, confirmPassword, role, province, district, locality})
+        })
 
     }
 

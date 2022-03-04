@@ -4,7 +4,6 @@ import MessageUserInfo from './../Message/messageUserInfo'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 
 const Container = (props: {className: string, goBack: Function, messages: [any]}) => {
-  console.log(props.messages)
   return (
     <div
       className={`${props.className} p-6" h-screen flex-auto flex-col md:flex`}

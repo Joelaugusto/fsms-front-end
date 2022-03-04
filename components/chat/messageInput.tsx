@@ -8,7 +8,7 @@ import cookies from '../../utils/cookies'
 const MessageInput =  (props: {chat: number}) => {
 
 
-  const [message, setMessage] = useState<string>()
+  const [message, setMessage] = useState<string>('')
 
   const sendMessage = async(e: any) => {
     e.preventDefault()
@@ -27,7 +27,7 @@ const MessageInput =  (props: {chat: number}) => {
         })
       }
     )
-
+    setMessage('')
   }
 
   return (

@@ -31,9 +31,7 @@ const Recovery: NextPage = (props: any) => {
       .then((data) => {
         router.push({pathname: '/auth/login'})
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      
   }
 
   return (
