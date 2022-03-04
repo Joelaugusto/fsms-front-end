@@ -22,7 +22,7 @@ const Message:NextPage = (props: any) => {
 
     const msg = await resp.json();
 
-    setMessages(msg.data)
+    setMessages(msg.data.reverse())
 
   }
 

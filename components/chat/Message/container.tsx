@@ -4,6 +4,7 @@ import MessageUserInfo from './../Message/messageUserInfo'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 
 const Container = (props: {className: string, goBack: Function, messages: [any]}) => {
+  console.log(props.messages)
   return (
     <div
       className={`${props.className} p-6" h-screen flex-auto flex-col md:flex`}
@@ -30,7 +31,7 @@ const Container = (props: {className: string, goBack: Function, messages: [any]}
             </div>
             <div className="h-[calc(100vh-240px)] gap-y-2 overflow-y-auto">
               {props.messages.map((message) => (
-                <Message received={message.received} text="Ola! tudo bem contigo?" key={message.id} />
+                <Message received={message.received} text={message.message} key={message.id} />
               ))}
             </div>
           </div>

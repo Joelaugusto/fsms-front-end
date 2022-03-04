@@ -28,10 +28,6 @@ const MessageInput =  (props: {chat: number}) => {
       }
     )
 
-    console.log(await resp.json())
-
-
-
   }
 
   return (
