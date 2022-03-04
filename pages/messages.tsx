@@ -53,18 +53,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return user;
   }
 
-   const resp = await fetch('http://localhost:8080/api/v1/chats', {
+   const resp = await fetch('http://localhost:8080/api/v1/chats/resume', {
      method: 'get',
-     headers: new Headers({
+     headers: {
        Authorization: 'Bearer ' + context.req.cookies.accessToken,
-     }),
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
    })
 
-   const chats = await resp.json()
   return {
     props: {
       user: user.props.user,
-      chats: chats.data,
+      chats: resp.ok ? await resp.json() :[],
       token: context.req.cookies.accessToken //change after
     },
   }
