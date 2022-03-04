@@ -3,7 +3,7 @@ import UserInfo from './userInfo'
 import { IoArrowBack } from 'react-icons/io5'
 import Link from 'next/link'
 
-const Sidebar = (props: { className: string; onSelectChat: Function, user: any }) => {
+const Sidebar = (props: { className: string; onSelectChat: Function, user: any, chats: any }) => {
   return (
     <div
       className={`${props.className} md:flex h-screen w-full flex-shrink-0 flex-col bg-white py-5 pl-6 pr-2 md:w-64`}
@@ -19,7 +19,7 @@ const Sidebar = (props: { className: string; onSelectChat: Function, user: any }
         </div>
         <UserInfo user={props.user}/>
       </div>
-      <Conversations onSelectChat={props.onSelectChat} />
+      <Conversations onSelectChat={props.onSelectChat} chats={props.chats}/>
     </div>
   )
 }

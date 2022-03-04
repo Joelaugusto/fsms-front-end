@@ -1,9 +1,14 @@
 
+
 import { FiSend } from 'react-icons/fi'
 import { BsEmojiSmile } from 'react-icons/bs'
 import { IoMdAttach } from 'react-icons/io'
 
-const MessageInput = () => {
+const MessageInput = (props: {chat: number}) => {
+
+  const sendMessage:Function = (e: any) => {
+
+  }
 
   return (
     <div className="flex h-16 w-full flex-row items-center rounded-xl bg-white px-4">

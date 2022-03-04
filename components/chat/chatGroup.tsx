@@ -1,6 +1,6 @@
 import Conversation from "./conversation";
 
-const ChatGroup = (props: {title: string, onSelectChat: Function}) => {
+const ChatGroup = (props: {title: string, onSelectChat: Function, chats: [any]}) => {
   
   return (
     <>
@@ -10,24 +10,10 @@ const ChatGroup = (props: {title: string, onSelectChat: Function}) => {
           4
         </span>
       </div>
-      <div className="-mx-2 mt-4 flex h-[calc(100vh-450px)] flex-col space-y-1 overflow-y-auto">
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
-        <Conversation onSelectChat={props.onSelectChat} />
+      <div className="-mx-2 mt-4 flex h-[calc(00vh-450p1x)] flex-col space-y-1 overflow-y-auto">
+        {props.chats.map((chat: any) => (
+          <Conversation onSelectChat={props.onSelectChat} key={chat.id} chat={chat} />
+        ))}
       </div>
     </>
   )
