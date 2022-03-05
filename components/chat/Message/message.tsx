@@ -1,4 +1,4 @@
-const Message = (props: { received: boolean, text: string }) => {
+const Message = (props: { received: boolean, text: string, seenAt:Date}) => {
   if (props.received) {
     return (
       <div className="col-start-1 col-end-8 rounded-lg p-3">
@@ -22,7 +22,7 @@ const Message = (props: { received: boolean, text: string }) => {
           <div className="relative mr-3 rounded-xl bg-emerald-100 py-2 px-4 text-sm shadow">
             <div>{props.text}</div>
             <div className="absolute bottom-0 right-0 -mb-5 mr-2 text-xs text-gray-500">
-              Seen
+              {props.seenAt ? 'vista' : ''}
             </div>
           </div>
         </div>

@@ -15,9 +15,9 @@ const Conversation = (props: {
         {props.chat.name.toUpperCase().charAt(0)}
       </div>
       <div className="ml-2 text-sm font-semibold">{props.chat.name}</div>
-      <div className="ml-auto flex h-4 w-4 items-center justify-center rounded bg-red-500 text-xs leading-none text-white">
+      {props.chat.notViewed > 0 ? <div className="ml-auto flex h-4 w-4 items-center justify-center rounded bg-red-500 text-xs leading-none text-white">
         {props.chat.notViewed}
-      </div>
+      </div>: null}
     </button>
   )
 }

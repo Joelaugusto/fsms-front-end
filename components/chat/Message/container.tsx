@@ -30,7 +30,7 @@ const Container = (props: {className: string, goBack: Function, messages: [any]}
             </div>
             <div className="h-[calc(100vh-240px)] gap-y-2 overflow-y-auto">
               {props.messages.map((message) => (
-                <Message received={message.received} text={message.message} key={message.id} />
+                <Message received={message.received} text={message.message} key={message.id} seenAt={message.seenAt} />
               ))}
             </div>
           </div>
