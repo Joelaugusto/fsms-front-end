@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext } from 'next'
 
+
 const getLoggedUser = async (context: GetServerSidePropsContext) => {
   const { accessToken } = context.req.cookies
 

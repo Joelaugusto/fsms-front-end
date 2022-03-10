@@ -1,6 +1,6 @@
 import {FiArrowLeft} from 'react-icons/fi'
 
-const MessageUserInfo = (props: {goBack: any}) => (
+const MessageUserInfo = (props: {goBack: any, username: string, userrole: string}) => (
   <div className="relative flex items-center space-x-4">
     <button className="flex items-center" onClick={props.goBack}>
       <div className='md:hidden'>
@@ -22,11 +22,11 @@ const MessageUserInfo = (props: {goBack: any}) => (
     <div className="flex flex-col leading-tight">
       <div className="mt-1 flex items-center text-2xl">
         <span className="mr-3 text-base text-gray-700 sm:text-xl">
-          Joel Augusto
+          {props.username}
         </span>
       </div>
       <span className="hidden text-lg text-gray-600 md:flex">
-        Engenheiro Informático
+        {props.userrole}
       </span>
     </div>
   </div>

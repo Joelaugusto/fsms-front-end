@@ -6,24 +6,25 @@ import Container from './../components/chat/Message/container'
 import Sidebar from './../components/chat/sidebar'
 import session from '../utils/session'
 
+import api from '../utils/api'
+
 const Message:NextPage = (props: any) => {
+  
   const [isChatSelected, setIsChatSelected] = useState(false)
   const [messages, setMessages] = useState<any>([])
+  const [chatId, setChatId] = useState<number>(0)
+  const [username, setUsername] = useState<string>('')
 
-  const selectChat = async (id: number) => {
+  
+
+  const handleSelectChat = async (id: number) => {
     setIsChatSelected(!isChatSelected)
-    
-    const resp = await fetch(`http://localhost:8080/api/v1/chats/${id}/messages`, {
-      method: 'get',
-      headers: new Headers({
-        Authorization: 'Bearer ' + props.token,
-      }),
-    })
-
-    const msg = await resp.json();
-
-    setMessages(msg.data.reverse())
-
+    api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
+    const resp = await api.get(`chats/${id}/with-messages`)
+    setChatId(id)
+    const data = resp.data;
+    setMessages(data.message.reverse())
+    setUsername(data.name)
   }
 
   return (
@@ -33,19 +34,22 @@ const Message:NextPage = (props: any) => {
           user={props.user}
           chats={props.chats}
           className={isChatSelected ? 'hidden' : ''}
-          onSelectChat={selectChat}
+          onSelectChat={handleSelectChat}
         />
         <Container
           className={!isChatSelected ? 'hidden' : ''}
-          goBack={selectChat}
+          goBack={handleSelectChat}
           messages={messages}
+          chatId={chatId}
+          userRole={''}
+          username={username}
         />
       </div>
     </div>
   )
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   
   const user = await session.getLoggedUser(context);
 
@@ -53,23 +57,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return user;
   }
 
-   const resp = await fetch('http://localhost:8080/api/v1/chats/resume', {
-     method: 'get',
-     headers: {
-       Authorization: 'Bearer ' + context.req.cookies.accessToken,
-       Accept: 'application/json',
-       'Content-Type': 'application/json',
-     },
-   })
+   api.defaults.headers.common['Authorization'] = 'Bearer ' + context.req.cookies.accessToken
+   const resp = await api.get('/chats/resume')
 
   return {
     props: {
       user: user.props.user,
-      chats: resp.ok ? await resp.json() :[],
+      chats: resp.data,
       token: context.req.cookies.accessToken //change after
     },
   }
 }
-
 
 export default Message

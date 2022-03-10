@@ -28,7 +28,7 @@ const Login: NextPage = (props: any) => {
 
     if(isEmailValidated && isPasswordValidated){
       await api
-      .post(`http://localhost:8080/api/v1/auth`, {
+      .post(`auth`, {
         password,
         email,
       })

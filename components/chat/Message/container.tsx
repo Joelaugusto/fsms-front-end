@@ -3,7 +3,8 @@ import MessageInput from './../messageInput'
 import MessageUserInfo from './../Message/messageUserInfo'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 
-const Container = (props: {className: string, goBack: Function, messages: [any]}) => {
+const Container = (props: {className: string, goBack: Function, messages: [any], 
+  chatId:number, username: string, userRole: string}) => {
   return (
     <div
       className={`${props.className} p-6" h-screen flex-auto flex-col md:flex`}
@@ -12,7 +13,7 @@ const Container = (props: {className: string, goBack: Function, messages: [any]}
         <div className="mb-4 flex h-full flex-col">
           <div className="px flex h-full flex-col">
             <div className="flex h-20 justify-between border-b-2 border-gray-200 py-3 sm:items-center">
-              <MessageUserInfo goBack={props.goBack} />
+              <MessageUserInfo goBack={props.goBack} username={props.username} userrole={props.userRole} />
               <div className="flex items-center space-x-2">
                 <button
                   type="button"
@@ -35,7 +36,7 @@ const Container = (props: {className: string, goBack: Function, messages: [any]}
             </div>
           </div>
         </div>
-        <MessageInput chat={1} />
+        <MessageInput chat={props.chatId} />
       </div>
     </div>
   )
