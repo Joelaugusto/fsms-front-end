@@ -15,12 +15,12 @@ const MessageUserInfo = (props: {goBack: any, username: string, userrole: string
         <img
           src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
           alt="Avatar"
-          className="h-10 w-10 rounded-full sm:h-16 sm:w-16"
+          className="h-10 w-10 rounded-full sm:h-12 sm:w-12"
         />
       </div>
     </button>
     <div className="flex flex-col leading-tight">
-      <div className="mt-1 flex items-center text-2xl">
+      <div className="flex items-center text-2xl">
         <span className="mr-3 text-base text-gray-700 sm:text-xl">
           {props.username}
         </span>

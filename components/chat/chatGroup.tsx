@@ -11,7 +11,7 @@ const ChatGroup = (props: {title: string, onSelectChat: Function, chats: [any]})
           {props.chats.length}
         </span>
       </div>
-      <div className="-mx-2 mt-4 flex h-[calc(100vh-450px)] flex-col space-y-1 overflow-y-auto">
+      <div className="-mx-2 mt-4 flex flex-col space-y-1 overflow-y-auto">
         {props.chats.map((chat: any) => (
           <Conversation onSelectChat={props.onSelectChat} key={chat.id} chat={chat} />
         ))}

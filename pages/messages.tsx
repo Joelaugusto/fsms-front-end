@@ -9,22 +9,25 @@ import session from '../utils/session'
 import api from '../utils/api'
 
 const Message:NextPage = (props: any) => {
+
   
   const [isChatSelected, setIsChatSelected] = useState(false)
   const [messages, setMessages] = useState<any>([])
   const [chatId, setChatId] = useState<number>(0)
   const [username, setUsername] = useState<string>('')
+  const [userRole, setUserRole] = useState<string>('')
 
   
 
   const handleSelectChat = async (id: number) => {
-    setIsChatSelected(!isChatSelected)
+    setIsChatSelected(true)
     api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
     const resp = await api.get(`chats/${id}/with-messages`)
     setChatId(id)
     const data = resp.data;
     setMessages(data.message.reverse())
     setUsername(data.name)
+    setUserRole(data.userRole)
   }
 
   return (
@@ -38,10 +41,12 @@ const Message:NextPage = (props: any) => {
         />
         <Container
           className={!isChatSelected ? 'hidden' : ''}
-          goBack={handleSelectChat}
+          goBack={() => {
+            setIsChatSelected(false)
+          }}
           messages={messages}
           chatId={chatId}
-          userRole={''}
+          userRole={userRole}
           username={username}
         />
       </div>
