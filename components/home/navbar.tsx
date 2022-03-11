@@ -1,6 +1,6 @@
 import { FiSearch } from 'react-icons/fi'
 
-const Navbar = (props: {user: {name: string}}) => {
+const Navbar = (props: {user: {name: string}, onSearch: Function}) => {
   return (
     <nav className="flex items-center justify-between border-b bg-white px-10 py-6">
       <div className="flex w-96 items-center space-x-3 rounded-md bg-gray-100 px-4 py-2">
@@ -8,6 +8,7 @@ const Navbar = (props: {user: {name: string}}) => {
           type="text"
           placeholder="pesquisar"
           className="w-full bg-gray-100 outline-none"
+          onChange={(e) => props.onSearch(e.target.value)}
         />
         <FiSearch />
       </div>

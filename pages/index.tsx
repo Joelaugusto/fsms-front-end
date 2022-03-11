@@ -1,12 +1,26 @@
 import type { NextPage, GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
+import { useState} from 'react'
 import AdsContainer from '../components/home/ads/container'
 import LeftSidebar from '../components/home/leftSidebar'
 import Navbar from '../components/home/navbar'
 import PostContainer from '../components/home/post/container'
 import session from '../utils/session'
+import api from '../utils/api'
 
 const Home: NextPage = (props:any) => {
+
+  api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
+
+  const [posts, setPosts] = useState<Array<any>>(props.posts)
+
+  const onSearch = async(value:string) => {
+
+    const data = await api.get('/posts?query=' + value)
+    setPosts(data.data.data)
+  }
+
+  
 
   return (
     <div>
@@ -25,9 +39,9 @@ const Home: NextPage = (props:any) => {
           </div>
         </div>
         <main className="min-h-screen w-full bg-white">
-          <Navbar user={props.user}/>
+          <Navbar user={props.user} onSearch={onSearch}/>
           <AdsContainer />
-          <PostContainer />
+          <PostContainer posts={posts}/>
         </main>
       </div>
       <footer className="w-full text-center py-6 text">
@@ -39,7 +53,25 @@ const Home: NextPage = (props:any) => {
 
 
 export async function getServerSideProps(context:GetServerSidePropsContext) {
-  return session.getLoggedUser(context);
+
+  const user = await session.getLoggedUser(context)
+
+  if (!user.props) {
+    return user
+  }
+
+  api.defaults.headers.common['Authorization'] = 'Bearer ' + context.req.cookies.accessToken
+  
+  const posts = await api.get('/posts')
+
+
+  return {
+    props: {
+      user: user.props.user,
+      posts: posts.data.data,
+      token: context.req.cookies.accessToken, //change after
+    },
+  }
 }
 
 export default Home
