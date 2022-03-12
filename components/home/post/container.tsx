@@ -11,6 +11,8 @@ const PostContainer = (props:{posts: Array<any>}) => {
       <div className="mt-10 grid gap-6 md:grid-cols-3 lg:grid-cols-4">
         {props.posts.map((post) => (
           <Post
+            id={post.id}
+            key={post.id}
             title={post.title}
             views={post.visualizations}
             date={dateUtil.timeAgo(post.createdAt)}
