@@ -8,11 +8,15 @@
   "dependencies": {
     "axios": "^0.26.0",
     "leaflet": "^1.7.1",
+    "lodash": "^4.17.21",
     "next": "latest",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-leaflet": "^3.2.5"
+    "react-leaflet": "^3.2.5",
+    "react-stomp": "^5.1.0",
+    "sockjs": "^0.3.24"
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.9",

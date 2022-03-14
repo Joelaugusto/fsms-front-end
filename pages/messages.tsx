@@ -7,6 +7,7 @@ import Sidebar from './../components/chat/sidebar'
 import session from '../utils/session'
 
 import api from '../utils/api'
+import ChatRoom from '../components/chatRoom'
 
 const Message:NextPage = (props: any) => {
 
@@ -50,6 +51,7 @@ const Message:NextPage = (props: any) => {
           username={username}
         />
       </div>
+      <ChatRoom />
     </div>
   )
 }
