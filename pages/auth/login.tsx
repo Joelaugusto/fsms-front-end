@@ -10,6 +10,8 @@ import validate from '../../utils/formValidate'
 import Link from 'next/link'
 import cookies from '../../utils/cookies'
 import Separator from '../../components/auth/separator'
+import 'react-toastify/dist/ReactToastify.css'
+import { toast, ToastContainer } from 'react-toastify'
 
 const Login: NextPage = (props: any) => {
 
@@ -23,25 +25,37 @@ const Login: NextPage = (props: any) => {
 
   const router = useRouter()
 
+
   const resetPassword = async (e: any) => {
     e.preventDefault()
 
+
+
     if(isEmailValidated && isPasswordValidated){
-      await api
-      .post(`auth`, {
-        password,
-        email,
-      })
-      .then((data:any) => {
-        cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
-        router.push({pathname: '/'})
-      })
-      .catch((error) => {})
+
+
+      const response = await toast.promise(
+        api
+          .post(`auth`, {
+            password,
+            email,
+          })
+          .then((data: any) => {
+            cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
+            router.push({ pathname: '/' })
+          }),
+          {
+          pending: 'Iniciando Sessão!',
+          success: 'Sessão iniciada com sucesso! 👌',
+          error: 'Erro ao iniciar sessão! 🤯',
+        }
+      )
     }
   }
 
   return (
     <AuthContainer title="Tela de Login!">
+      <ToastContainer/>
       <button className="flex h-12 justify-center gap-2.5 rounded-md border border-solid border-zinc-700 bg-white p-2.5">
         <FcGoogle size={24} />
         <span>Login com conta Google</span>
