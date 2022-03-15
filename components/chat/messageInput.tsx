@@ -1,38 +1,60 @@
-
-import { useState } from 'react'
+import SockJsClient from 'react-stomp'
 import { FiSend } from 'react-icons/fi'
 import { BsEmojiSmile } from 'react-icons/bs'
 import { IoMdAttach } from 'react-icons/io'
 import cookies from '../../utils/cookies'
 
-const MessageInput =  (props: {chat: number}) => {
+import { useState, useRef } from 'react'
 
+const SOCKET_URL = 'http://localhost:8080/stomp'
 
+const MessageInput = (props: {
+  chat: number,
+  onMessageReceived: Function
+}) => {
   const [message, setMessage] = useState<string>('')
 
-  const sendMessage = async(e: any) => {
-    e.preventDefault()
-    const resp = await fetch(
-      `http://localhost:8080/api/v1/chats/${props.chat}/messages`,
-      {
-        method: 'post',
-        headers: {
-          'Authorization': 'Bearer ' + cookies.getCookie('accessToken'),
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+  let clientRef = useRef<any>()
 
-        },
-        body: JSON.stringify({
-          message
-        })
-      }
+  const sendMessage = async (e: any) => {
+    e.preventDefault()
+
+    //@ts-ignore
+    clientRef.sendMessage(
+      '/app/messages-all',
+      JSON.stringify({
+        chatId: props.chat,
+        message: message,
+        apiKey: cookies.getCookie('accessToken'),
+      })
     )
     setMessage('')
   }
 
   return (
-    <div className="flex h-16 w-full flex-row items-center rounded-xl bg-white px-4">
-      <button className="flex items-center justify-center text-gray-400 hover:text-gray-600">
+    <form
+      className="flex h-16 w-full flex-row items-center rounded-xl bg-white px-4"
+      onSubmit={sendMessage}
+    >
+      <SockJsClient
+        url={SOCKET_URL}
+        topics={['/topic/messages']}
+        // onConnect={console.log('Connected!')}
+        // onDisconnect={console.log('Disconnected!')}
+        onMessage={(msg: any) => {
+          props.onMessageReceived(msg)
+        }}
+        debug={false}
+        ref={(client: any) => {
+          clientRef = client
+        }}
+      />
+      <button
+        className="flex items-center justify-center text-gray-400 hover:text-gray-600"
+        onClick={(e: any) => {
+          e.preventDefault()
+        }}
+      >
         <IoMdAttach />
       </button>
       <div className="ml-4 flex-grow">
@@ -40,22 +62,30 @@ const MessageInput =  (props: {chat: number}) => {
           <input
             type="text"
             className="flex h-10 w-full rounded-xl border pl-4 focus:border-emerald-300 focus:outline-none"
-            onChange={(e:any) => {setMessage(e.target.value)}}
+            onChange={(e: any) => {
+              setMessage(e.target.value)
+            }}
             value={message}
           />
-          <button className="absolute right-0 top-0 flex h-full w-12 items-center justify-center text-gray-400 hover:text-gray-600">
+          <button
+            className="absolute right-0 top-0 flex h-full w-12 items-center justify-center text-gray-400 hover:text-gray-600"
+            onClick={(e: any) => {
+              e.preventDefault()
+            }}
+          >
             <BsEmojiSmile />
           </button>
         </div>
       </div>
       <div className="ml-4">
-        <button onClick={sendMessage} className="flex flex-shrink-0 items-center justify-center rounded-xl bg-emerald-400 py-1 text-white hover:bg-emerald-600 md:px-4">
+        <button className="flex flex-shrink-0 items-center justify-center rounded-xl bg-emerald-400 py-1 text-white hover:bg-emerald-600 md:px-4"
+        onClick={sendMessage}>
           <span className="hidden md:flex">Enviar</span>
           <FiSend className="ml-2" />
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 
-export default MessageInput;
+export default MessageInput

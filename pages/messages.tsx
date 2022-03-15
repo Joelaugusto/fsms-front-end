@@ -1,34 +1,37 @@
 import { NextPage } from 'next'
 import type { GetServerSidePropsContext } from 'next'
-
-import { useState } from 'react'
+import { useState} from 'react'
 import Container from './../components/chat/Message/container'
 import Sidebar from './../components/chat/sidebar'
 import session from '../utils/session'
 
 import api from '../utils/api'
-import ChatRoom from '../components/chatRoom'
-
+import { userInfo } from 'os'
 const Message:NextPage = (props: any) => {
-
-  
   const [isChatSelected, setIsChatSelected] = useState(false)
-  const [messages, setMessages] = useState<any>([])
+  const [messages, setMessages] = useState<Array<any>>([])
   const [chatId, setChatId] = useState<number>(0)
-  const [username, setUsername] = useState<string>('')
-  const [userRole, setUserRole] = useState<string>('')
 
-  
+  const onMessageReceived = (message: any) => {
+    let msg = message
+    if(msg.sentById !== props.user.id){
+      msg.received = true;
+    }
+
+
+    setMessages([...messages, msg])
+  }
+
 
   const handleSelectChat = async (id: number) => {
     setIsChatSelected(true)
     api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
     const resp = await api.get(`chats/${id}/with-messages`)
     setChatId(id)
-    const data = resp.data;
+    const data = resp.data
     setMessages(data.message.reverse())
-    setUsername(data.name)
-    setUserRole(data.userRole)
+    // setUsername(data.name)
+    // setUserRole(data.userRole)
   }
 
   return (
@@ -41,17 +44,16 @@ const Message:NextPage = (props: any) => {
           onSelectChat={handleSelectChat}
         />
         <Container
+          onMessageReceived={onMessageReceived}
           className={!isChatSelected ? 'hidden' : ''}
           goBack={() => {
             setIsChatSelected(false)
           }}
           messages={messages}
           chatId={chatId}
-          userRole={userRole}
-          username={username}
+          user={props.user}
         />
       </div>
-      <ChatRoom />
     </div>
   )
 }
