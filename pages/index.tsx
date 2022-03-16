@@ -38,7 +38,7 @@ const Home: NextPage = (props:any) => {
         </div>
       </div>
       <main className="min-h-screen w-full bg-white">
-        <Navbar user={props.user} onSearch={onSearch} />
+        <Navbar user={props.user} onSearch={onSearch} showSearchBox={true} />
         <div className="h-[calc(100vh-115px)] overflow-auto">
           <AdsContainer />
           <PostContainer posts={posts} />
