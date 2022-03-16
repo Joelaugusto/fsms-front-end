@@ -8,10 +8,13 @@ import { FiFacebook, FiTwitter } from 'react-icons/fi'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
 import dateUtil from '../../utils/dateUtil'
+import Link from 'next/link'
 
 const Post: NextPage = (props: any) => {
   const [post, setPost] = useState<any>()
   const [comment, setComment] = useState<string>()
+  const [comments, setComments] = useState<Array<any>>([])
+
   const router = useRouter()
   const { id } = router.query
 
@@ -22,6 +25,8 @@ const Post: NextPage = (props: any) => {
         .get(`/posts/${id}/`)
         .then((data: any) => {
           setPost(data.data)
+          api.get(`/posts/${id}/comments`).then((data) => {
+            setComments(data.data.data.reverse())});
         })
         .catch(() => {
           router.push('/')
@@ -37,7 +42,8 @@ const Post: NextPage = (props: any) => {
     await toast.promise(
         api
         .post(`/posts/${id}/comments`, { comment })
-        .then(() => {
+        .then((c) => {
+          setComments([...comments, c.data])
           setComment('')
         })
         .catch(() => {}),
@@ -60,7 +66,7 @@ const Post: NextPage = (props: any) => {
         <h1 className="mb-8 text-2xl">{post.title}</h1>
         <div className="flex justify-between border-b-2 border-gray-200 pb-4">
           <div className="">
-            <p className='text-gray-500'>{dateUtil.timeAgo(post.createdAt)}</p>
+            <p className="text-gray-500">{dateUtil.timeAgo(post.createdAt)}</p>
           </div>
           <div className="flex items-center gap-1">
             <FiFacebook />
@@ -68,32 +74,7 @@ const Post: NextPage = (props: any) => {
           </div>
         </div>
         <div className="px-1 py-4">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-            est nulla dignissimos eligendi esse neque laborum libero assumenda
-            sequi architecto corporis ut, velit, consequatur obcaecati quam
-            corrupti atque, tempora excepturi! Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Accusamus excepturi nihil, maiores
-            aliquid ea ex quos natus, atque temporibus corporis assumenda et!
-            Porro, quia incidunt necessitatibus deserunt maxime magni ea. Lorem
-            ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur
-            amet ab soluta modi unde exercitationem ex illum culpa fuga eveniet!
-            Laudantium quod non reprehenderit quia corrupti saepe fugiat eveniet
-            nostrum!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-            est nulla dignissimos eligendi esse neque laborum libero assumenda
-            sequi architecto corporis ut, velit, consequatur obcaecati quam
-            corrupti atque, tempora excepturi! Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Accusamus excepturi nihil, maiores
-            aliquid ea ex quos natus, atque temporibus corporis assumenda et!
-            Porro, quia incidunt necessitatibus deserunt maxime magni ea. Lorem
-            ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur
-            amet ab soluta modi unde exercitationem ex illum culpa fuga eveniet!
-            Laudantium quod non reprehenderit quia corrupti saepe fugiat eveniet
-            nostrum!
-          </p>
+          <p>{post.body}</p>
         </div>
         <div className="flex gap-5 border-t-2 border-gray-200 py-5">
           <img
@@ -107,15 +88,29 @@ const Post: NextPage = (props: any) => {
             </strong>
           </div>
         </div>
+        <div className="mt-10">
+          {comments.map((comment) => (
+            <div key={comment.id} className="mt-5 border border-slate-500">
+              <Link href={`users/${comment.user.id}`}>
+                <p>{comment.user.name}</p>
+              </Link>
+              <p>{comment.comment}</p>
+              <p>{dateUtil.timeAgo(comment.createdAt)}</p>
+            </div>
+          ))}
+        </div>
         <form
           className="mt-16 flex flex-col items-center justify-center"
           onSubmit={submitCommentHandler}
         >
-          <input
-            className="mb-2 h-10 w-full rounded-md border-2 border-gray-200 px-2"
+          <textarea
+            className="mb-2 h-28 w-full rounded-md border-2 border-gray-200 px-2"
             placeholder="Insira o seu comentário"
             value={comment}
-          />
+            onChange={(e) => {
+              setComment(e.target.value)
+            }}
+          ></textarea>
           <button className="h-10 w-full rounded-md bg-emerald-500 text-white">
             Comentar
           </button>
