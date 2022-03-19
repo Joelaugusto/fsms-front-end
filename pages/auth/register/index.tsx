@@ -56,12 +56,15 @@ const Register: NextPage = () => {
         if (email) {
           setEmailValidatedMessage('Este email já é usado!')
         }
+
         if (phone) {
           setPhoneValidatedMessage('Este numero já é usado!')
         }
+
         if(email || phone){
           return;
         }
+        
       });
 
 

@@ -14,6 +14,11 @@ import Head from 'next/head';
 import Link from 'next/link';
 import api from '../../../utils/api';
 import type { GetServerSidePropsContext } from 'next'
+import { useRouter } from 'next/router';
+import { toast, ToastContainer } from 'react-toastify'
+import cookies from '../../../utils/cookies'
+
+
 
 
 const Map = dynamic(
@@ -24,6 +29,8 @@ const Map = dynamic(
 
 const Login: NextPage = (props:any) => {
 
+
+    const router = useRouter()
 
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
     const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor'];
@@ -137,17 +144,30 @@ const Login: NextPage = (props:any) => {
     const submitForm = async (e: any) =>
     {
         e.preventDefault();
-        await api.post('users', {
-            name,
-            role: 'ADMIN',
-            address: {
+
+        const response = await toast.promise(
+          api
+            .post(`users/${props.userId}`, {
+              name,
+              role: 'ADMIN',
+              address: {
                 province: 'SOFALA',
                 district,
                 locality,
                 latitude,
-                longitude
-            }
-        })
+                longitude,
+              },
+            })
+            .then((data: any) => {
+              cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
+              router.push({ pathname: '/' })
+            }),
+          {
+            pending: 'Iniciando Sessão!',
+            success: 'Sessão iniciada com sucesso! 👌',
+            error: 'Erro ao iniciar sessão! 🤯',
+          }
+        )
 
     }
 
@@ -174,7 +194,8 @@ const Login: NextPage = (props:any) => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <AuthContainer title="Concluir Registro">
-          <form className="grid place-content-center">
+          <ToastContainer/>
+          <form className="grid place-content-center" onSubmit={() => {}}>
               {steps[step]}
               <Stepper
                 total={steps.length}
@@ -199,14 +220,16 @@ const Login: NextPage = (props:any) => {
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 
 
-  await api.post(`users/verify-email/${context.params?.token}`)
-    .then((data) => {
-      return {
-        props: { userId: data.data?.id },
-      }
-    })
+  const user = await (await api.post(`users/verify-email/${context.params?.token}`)).data
 
-  return {props: {}}
+  if(user){
+    return {props: {
+    userId: user.id
+  }}
+  }else{
+    return {props: {}}
+  }
+
 }
 
 

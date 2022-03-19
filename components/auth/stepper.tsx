@@ -23,8 +23,6 @@ const Stepper = (props: {
       )
     }
   }
-
   return <div className="flex gap-5 justify-center">{components}</div>
 }
-
 export default Stepper
