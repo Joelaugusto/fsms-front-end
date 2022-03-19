@@ -1,26 +1,22 @@
-import { useState } from "react"
-
+import { useState } from 'react'
 
 const Input = (props: any) => {
-
-
   const [visited, setVisited] = useState(false)
-  
 
-  switch(props.type) {
+  switch (props.type) {
     case 'text':
-    case 'password': 
-    case 'email': 
-    case 'number': 
-    case 'tel': 
-    case 'url': 
-    case 'search':{
+    case 'password':
+    case 'email':
+    case 'number':
+    case 'tel':
+    case 'url':
+    case 'search': {
       return (
-        <div className="my-2 flex flex-col">
-          <label>{props.label}</label>
+        <div className="my-2 grid">
+          <label className="text-sm">{props.label}</label>
           <input
             {...props}
-            className="my-1 rounded-md border border-emerald-400 p-3"
+            className="my-1 rounded-md border border-emerald-400 p-2 text-sm"
             onBlur={() => setVisited(true)}
           />
           {!props.validated && visited ? (
@@ -29,12 +25,31 @@ const Input = (props: any) => {
         </div>
       )
     }
+    case 'select': {
+      return (
+        <div className="my-2 grid">
+          <label className="text-sm">{props.label}</label>
+          <select
+            {...props}
+            className="my-1 rounded-md border border-emerald-400 p-2 text-sm"
+            onBlur={() => setVisited(true)}
+          >
+            {props.options.map((option: string, index: number) => (
+              <option key={index}>{option}</option>
+            ))}
+          </select>
+          {!props.validated && visited ? (
+            <small className="text-red-500">{props.error}</small>
+          ) : null}
+        </div>
+      )
+    }
     case 'submit': {
       return (
-        <div className="my-2 flex w-96 flex-col">
+        <div className="my-2 grid">
           <button
             {...props}
-            className="my-1 rounded-md border bg-emerald-400 p-3 text-gray-100 flex items-center justify-center gap-2"
+            className="my-1 flex items-center justify-center gap-2 rounded-md border bg-emerald-400 p-2 text-sm text-gray-100"
           >
             {props.value}
             {props.icon}
@@ -43,10 +58,9 @@ const Input = (props: any) => {
       )
     }
     default: {
-      return (<></>)
-    }
-      
+      return <></>
     }
   }
-  
-export default Input;
+}
+
+export default Input

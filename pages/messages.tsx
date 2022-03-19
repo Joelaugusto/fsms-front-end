@@ -6,7 +6,6 @@ import Sidebar from './../components/chat/sidebar'
 import session from '../utils/session'
 
 import api from '../utils/api'
-import { userInfo } from 'os'
 const Message:NextPage = (props: any) => {
   const [isChatSelected, setIsChatSelected] = useState(false)
   const [messages, setMessages] = useState<Array<any>>([])

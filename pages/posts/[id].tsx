@@ -10,9 +10,7 @@ import dateUtil from '../../utils/dateUtil'
 import Link from 'next/link'
 import Head from 'next/head'
 import LeftSidebar from '../../components/home/leftSidebar'
-import AdsContainer from '../../components/home/ads/container'
 import Navbar from '../../components/home/navbar'
-import PostContainer from '../../components/home/post/container'
 
 const Post: NextPage = (props: any) => {
   const [post, setPost] = useState<any>()
@@ -41,9 +39,9 @@ const Post: NextPage = (props: any) => {
 
   const submitCommentHandler = async (e: any) => {
     e.preventDefault()
-    
-
-    await toast.promise(
+    console.log(comment)
+    if(comment){
+      await toast.promise(
         api
         .post(`/posts/${id}/comments`, { comment })
         .then((c) => {
@@ -57,6 +55,7 @@ const Post: NextPage = (props: any) => {
         error: 'Falha ao comentar! 🤯',
       }
     )
+    }
   }
 
   if (post) {
@@ -132,7 +131,7 @@ const Post: NextPage = (props: any) => {
                         </strong>
                       </div>
                     </Link>
-                    <p className="p-4 text-gray-800">{comment.comment}</p>
+                    <p className="p-4 text-gray-800 whitespace-pre-wrap">{comment.comment}</p>
                   </div>
                 ))}
               </div>

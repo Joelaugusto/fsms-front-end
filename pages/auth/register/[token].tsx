@@ -2,46 +2,37 @@ import type {NextPage} from 'next'
 import {useEffect, useState} from 'react';
 
 //icons
-import {FcGoogle} from "react-icons/fc";
 import {FiUserPlus} from "react-icons/fi";
 
 //components
-import AuthContainer from '../../components/auth/container';
-import Input from '../../components/global/Input';
-import Options from '../../components/auth/options';
-import Separator from '../../components/auth/separator';
-import Stepper from '../../components/auth/stepper';
-
-
+import AuthContainer from '../../../components/auth/container';
+import Input from '../../../components/global/Input';
+import Options from '../../../components/auth/options';
+import Stepper from '../../../components/auth/stepper';
 import dynamic from 'next/dynamic'
 import Head from 'next/head';
 import Link from 'next/link';
+import api from '../../../utils/api';
+import type { GetServerSidePropsContext } from 'next'
 
-import axios from 'axios';
 
 const Map = dynamic(
-    () => import('../../components/map'),
+    () => import('../../../components/map'),
     {ssr: false}
 )
 
 
-const Login: NextPage = () => {
+const Login: NextPage = (props:any) => {
 
 
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
     const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor'];
 
-    const [emailValidatedMessage, setEmailValidatedMessage] = useState('');
-    const [phoneValidatedMessage, setPhoneValidatedMessage] = useState('');
 
     const [showMap, setShowMap] = useState(false);
     const [latitude, setLatitude] = useState(0)
     const [longitude, setLongitude] = useState(0)
     const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('')
     const [province, setProvince] = useState(provinces[0]);
     const [district, setDistrict] = useState('');
@@ -50,12 +41,7 @@ const Login: NextPage = () => {
 
     let validated = false;
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-            setLatitude(position.coords.latitude)
-            setLongitude(position.coords.longitude)
-        });
-    }, [])
+
 
 
     const steps = [
@@ -63,37 +49,11 @@ const Login: NextPage = () => {
         <Input
           type="text"
           placeholder="Nome Complecto"
-          label="Nome"
+          label="Nome Completo"
           onChange={(e: any) => {
             setName(e.target.value)
           }}
         />
-        <div>
-          <Input
-            type="text"
-            placeholder="Email"
-            invalid={emailValidatedMessage}
-            label="Senha"
-            onChange={(e: any) => {
-              setEmail(e.target.value)
-            }}
-          />
-          <small className="text-red-500">{emailValidatedMessage}</small>
-        </div>
-        <div>
-          <Input
-            type="text"
-            placeholder="Contacto"
-            invalid={phoneValidatedMessage}
-            label="Contacto"
-            onChange={(e: any) => {
-              setPhone(e.target.value)
-            }}
-          />
-          <small className="text-red-500">{phoneValidatedMessage}</small>
-        </div>
-      </>,
-      <>
         <Input
           type="select"
           placeholder="Selecione a sua funcão"
@@ -101,22 +61,6 @@ const Login: NextPage = () => {
           options={roles}
           onChange={(e: any) => {
             setRole(e.target.value)
-          }}
-        />
-        <Input
-          type="password"
-          placeholder="Senha"
-          label="Senha"
-          onChange={(e: any) => {
-            setPassword(e.target.value)
-          }}
-        />
-        <Input
-          type="password"
-          placeholder="Confirmar Senha"
-          label="Confirmar Senha"
-          onChange={(e: any) => {
-            setConfirmPassword(e.target.value)
           }}
         />
       </>,
@@ -153,7 +97,7 @@ const Login: NextPage = () => {
           }}
         ></Options>
         <div
-          className="flex gap-5 flex-col"
+          className="grid gap-5 md:grid-cols-2"
           style={showMap ? { display: 'none' } : undefined}
         >
           <Input
@@ -185,34 +129,16 @@ const Login: NextPage = () => {
             popup={'Voce está aqui!'}
           />
         </div>
+        <Input />
       </>,
     ]
 
-    const validate = async () => {
-        axios.get(`http://localhost:8080/api/v1/users/unique?email=${email}&phone=${phone}`).then(e => {
-            const email: string = e.data.email;
-            const phone: string = e.data.phone;
-
-            validated = !phone && !email;
-
-            if (email) {
-                setEmailValidatedMessage('Este email já é usado!')
-            }
-            if (phone) {
-                setPhoneValidatedMessage('Este numero já é usado!')
-            }
-        }).catch(() => false)
-    }
 
     const submitForm = async (e: any) =>
     {
         e.preventDefault();
-        await axios.post('http://localhost:8080/api/v1/users', {
+        await api.post('users', {
             name,
-            email,
-            phone,
-            password,
-            confirmPassword,
             role: 'ADMIN',
             address: {
                 province: 'SOFALA',
@@ -226,7 +152,8 @@ const Login: NextPage = () => {
     }
 
     const changeStep = async (e: any) => {
-        await validate()
+      e.preventDefault()
+        //await validate()
         if (steps.length - 1 <= step) {
             submitForm(e)
         } else {
@@ -235,7 +162,7 @@ const Login: NextPage = () => {
     }
 
     const onchangeStep = async (e: any) => {
-        await validate();
+       // await validate();
         setStep(e)
     }
 
@@ -246,14 +173,8 @@ const Login: NextPage = () => {
           <meta name="Register" content="Register Form" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <AuthContainer>
-          <div className="grid place-content-center">
-            <button className="flex h-12 justify-center gap-2.5 rounded-md border border-solid border-zinc-700 bg-white p-2.5">
-              <FcGoogle size={24} />
-              <span>Login com conta Google</span>
-            </button>
-            <div className="grid place-content-center gap-5">
-              <Separator>ou inserir registro</Separator>
+        <AuthContainer title="Concluir Registro">
+          <form className="grid place-content-center">
               {steps[step]}
               <Stepper
                 total={steps.length}
@@ -266,15 +187,29 @@ const Login: NextPage = () => {
                 value={steps.length - 1 <= step ? 'Registrar' : 'Proximo Passo'}
                 onClick={changeStep}
               />
-              <span className="text-center my-5 text-gray-500">
+              <span className="my-5 text-center text-gray-500">
                 Ja tem conta?<Link href="/auth/login"> Login</Link>
               </span>
-            </div>
-          </div>
+          </form>
         </AuthContainer>
       </div>
     )
 }
 
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+
+
+  await api.post(`users/verify-email/${context.params?.token}`)
+    .then((data) => {
+      return {
+        props: { userId: data.data?.id },
+      }
+    })
+
+  return {props: {}}
+}
+
+
 
 export default Login; 
+
