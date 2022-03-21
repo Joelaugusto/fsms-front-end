@@ -17,6 +17,8 @@ import type { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify'
 import cookies from '../../../utils/cookies'
+import 'react-toastify/dist/ReactToastify.css'
+
 
 
 
@@ -32,18 +34,22 @@ const Login: NextPage = (props:any) => {
 
     const router = useRouter()
 
+    
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
+    const backProvinces = ['MAPUTO', 'GAZA', 'INHAMBANE', 'MANICA', 'SOFALA','TETE', 'ZAMBEZIA', 'NAMPULA','NIASSA','CABO_DELGADO']
+    
     const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor'];
+    const backRoles = [ 'FARMER', 'STOCKIST', 'RETAILER', 'DISTRIBUTOR']
 
 
-    const [showMap, setShowMap] = useState(true);
-    const [latitude, setLatitude] = useState(0)
-    const [longitude, setLongitude] = useState(0)
-    const [name, setName] = useState('');
-    const [role, setRole] = useState('')
-    const [province, setProvince] = useState(provinces[0]);
-    const [district, setDistrict] = useState('');
-    const [locality, setLocality] = useState('');
+    const [showMap, setShowMap] = useState<boolean>(true);
+    const [latitude, setLatitude] = useState<number>(0)
+    const [longitude, setLongitude] = useState<number>(0)
+    const [name, setName] = useState<string>('');
+    const [role, setRole] = useState<string>(roles[0])
+    const [province, setProvince] = useState<string>(provinces[0])
+    const [district, setDistrict] = useState<string>('')
+    const [locality, setLocality] = useState<string>('')
     const [step, setStep] = useState(0);
 
     let validated = false;
@@ -145,7 +151,7 @@ const Login: NextPage = (props:any) => {
             latitude={latitude}
             longitude={longitude}
             popup={'Voce está aqui!'}
-            className="h-96 w-96"
+            className="h-96 w-full md:w-96"
           />
         </div>
         <Input />
@@ -161,9 +167,9 @@ const Login: NextPage = (props:any) => {
           api
             .post(`users/${props.userId}`, {
               name,
-              role: 'ADMIN',
+              role: backRoles[roles.findIndex((n:string) => n === role)],
               address: {
-                province: 'SOFALA',
+                province: backProvinces[provinces.findIndex((n:string) => n === role)],
                 district,
                 locality,
                 latitude,
@@ -175,12 +181,22 @@ const Login: NextPage = (props:any) => {
               router.push({ pathname: '/' })
             }),
           {
-            pending: 'Iniciando Sessão!',
-            success: 'Sessão iniciada com sucesso! 👌',
-            error: 'Erro ao iniciar sessão! 🤯',
+            pending: 'Concluindo Registro!',
+            success: 'Registro concluído com sucesso! 👌',
+            error: 'Erro ao concluir o registro! 🤯',
           }
         )
-
+      console.log({
+              name,
+              role: 'ADMIN',
+              address: {
+                province: 'SOFALA',
+                district,
+                locality,
+                latitude,
+                longitude,
+              },
+            })
     }
 
     const changeStep = async (e: any) => {
