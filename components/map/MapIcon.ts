@@ -22,7 +22,7 @@ const getIcon = (role: string): L.Icon<L.IconOptions> => {
       break
     }
     default: {
-      iconUrl = iconsUrl.farmer
+      iconUrl = iconsUrl.default
       break
     }
   }
@@ -36,10 +36,10 @@ const getIcon = (role: string): L.Icon<L.IconOptions> => {
 const iconsUrl = {
   farmer:
     'https://cdn-icons.flaticon.com/png/512/353/premium/353812.png?token=exp=1647864887~hmac=e74d12f103ce1302578d1562a4f76591',
-  distributor: 'https://cdn-icons-png.flaticon.com/512/1670/1670929.png',
-  retailer:
-    'https://cdn-icons.flaticon.com/png/512/3514/premium/3514491.png?token=exp=1647877241~hmac=e35e793906cbe564a393ef5930a0ed5e',
-  stockist: 'https://cdn-icons-png.flaticon.com/512/2312/2312763.png',
+  distributor: 'https://cdn-icons-png.flaticon.com/512/948/948615.png',
+  retailer: 'https://cdn-icons-png.flaticon.com/512/4290/4290854.png',
+  stockist: 'https://cdn-icons-png.flaticon.com/512/2897/2897808.png',
+  default: 'https://cdn-icons-png.flaticon.com/512/252/252025.png',
 }
 
 
