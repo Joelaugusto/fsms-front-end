@@ -1,6 +1,7 @@
-import L, { divIcon, map } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import mapIcons from './MapIcon'
+import 'leaflet/dist/leaflet.css'
+
 
 
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
@@ -23,16 +24,11 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
       <>
         <Marker
           position={[props.latitude, props.longitude]}
-          icon={mapIcons.farmer}
+          icon={mapIcons.getIcon('sd')}
         >
           <Tooltip>
-            <div>
-              <p>{props.popup}</p>
-              <p>{props.popup}</p>
-              <p>{props.popup}</p>
-            </div>
+            {props.popup}
           </Tooltip>
-          {props.popup}
         </Marker>
       </>
     </MapContainer>

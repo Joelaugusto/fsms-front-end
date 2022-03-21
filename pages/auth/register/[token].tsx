@@ -36,7 +36,7 @@ const Login: NextPage = (props:any) => {
     const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor'];
 
 
-    const [showMap, setShowMap] = useState(false);
+    const [showMap, setShowMap] = useState(true);
     const [latitude, setLatitude] = useState(0)
     const [longitude, setLongitude] = useState(0)
     const [name, setName] = useState('');
@@ -49,6 +49,12 @@ const Login: NextPage = (props:any) => {
     let validated = false;
 
 
+    useEffect(() => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLatitude(position.coords.latitude)
+        setLongitude(position.coords.longitude)
+      })
+    }, [])
 
 
     const steps = [
@@ -57,6 +63,7 @@ const Login: NextPage = (props:any) => {
           type="text"
           placeholder="Nome Complecto"
           label="Nome Completo"
+          value={name}
           onChange={(e: any) => {
             setName(e.target.value)
           }}
@@ -65,6 +72,7 @@ const Login: NextPage = (props:any) => {
           type="select"
           placeholder="Selecione a sua funcão"
           label="Funcão"
+          value={role}
           options={roles}
           onChange={(e: any) => {
             setRole(e.target.value)
@@ -76,6 +84,7 @@ const Login: NextPage = (props:any) => {
           type="select"
           placeholder="Selecione a província"
           label="Província"
+          value={province}
           options={provinces}
           onChange={(e: any) => {
             setProvince(e.target.value)
@@ -88,6 +97,7 @@ const Login: NextPage = (props:any) => {
           onChange={(e: any) => {
             setDistrict(e.target.value)
           }}
+          value={district}
         />
         <Input
           type="text"
@@ -96,6 +106,7 @@ const Login: NextPage = (props:any) => {
           onChange={(e: any) => {
             setLocality(e.target.value)
           }}
+          value={locality}
         />
         <Options
           options={['Coordenadas', 'Mapa']}
@@ -134,7 +145,7 @@ const Login: NextPage = (props:any) => {
             latitude={latitude}
             longitude={longitude}
             popup={'Voce está aqui!'}
-            className="h-screen w-screen"
+            className="h-96 w-96"
           />
         </div>
         <Input />
@@ -146,7 +157,7 @@ const Login: NextPage = (props:any) => {
     {
         e.preventDefault();
 
-        const response = await toast.promise(
+        await toast.promise(
           api
             .post(`users/${props.userId}`, {
               name,
@@ -196,7 +207,7 @@ const Login: NextPage = (props:any) => {
         </Head>
         <AuthContainer title="Concluir Registro">
           <ToastContainer/>
-          <form className="grid place-content-center" onSubmit={() => {}}>
+          <form className="grid place-content-center" onSubmit={(e) => {e.preventDefault()}}>
               {steps[step]}
               <Stepper
                 total={steps.length}
@@ -221,19 +232,27 @@ const Login: NextPage = (props:any) => {
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 
 
-  const user = await (await api.post(`users/verify-email/${context.params?.token}`)).data
+  let user:any; 
+  
+  await api.post(`users/verify-email/${context.params?.token}`).then((data) => {
+    user = data.data;
+  }).catch(()=> {
+
+  })
 
   if(user){
     return {props: {
     userId: user.id
   }}
   }else{
-    return {props: {}}
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
+      },
+    }
   }
-
 }
-
-
 
 export default Login; 
 
