@@ -1,20 +1,42 @@
-import { NextPage } from "next";
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic'
+import api from '../utils/api'
 
-const Map = dynamic(() => import('../components/map'), { ssr: false })
+function HomePage(props: any) {
+  const Map = dynamic(
+    () => import('../components/map/supplyChainMap'),
+    {
+      loading: () => <p>A map is loading</p>,
+      ssr: false, // This line is important. It's what prevents server-side render
+    }
+  )
 
+  const markers = [{
+    name: "União dos agricultores de Maputo",
 
-const SupplyChain: NextPage = () => {
+    position: []
+  }]
   return (
-    <div>
-      <Map
-        latitude={-25.9260416}
-        longitude={32.5517312}
-        popup={'ABC'}
-        key={11}
-      />
-    </div>
+    <Map
+      className="h-screen w-screen"
+      latitude={-25.9456962}
+      longitude={32.4833466}
+      popup={'você está aqui!'}
+      markers={props.markers}
+      
+    />
   )
 }
 
-export default SupplyChain;
+export const getServerSideProps = async () => {
+
+
+  const markers = await api.get('/users/map-markers')
+
+  return {
+    props: {
+      markers: markers.data
+    },
+  }
+}
+
+export default HomePage

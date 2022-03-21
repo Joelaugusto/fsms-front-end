@@ -22,7 +22,7 @@ import cookies from '../../../utils/cookies'
 
 
 const Map = dynamic(
-    () => import('../../../components/map'),
+    () => import('../../../components/map/map'),
     {ssr: false}
 )
 
@@ -134,6 +134,7 @@ const Login: NextPage = (props:any) => {
             latitude={latitude}
             longitude={longitude}
             popup={'Voce está aqui!'}
+            className="h-screen w-screen"
           />
         </div>
         <Input />

@@ -20,7 +20,7 @@ import Link from 'next/link';
 import axios from 'axios';
 
 const Map = dynamic(
-    () => import('../../components/map'),
+    () => import('../../components/map/map'),
     {ssr: false}
 )
 
