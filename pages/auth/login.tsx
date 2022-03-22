@@ -1,45 +1,31 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import AuthContainer from '../../components/auth/container'
 import Input from '../../components/global/Input'
 import { FcGoogle } from 'react-icons/fc'
 import { FiLogIn } from 'react-icons/fi'
 import api from '../../utils/api'
-import validate from '../../utils/formValidate'
+import * as Yup from 'yup'
 import Link from 'next/link'
 import cookies from '../../utils/cookies'
 import Separator from '../../components/auth/separator'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
+import { Formik } from 'formik'
 
 const Login: NextPage = (props: any) => {
-
-
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const [isEmailValidated, setIsEmailValidated] = useState(false)
-  const [isPasswordValidated, setIsPasswordValidated] = useState(false)
 
   const router = useRouter()
 
 
-  const resetPassword = async (e: any) => {
-    e.preventDefault()
+  const resetPassword = async (form: {email:string, password:string}, setSubmitting: Function) => {
+      
 
-
-
-    if(isEmailValidated && isPasswordValidated){
-
-
-      const response = await toast.promise(
+      setSubmitting(true)
+      try{
+      await toast.promise(
         api
-          .post(`auth`, {
-            password,
-            email,
-          })
+          .post(`auth`, form)
           .then((data: any) => {
             cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
             router.push({ pathname: '/' })
@@ -50,47 +36,65 @@ const Login: NextPage = (props: any) => {
           error: 'Erro ao iniciar sessão! 🤯',
         }
       )
+      }catch(e){
+        setSubmitting(false)
+      }
+      setSubmitting(false)
     }
-  }
 
   return (
     <AuthContainer title="Tela de Login!">
-      <ToastContainer/>
+      <ToastContainer />
       <button className="flex h-12 justify-center gap-2.5 rounded-md border border-solid border-zinc-700 bg-white p-2.5">
         <FcGoogle size={24} />
         <span>Login com conta Google</span>
       </button>
       <Separator>OU</Separator>
-      <Input
-        type="email"
-        placeholder="Email ou número de celular"
-        label="Email ou número de celular"
-        error="Introduza um email válido!"
-        value={email}
-        onChange={(e: any) => setEmail(e.target.value)}
-        onChangeCapture={() => {
-          setIsEmailValidated(validate.emailValidate(email))
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={Yup.object({
+          email: Yup.string().email('Email inválido').required('Email é obrigatório')
+          .required('Email é obrigatório'),
+          password: Yup.string().min(6,'Senha deve ter pelo menos 6 caractéres')
+          .max(20,'Senha deve ter no máximo 20 caractéres').required('Senha é obrigatória'),
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          resetPassword(values, setSubmitting)
         }}
-        validated={isEmailValidated}
-      />
-      <Input
-        type="password"
-        placeholder="Introduza a senha"
-        label="Senha"
-        error="Senha Inválida!"
-        onChange={(e: any) => setPassword(e.target.value)}
-        value={password}
-        validated={isPasswordValidated}
-        onChangeCapture={() => {
-          setIsPasswordValidated(validate.validatePassword(password))
-        }}
-      />
-      <Input
-        type="submit"
-        value="Entrar"
-        onClick={resetPassword}
-        icon={<FiLogIn size={20} />}
-      />
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          /* and other goodies */
+        }) => (
+          <form onSubmit={handleSubmit} noValidate>
+            <Input
+              label="Email ou celular"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              error={errors.email && touched.email && errors.email}
+            />
+            <Input
+              label="Senha"
+              type="password"
+              name="password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+              error={errors.password && touched.password && errors.password}
+            />
+            <Input type="submit" disabled={isSubmitting} value='Iniciar Sessão'/>
+          </form>
+        )}
+      </Formik>
       <span className="text-center">
         Não tem conta ainda?
         <Link href="/auth/register">
@@ -100,10 +104,10 @@ const Login: NextPage = (props: any) => {
         </Link>
       </span>
       <span className="text-center">
-        Esqueceu a senha? 
+        Esqueceu a senha?
         <Link href="/auth/recovery/reset">
           <span className="cursor-pointer gap-2 text-emerald-400">
-             Recuperar senha
+            Recuperar senha
           </span>
         </Link>
       </span>

@@ -19,9 +19,7 @@ const Input = (props: any) => {
             className="my-1 rounded-md border border-emerald-400 p-2 text-sm"
             onBlur={() => setVisited(true)}
           />
-          {!props.validated && visited ? (
-            <small className="text-red-500">{props.error}</small>
-          ) : null}
+          <small className="text-red-500">{props.error}</small>
         </div>
       )
     }
@@ -38,9 +36,7 @@ const Input = (props: any) => {
               <option key={index}>{option}</option>
             ))}
           </select>
-          {!props.validated && visited ? (
             <small className="text-red-500">{props.error}</small>
-          ) : null}
         </div>
       )
     }
@@ -48,8 +44,9 @@ const Input = (props: any) => {
       return (
         <div className="my-2 grid">
           <button
+            type="submit"
             {...props}
-            className="my-1 flex items-center justify-center gap-2 rounded-md border bg-emerald-400 p-2 text-sm text-gray-100"
+            className="disabled:cursor-wait my-1 flex items-center justify-center gap-2 rounded-md border bg-emerald-400 p-2 text-sm text-gray-100"
           >
             {props.value}
             {props.icon}
