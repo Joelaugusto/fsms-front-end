@@ -91,7 +91,7 @@ const Login: NextPage = (props: any) => {
               value={values.password}
               error={errors.password && touched.password && errors.password}
             />
-            <Input type="submit" disabled={isSubmitting} value='Iniciar Sessão'/>
+            <Input type="submit" disabled={isSubmitting} value='Iniciar Sessão' icon={<FiLogIn/>}/>
           </form>
         )}
       </Formik>
