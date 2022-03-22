@@ -70,7 +70,6 @@ const Login: NextPage = (props: any) => {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit} noValidate>
             <Input
