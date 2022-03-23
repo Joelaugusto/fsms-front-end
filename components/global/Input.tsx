@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useField } from 'formik'
 
-const Input = (props: any) => {
-  const [visited, setVisited] = useState(false)
+const Input = ({label, ...props}: any) => {
 
+  const [field, meta] = useField(props)
+  
   switch (props.type) {
     case 'text':
     case 'password':
@@ -13,30 +14,42 @@ const Input = (props: any) => {
     case 'search': {
       return (
         <div className="my-2 grid">
-          <label className="text-sm">{props.label}</label>
+          <label htmlFor={props.label} className="text-sm">
+            {label}
+          </label>
           <input
+            {...field}
             {...props}
             className="my-1 rounded-md border border-emerald-400 p-2 text-sm"
-            onBlur={() => setVisited(true)}
           />
-          <small className="text-red-500">{props.error}</small>
+          {meta.touched && meta.error ? (
+            <small className="h-1 text-red-500">{meta.error}</small>
+          ) : (
+            <small className="h-1"></small>
+          )}
         </div>
       )
     }
     case 'select': {
       return (
         <div className="my-2 grid">
-          <label className="text-sm">{props.label}</label>
+          <label htmlFor={label} className="text-sm">
+            {label}
+          </label>
           <select
+            {...field}
             {...props}
             className="my-1 rounded-md border border-emerald-400 p-2 text-sm"
-            onBlur={() => setVisited(true)}
           >
             {props.options.map((option: string, index: number) => (
               <option key={index}>{option}</option>
             ))}
           </select>
-            <small className="text-red-500">{props.error}</small>
+          {meta.touched && meta.error ? (
+            <small className="text-red-500">{meta.error}</small>
+          ) : (
+            <small></small>
+          )}
         </div>
       )
     }
@@ -44,9 +57,8 @@ const Input = (props: any) => {
       return (
         <div className="my-2 grid">
           <button
-            type="submit"
             {...props}
-            className="disabled:cursor-wait my-1 flex items-center justify-center gap-2 rounded-md border bg-emerald-400 p-2 text-sm text-gray-100"
+            className="my-1 flex items-center justify-center gap-2 rounded-md border bg-emerald-400 p-2 text-sm text-gray-100"
           >
             {props.value}
             {props.icon}

@@ -17,59 +17,46 @@ import api from '../../../utils/api'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
 import { useRouter } from 'next/router'
-import { setInterval } from 'timers/promises'
+import { Form, Formik } from 'formik'
+import * as Yup from 'yup'
 
 const Register: NextPage = () => {
 
 
   const router = useRouter()
 
-  const [emailValidatedMessage, setEmailValidatedMessage] = useState('')
-  const [phoneValidatedMessage, setPhoneValidatedMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
 
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
- 
+  const sendEmail = async (form: {email: string, phone:string, password: string}) => {
 
-  let validated = false
+    setIsSubmitting(true)
 
-
-
-  const sendEmail = async (e:any) => {
-    e.preventDefault();
-
-    if(password !== confirmPassword){
-      toast.error('As senhas não conscidem !')
-      return;
-    }
+    const { email, phone, password } = form
 
     await api.get(`users/unique?email=${email}&phone=${phone}`)
       .then((e) => {
         const email: string = e.data.email
         const phone: string = e.data.phone
 
-        validated = !phone && !email
 
         if (email) {
-          setEmailValidatedMessage('Este email já é usado!')
+          toast.error('Email já registrado!')
         }
 
         if (phone) {
-          setPhoneValidatedMessage('Este numero já é usado!')
+          toast.error('Telefone já registrado!')
         }
 
         if(email || phone){
           return;
         }
-        
       });
 
 
-      const response = await toast.promise(
-        api.post(`users/verify-email`, { email, phone, password }).then(() => {
+    try{
+      await toast.promise(
+        api.post(`users/verify-email`, {email, phone, password}).then(() => {
           setTimeout(() => {router.push('/auth/login')}, 5000)
         }),
         {
@@ -79,7 +66,10 @@ const Register: NextPage = () => {
           error: 'Falha ao efectuar registro! 🤯',
         }
       )
-
+      }catch(e){
+        setIsSubmitting(false)
+      }
+      setIsSubmitting(false)
   }
 
 
@@ -98,57 +88,73 @@ const Register: NextPage = () => {
           <span className="text-sm">Iniciar com conta Google</span>
         </button>
         <Separator>OU</Separator>
-        <form className="grid" onSubmit={sendEmail}>
-          <div className="grid gap-4 md:grid-cols-2">
-          <Input
-            type="email"
-            placeholder="Introduza o seu email"
-            label="Email"
-            error="Introduza um email válido!"
-            value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
-            invalid={false}
-          />
-          <Input
-            type="text"
-            placeholder="Introduza o seu número de celular"
-            label="Número de celular"
-            error="Introduza número de válido!"
-            value={phone}
-            invalid={false}
-            onChange={(e: any) => setPhone(e.target.value)}
-          />
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
+        <Formik
+          initialValues={{
+            email: '',
+            phone: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          validationSchema={Yup.object({
+            email: Yup.string()
+              .email('Email inválido')
+              .required('Email é obrigatório'),
+            phone: Yup.string().required('Numero de celular é obrigatório'),
+            password: Yup.string()
+              .min(6, 'Senha deve ter pelo menos 6 caractéres')
+              .max(20, 'Senha deve ter no máximo 20 caractéres')
+              .required('Senha é obrigatória'),
+            confirmPassword: Yup.string()
+              .required('Confirmação de senha é obrigatório')
+              .oneOf([Yup.ref('password'), null], 'Senhas não conferem'),
+          })}
+          onSubmit={sendEmail}
+        >
+          <Form className="grid" noValidate>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input
+                type="email"
+                placeholder="Introduza o seu email"
+                label="Email"
+                name="email"
+              />
+              <Input
+                type="text"
+                placeholder="Introduza o seu número de celular"
+                label="Número de celular"
+                name="phone"
+              />
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input
+                type="password"
+                placeholder="Introduza a senha"
+                label="Senha"
+                name="password"
+              />
+              <Input
+                type="password"
+                placeholder="Confirmar senha"
+                label="Confirmar Senha"
+                name="confirmPassword"
+              />
+            </div>
             <Input
-              type="password"
-              placeholder="Introduza a senha"
-              label="Senha"
-              error="Senha Inválida!"
-              onChange={(e: any) => setPassword(e.target.value)}
-              value={password}
-              invalid={false}
+              type="submit"
+              value="Entrar"
+              disabled={isSubmitting}
+              icon={<FiLogIn size={20} />}
             />
-            <Input
-              type="password"
-              placeholder="Confirmar senha"
-              label="Confirmar Senha"
-              error="Senha Inválida!"
-              onChange={(e: any) => setConfirmPassword(e.target.value)}
-              value={confirmPassword}
-              invalid={false}
-            />
-          </div>
-          <Input type="submit" value="Entrar" icon={<FiLogIn size={20} />} />
-          <span className="text-center">
-            Já tem conta?
-            <Link href="/auth/login">
-              <span className="cursor-pointer gap-2 text-emerald-400">
-                Iniciar sessão
-              </span>
-            </Link>
-          </span>
-        </form>
+          </Form>
+        </Formik>
+        <span className="text-center">
+          Já tem conta?
+          <Link href="/auth/login">
+            <span className="cursor-pointer gap-2 text-emerald-400">
+              Iniciar sessão
+            </span>
+          </Link>
+        </span>
       </AuthContainer>
     </div>
   )

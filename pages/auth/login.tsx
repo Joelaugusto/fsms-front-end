@@ -11,7 +11,7 @@ import cookies from '../../utils/cookies'
 import Separator from '../../components/auth/separator'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
-import { Formik } from 'formik'
+import { Form, Formik } from 'formik'
 
 const Login: NextPage = (props: any) => {
 
@@ -62,37 +62,21 @@ const Login: NextPage = (props: any) => {
           resetPassword(values, setSubmitting)
         }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
-          <form onSubmit={handleSubmit} noValidate>
+          <Form noValidate>
             <Input
               label="Email ou celular"
               type="email"
               name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              error={errors.email && touched.email && errors.email}
+              placeholder="Digite seu email ou celular"
             />
             <Input
               label="Senha"
               type="password"
               name="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              error={errors.password && touched.password && errors.password}
+              placeholder='Digite sua senha'
             />
-            <Input type="submit" disabled={isSubmitting} value='Iniciar Sessão' icon={<FiLogIn/>}/>
-          </form>
-        )}
+            <Input type="submit"  value='Iniciar Sessão' icon={<FiLogIn/>}/>
+          </Form>
       </Formik>
       <span className="text-center">
         Não tem conta ainda?
