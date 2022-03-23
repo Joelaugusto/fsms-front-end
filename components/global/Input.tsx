@@ -13,7 +13,7 @@ const Input = ({label, ...props}: any) => {
     case 'url':
     case 'search': {
       return (
-        <div className="my-2 grid mb-4">
+        <div className="my-2 mb-4 grid">
           <label htmlFor={props.label} className="text-sm">
             {label}
           </label>
@@ -55,13 +55,26 @@ const Input = ({label, ...props}: any) => {
     }
     case 'submit': {
       return (
-          <button
+        <button
+          {...props}
+          className="my-1 mt-4 flex h-10 w-full items-center justify-center gap-2 rounded-md border bg-emerald-400 p-2 text-sm text-gray-100"
+        >
+          {props.value}
+          {props.icon}
+        </button>
+      )
+    }
+    case 'numberNonValidated': {
+      return (
+        <div className="my-2 mb-4 grid">
+          <label htmlFor={props.label} className="text-sm">
+            {label}
+          </label>
+          <input
             {...props}
-            className="mt-4 my-1 h-10 flex items-center justify-center gap-2 rounded-md border w-full bg-emerald-400 p-2 text-sm text-gray-100"
-          >
-            {props.value}
-            {props.icon}
-          </button>
+            className="my-1 rounded-md border border-emerald-400 p-2 text-sm"
+          />
+        </div>
       )
     }
     default: {

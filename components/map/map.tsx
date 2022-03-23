@@ -9,6 +9,8 @@ import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
 const Map = (props: { latitude: number; longitude: number; popup: String, className: string }) => {
   const setMap = () => {}
 
+  console.log(props)
+
   return (
     <MapContainer
       center={[props.latitude, props.longitude]}
@@ -18,7 +20,6 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
       className={props.className}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <>

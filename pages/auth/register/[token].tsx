@@ -147,22 +147,18 @@ const Login: NextPage = (props:any) => {
 
       setSubmitting(true)
 
-      const { province, name, district, locality, latitude, longitude, role } = form
-
-
-    
       await toast.promise(
         api
           .post(`users/${props.userId}`, {
-            name,
-            role: backRoles[roles.findIndex((n: string) => n === role)],
+            name: form.name,
+            role: backRoles[roles.findIndex((n: string) => n === form.role)],
             address: {
               province:
-                backProvinces[provinces.findIndex((n: string) => n === province)],
-              district,
-              locality,
-              latitude,
-              longitude,
+                backProvinces[provinces.findIndex((n: string) => n === form.province)],
+              district: form.district,
+              locality: form.locality,
+              latitude: form.latitude ? form.latitude : latitude,
+              longitude: form.longitude ? form.longitude: longitude,
             },
           })
           .then((data: any) => {
