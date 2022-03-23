@@ -7,22 +7,22 @@ const Stepper = (props: {
   for (let i = 0; i < props.total; i++) {
     if (i === props.current) {
       components.push(
-        <button
-          onClick={() => props.setStep(i)}
+        <div
+          // onClick={() => props.setStep(i)}
           className="h-1.5 w-5 rounded-md bg-emerald-400"
           key={i}
-        ></button>
+        ></div>
       )
     } else {
       components.push(
-        <button
-          onClick={() => props.setStep(i)}
+        <div
+          // onClick={() => props.setStep(i)}
           className="h-1.5 w-1.5 rounded-md border-none bg-emerald-200"
           key={i}
-        ></button>
+        ></div>
       )
     }
   }
-  return <div className="flex gap-5 justify-center">{components}</div>
+  return <div className="flex gap-1 justify-center mt-10 mb-4">{components}</div>
 }
 export default Stepper

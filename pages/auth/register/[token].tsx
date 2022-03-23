@@ -18,10 +18,9 @@ import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify'
 import cookies from '../../../utils/cookies'
 import 'react-toastify/dist/ReactToastify.css'
-
-
-
-
+import { Formik, Form } from 'formik';
+import validate from '../../../utils/formValidate';
+import * as Yup from 'yup'
 
 const Map = dynamic(
     () => import('../../../components/map/map'),
@@ -33,7 +32,6 @@ const Login: NextPage = (props:any) => {
 
 
     const router = useRouter()
-
     
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
     const backProvinces = ['MAPUTO', 'GAZA', 'INHAMBANE', 'MANICA', 'SOFALA','TETE', 'ZAMBEZIA', 'NAMPULA','NIASSA','CABO_DELGADO']
@@ -45,14 +43,17 @@ const Login: NextPage = (props:any) => {
     const [showMap, setShowMap] = useState<boolean>(true);
     const [latitude, setLatitude] = useState<number>(0)
     const [longitude, setLongitude] = useState<number>(0)
-    const [name, setName] = useState<string>('');
-    const [role, setRole] = useState<string>(roles[0])
-    const [province, setProvince] = useState<string>(provinces[0])
-    const [district, setDistrict] = useState<string>('')
-    const [locality, setLocality] = useState<string>('')
-    const [step, setStep] = useState(0);
 
-    let validated = false;
+    const [step, setStep] = useState(0);
+    const stepValidations: Array<any> = [
+      {
+        name: validate.name,
+      },
+      {
+        district: validate.genericField('Distrito'),
+        locality: validate.genericField('Localidade'),
+      },
+    ]
 
 
     useEffect(() => {
@@ -69,20 +70,14 @@ const Login: NextPage = (props:any) => {
           type="text"
           placeholder="Nome Complecto"
           label="Nome Completo"
-          value={name}
-          onChange={(e: any) => {
-            setName(e.target.value)
-          }}
+          name="name"
         />
         <Input
           type="select"
           placeholder="Selecione a sua funcão"
           label="Funcão"
-          value={role}
           options={roles}
-          onChange={(e: any) => {
-            setRole(e.target.value)
-          }}
+          name="role"
         />
       </>,
       <>
@@ -90,29 +85,20 @@ const Login: NextPage = (props:any) => {
           type="select"
           placeholder="Selecione a província"
           label="Província"
-          value={province}
           options={provinces}
-          onChange={(e: any) => {
-            setProvince(e.target.value)
-          }}
+          name="province"
         />
         <Input
           type="text"
           placeholder="Distrito"
           label="Distrito"
-          onChange={(e: any) => {
-            setDistrict(e.target.value)
-          }}
-          value={district}
+          name="district"
         />
         <Input
           type="text"
           placeholder="Localidade"
           label="Localidade"
-          onChange={(e: any) => {
-            setLocality(e.target.value)
-          }}
-          value={locality}
+          name="locality"
         />
         <Options
           options={['Coordenadas', 'Mapa']}
@@ -128,19 +114,13 @@ const Login: NextPage = (props:any) => {
             type="number"
             placeholder="Latitude"
             label="Latitude"
-            value={latitude}
-            onChange={(e: any) => {
-              setLatitude(e.target.value)
-            }}
+            name="latitude"
           />
           <Input
             type="number"
             placeholder="Longitude"
             label="Longitude"
-            value={longitude}
-            onChange={(e: any) => {
-              setLongitude(e.target.value)
-            }}
+            name="longitude"
           />
         </div>
         <div
@@ -159,58 +139,54 @@ const Login: NextPage = (props:any) => {
     ]
 
 
-    const submitForm = async (e: any) =>
-    {
-        e.preventDefault();
+    const submitForm = async (
+      form: { province: string, name: string, district: string, locality:string,
+         latitude: string, longitude:string, role:string },
+      setSubmitting: Function
+    ) => {
 
-        await toast.promise(
-          api
-            .post(`users/${props.userId}`, {
-              name,
-              role: backRoles[roles.findIndex((n:string) => n === role)],
-              address: {
-                province: backProvinces[provinces.findIndex((n:string) => n === role)],
-                district,
-                locality,
-                latitude,
-                longitude,
-              },
-            })
-            .then((data: any) => {
-              cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
-              router.push({ pathname: '/' })
-            }),
-          {
-            pending: 'Concluindo Registro!',
-            success: 'Registro concluído com sucesso! 👌',
-            error: 'Erro ao concluir o registro! 🤯',
-          }
-        )
-      console.log({
-              name,
-              role: 'ADMIN',
-              address: {
-                province: 'SOFALA',
-                district,
-                locality,
-                latitude,
-                longitude,
-              },
-            })
+      setSubmitting(true)
+
+      const { province, name, district, locality, latitude, longitude, role } = form
+
+
+    
+      await toast.promise(
+        api
+          .post(`users/${props.userId}`, {
+            name,
+            role: backRoles[roles.findIndex((n: string) => n === role)],
+            address: {
+              province:
+                backProvinces[provinces.findIndex((n: string) => n === province)],
+              district,
+              locality,
+              latitude,
+              longitude,
+            },
+          })
+          .then((data: any) => {
+            cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
+            router.push({ pathname: '/' })
+          }),
+        {
+          pending: 'Concluindo Registro!',
+          success: 'Registro concluído com sucesso! 👌',
+          error: 'Erro ao concluir o registro! 🤯',
+        }
+      )
+
     }
 
-    const changeStep = async (e: any) => {
-      e.preventDefault()
-        //await validate()
+    const changeStep = async (e: any, setSubmitting: Function) => {
         if (steps.length - 1 <= step) {
-            submitForm(e)
+            submitForm(e, setSubmitting)
         } else {
             setStep(step + 1)
         }
     }
 
     const onchangeStep = async (e: any) => {
-       // await validate();
         setStep(e)
     }
 
@@ -222,8 +198,25 @@ const Login: NextPage = (props:any) => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <AuthContainer title="Concluir Registro">
-          <ToastContainer/>
-          <form className="grid place-content-center" onSubmit={(e) => {e.preventDefault()}}>
+          <ToastContainer />
+          <Formik
+            initialValues={{
+              name: '',
+              role: roles[0],
+              province: provinces[0],
+              district: '',
+              locality: '',
+              latitude: latitude,
+              longitude: longitude,
+            }}
+            validationSchema={Yup.object({
+              ...stepValidations[step]
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              changeStep(values, setSubmitting)
+            }}
+          >
+            <Form className="grid">
               {steps[step]}
               <Stepper
                 total={steps.length}
@@ -234,12 +227,12 @@ const Login: NextPage = (props:any) => {
                 type="submit"
                 icon={steps.length - 1 <= step ? <FiUserPlus /> : null}
                 value={steps.length - 1 <= step ? 'Registrar' : 'Proximo Passo'}
-                onClick={changeStep}
               />
-              <span className="my-5 text-center text-gray-500">
-                Ja tem conta?<Link href="/auth/login"> Login</Link>
-              </span>
-          </form>
+            </Form>
+          </Formik>
+          <span className="my-5 text-center text-gray-500">
+            Ja tem conta?<Link href="/auth/login"> Login</Link>
+          </span>
         </AuthContainer>
       </div>
     )
@@ -261,6 +254,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     userId: user.id
   }}
   }else{
+    return{
+      props: {}
+    }
     return {
       redirect: {
         destination: '/auth/login',
