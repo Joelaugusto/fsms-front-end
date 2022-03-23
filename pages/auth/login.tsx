@@ -12,6 +12,7 @@ import Separator from '../../components/auth/separator'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
 import { Form, Formik } from 'formik'
+import validate from '../../utils/formValidate'
 
 const Login: NextPage = (props: any) => {
 
@@ -19,9 +20,7 @@ const Login: NextPage = (props: any) => {
 
 
   const resetPassword = async (form: {email:string, password:string}, setSubmitting: Function) => {
-      
-
-      setSubmitting(true)
+    
       try{
       await toast.promise(
         api
@@ -53,10 +52,8 @@ const Login: NextPage = (props: any) => {
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={Yup.object({
-          email: Yup.string().email('Email inválido').required('Email é obrigatório')
-          .required('Email é obrigatório'),
-          password: Yup.string().min(6,'Senha deve ter pelo menos 6 caractéres')
-          .max(20,'Senha deve ter no máximo 20 caractéres').required('Senha é obrigatória'),
+          email: validate.email,
+          password: validate.password,
         })}
         onSubmit={(values, { setSubmitting }) => {
           resetPassword(values, setSubmitting)

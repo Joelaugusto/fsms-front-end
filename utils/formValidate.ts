@@ -1,50 +1,21 @@
+import * as Yup from 'yup';
+import { AnyObject } from 'yup/lib/types';
 
-function validatePassword(p:string) {
 
-  let  errors = []
-  if (p.length < 8) {
-    errors.push('Your password must be at least 8 characters')
-  }
-  if (p.search(/[a-z]/i) < 0) {
-    errors.push('Your password must contain at least one letter.')
-  }
-  if (p.search(/[0-9]/) < 0) {
-    errors.push('Your password must contain at least one digit.')
-  }
-  if (errors.length > 0) {
-    return true
-  }
-  return true
+const passwordConfirm = (ref: string):Yup.StringSchema<string | undefined, AnyObject, string | undefined> => {
+  return Yup.string()
+    .required('Confirmação de senha é obrigatório')
+    .oneOf([Yup.ref(ref), null], 'Senhas não conferem')
 }
 
-function validatePasswordMsg(p: string) {
-  let errors = []
-  if (p.length < 8) {
-    errors.push('Your password must be at least 8 characters')
-  }
-  if (p.search(/[a-z]/i) < 0) {
-    errors.push('Your password must contain at least one letter.')
-  }
-  if (p.search(/[0-9]/) < 0) {
-    errors.push('Your password must contain at least one digit.')
-  }
-  if (errors.length > 0) {
-    // return errors.join('\n')
-  }
-  return ""
+const validate = {
+  email: Yup.string().email('Email inválido').required('Email é obrigatório'),
+  password: Yup.string()
+    .min(6, 'Senha deve ter pelo menos 6 caractéres')
+    .max(20, 'Senha deve ter no máximo 20 caractéres')
+    .required('Senha é obrigatória'),
+  phone: Yup.string().required('Numero de celular é obrigatório'),
+  passwordConfirm: passwordConfirm,
 }
 
-const passwordValidate = (value: string):boolean => {
-  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-  return regex.test(value)
-}
-
-const emailValidate = (value: string):boolean => {
-  return true;
-  const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return regex.test(value)
-}
-
-
-const validate =  {passwordValidate, emailValidate, validatePassword,validatePasswordMsg}
 export default validate;

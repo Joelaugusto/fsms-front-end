@@ -54,7 +54,18 @@ const Home: NextPage = (props:any) => {
 
 export async function getServerSideProps(context:GetServerSidePropsContext) {
 
-  const user = await session.getLoggedUser(context)
+  let user;
+  
+  try {
+    user = await session.getLoggedUser(context)
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/auth/login',
+      }
+    }
+  }
+    
 
   if (!user.props) {
     return user

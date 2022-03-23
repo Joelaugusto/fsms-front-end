@@ -19,6 +19,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import validate from '../../../utils/formValidate'
 
 const Register: NextPage = () => {
 
@@ -34,11 +35,10 @@ const Register: NextPage = () => {
 
     const { email, phone, password } = form
 
-    await api.get(`users/unique?email=${email}&phone=${phone}`)
-      .then((e) => {
+    try {
+      await api.get(`users/unique?email=${email}&phone=${phone}`).then((e) => {
         const email: string = e.data.email
         const phone: string = e.data.phone
-
 
         if (email) {
           toast.error('Email já registrado!')
@@ -48,10 +48,14 @@ const Register: NextPage = () => {
           toast.error('Telefone já registrado!')
         }
 
-        if(email || phone){
-          return;
+        if (email || phone) {
+          setIsSubmitting(false)
+          return
         }
-      });
+      })
+    } catch (error) {
+      setIsSubmitting(false)
+    }
 
 
     try{
@@ -96,17 +100,10 @@ const Register: NextPage = () => {
             confirmPassword: '',
           }}
           validationSchema={Yup.object({
-            email: Yup.string()
-              .email('Email inválido')
-              .required('Email é obrigatório'),
-            phone: Yup.string().required('Numero de celular é obrigatório'),
-            password: Yup.string()
-              .min(6, 'Senha deve ter pelo menos 6 caractéres')
-              .max(20, 'Senha deve ter no máximo 20 caractéres')
-              .required('Senha é obrigatória'),
-            confirmPassword: Yup.string()
-              .required('Confirmação de senha é obrigatório')
-              .oneOf([Yup.ref('password'), null], 'Senhas não conferem'),
+            email: validate.email,
+            phone: validate.phone,
+            password: validate.password,
+            confirmPassword: validate.passwordConfirm('password'),
           })}
           onSubmit={sendEmail}
         >

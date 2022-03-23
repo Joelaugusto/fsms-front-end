@@ -1,24 +1,22 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import AuthContainer from '../../../components/auth/container'
 import Input from '../../../components/global/Input'
 import { FiLogIn } from 'react-icons/fi'
 import api from '../../../utils/api'
-import validate from '../../../utils/formValidate'
 import Link from 'next/link'
+import { Form, Formik } from 'formik'
+import * as Yup from 'yup'
+import validate from '../../../utils/formValidate'
 
 const Login: NextPage = (props: any) => {
-  const [email, setEmail] = useState('')
 
-  const [isEmailValidated, setIsEmailValidated] = useState(false)
 
   const router = useRouter()
 
-  const resetPassword = async (e: MouseEvent|TouchEvent) => {
-    e.preventDefault()
+  const resetPassword = async (form: {email: string}, setSubmitting: Function) => {
 
-    if(isEmailValidated){
+    const { email } = form;
       await api
         .post(`http://localhost:8080/api/v1/password-reset`, {
           email,
@@ -26,34 +24,37 @@ const Login: NextPage = (props: any) => {
         .then((data: any) => {
           router.push({pathname: '/'})
         })
-        
-    }
+        setSubmitting(false)
   }
 
   return (
     <AuthContainer title="Tela de Recuperação de senha">
-      <Input
-        type="email"
-        placeholder="Email ou número de celular"
-        label="Email ou número de celular"
-        error="Introduza um email válido!"
-        value={email}
-        onChange={(e: any) => setEmail(e.target.value)}
-        onChangeCapture={() => {
-          setIsEmailValidated(validate.emailValidate(email))
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={Yup.object({
+          email: validate.email,
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          resetPassword(values, setSubmitting)
         }}
-        validated={isEmailValidated}
-      />
-      <Input
-        type="submit"
-        value="Entrar"
-        onClick={resetPassword}
-        icon={<FiLogIn size={20} />}
-      />
+      >
+        <Form noValidate>
+          <Input
+            label="Email ou celular"
+            type="email"
+            name="email"
+            placeholder="Digite seu email ou celular"
+          />
+          
+          <Input type="submit" value="Iniciar Sessão" icon={<FiLogIn />} />
+        </Form>
+      </Formik>
       <span className="text-center">
         Não tem conta ainda?
         <Link href="/auth/register">
-          <span className="cursor-pointer text-emerald-400 gap-2">Criar conta</span>
+          <span className="cursor-pointer gap-2 text-emerald-400">
+            Criar conta
+          </span>
         </Link>
       </span>
     </AuthContainer>
