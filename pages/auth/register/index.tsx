@@ -108,7 +108,7 @@ const Register: NextPage = () => {
           onSubmit={sendEmail}
         >
           <Form className="grid" noValidate>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid md:gap-4 md:grid-cols-2 ">
               <Input
                 type="email"
                 placeholder="Introduza o seu email"
@@ -122,7 +122,7 @@ const Register: NextPage = () => {
                 name="phone"
               />
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid md:gap-4 md:grid-cols-2">
               <Input
                 type="password"
                 placeholder="Introduza a senha"

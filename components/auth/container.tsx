@@ -11,9 +11,9 @@ const AuthContainer = (props: any) => (
     <div className="col-span-3 hidden h-screen bg-emerald-400 md:grid">
       <Image src={pic} className="h-screen" />
     </div>
-    <div className="md:col-span-4 grid h-screen md:place-content-center overflow-y-auto">
-      <h1 className="my-5 text-center text-3xl">{props.title}</h1>
-      <div className="grid p-4">{props.children}</div>
+    <div className="md:col-span-4 h-screen flex flex-col justify-center md:items-center overflow-y-auto">
+      <h1 className="my-5 text-center text-3xl mb-10">{props.title}</h1>
+      <div className="flex flex-col p-4">{props.children}</div>
     </div>
   </section>
 )

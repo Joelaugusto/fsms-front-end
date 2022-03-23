@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 import AuthContainer from '../../../components/auth/container'
 import Input from '../../../components/global/Input'
