@@ -138,7 +138,7 @@ const Register: NextPage = () => {
             </div>
             <Input
               type="submit"
-              value="Entrar"
+              value="Próximo passo"
               disabled={isSubmitting}
               icon={<FiLogIn size={20} />}
             />
