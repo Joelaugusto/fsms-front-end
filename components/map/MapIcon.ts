@@ -34,8 +34,7 @@ const getIcon = (role: string): L.Icon<L.IconOptions> => {
 
 
 const iconsUrl = {
-  farmer:
-    'https://cdn-icons.flaticon.com/png/512/353/premium/353812.png?token=exp=1647864887~hmac=e74d12f103ce1302578d1562a4f76591',
+  farmer: 'https://cdn-icons-png.flaticon.com/512/424/424056.png',
   distributor: 'https://cdn-icons-png.flaticon.com/512/948/948615.png',
   retailer: 'https://cdn-icons-png.flaticon.com/512/4290/4290854.png',
   stockist: 'https://cdn-icons-png.flaticon.com/512/2897/2897808.png',
