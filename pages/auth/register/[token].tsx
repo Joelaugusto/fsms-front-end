@@ -242,7 +242,12 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   await api.post(`users/verify-email/${context.params?.token}`).then((data) => {
     user = data.data;
   }).catch(()=> {
-
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
+      },
+    }
   })
 
   if(user){
@@ -250,9 +255,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     userId: user.id
   }}
   }else{
-    return{
-      props: {}
-    }
     return {
       redirect: {
         destination: '/auth/login',
