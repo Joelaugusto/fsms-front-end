@@ -1,6 +1,7 @@
 import SideButton from "./SideButton";
 import { FiSettings, FiInfo, FiUser, FiMapPin } from 'react-icons/fi'
 import { BiMessageAltDetail } from 'react-icons/bi'
+import { GrGroup } from 'react-icons/gr'
 
 import { AiOutlineHome } from 'react-icons/ai'
 
@@ -12,6 +13,11 @@ const LeftSidebar = () => (
       icon={<BiMessageAltDetail size={26} />}
       text="Mensagens"
       to="/messages"
+    />
+    <SideButton
+      icon={<GrGroup size={26} />}
+      text="Grupos"
+      to="/groups"
     />
     <SideButton
       icon={<FiMapPin size={26} />}
