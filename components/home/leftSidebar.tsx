@@ -1,6 +1,5 @@
 import SideButton from "./SideButton";
-import { FiSettings, FiInfo, FiUser, FiMapPin } from 'react-icons/fi'
-import { BiMessageAltDetail } from 'react-icons/bi'
+import { FiSettings, FiUsers, FiUser, FiMapPin,FiMail } from 'react-icons/fi'
 
 import { AiOutlineHome } from 'react-icons/ai'
 
@@ -9,7 +8,7 @@ const LeftSidebar = () => (
     <SideButton icon={<AiOutlineHome size={26} />} text="Início" to="/" />
     {/* <SideButton icon={<FiInfo size={26} />} text="Anúncios" to="/" /> */}
     <SideButton
-      icon={<BiMessageAltDetail size={26} />}
+      icon={<FiMail size={26} />}
       text="Mensagens"
       to="/messages"
     />
@@ -17,6 +16,11 @@ const LeftSidebar = () => (
       icon={<FiMapPin size={26} />}
       text="Cadeia de suplementos"
       to="/supply-chain"
+    />
+    <SideButton
+      icon={<FiUsers size={26} />}
+      text="Grupos"
+      to="/groups"
     />
     <SideButton icon={<FiUser size={26} />} text="Perfil" to="/account" />
     <SideButton
