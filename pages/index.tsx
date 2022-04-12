@@ -20,6 +20,11 @@ const Home: NextPage = (props:any) => {
     setPosts(data.data.data)
   }
 
+  const postsRefresh = async () => { 
+    const data = await api.get('/posts')
+    setPosts(data.data.data)
+  }
+
   
 
   return (
@@ -41,7 +46,7 @@ const Home: NextPage = (props:any) => {
         <Navbar user={props.user} onSearch={onSearch} showSearchBox={true} />
         <div className="h-[calc(100vh-115px)] overflow-auto">
           <AdsContainer />
-          <PostContainer posts={posts} />
+          <PostContainer posts={posts} refresh={postsRefresh} />
           <footer className="text w-full py-6 text-center">
             <p>Gestão de Cadeia de suplementos agricolas</p>
           </footer>

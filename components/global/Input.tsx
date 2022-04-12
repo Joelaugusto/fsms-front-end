@@ -77,6 +77,25 @@ const Input = ({label, ...props}: any) => {
         </div>
       )
     }
+    case 'textarea': {
+      return (
+                <div className="my-2 mb-4 grid">
+          <label htmlFor={props.label} className="text-sm">
+            {label}
+          </label>
+          <textarea
+            {...field}
+            {...props}
+            className="my-1 rounded-md border border-emerald-400 p-2 text-sm h-48"
+          />
+          {meta.touched && meta.error ? (
+            <small className="h-1 text-red-500">{meta.error}</small>
+          ) : (
+            <small className="h-1"></small>
+          )}
+        </div>
+      )
+      }
     default: {
       return <></>
     }

@@ -19,6 +19,7 @@ const AdsContainer = () => {
           views="53K visualizações"
           date="2 semanas atrás"
           userImage="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+          id={1}
         />
         <Ads
           title="Hoje é dia de ação! Ação de amor e solidariedade para a agricultura"
@@ -26,6 +27,7 @@ const AdsContainer = () => {
           views="53K visualizações"
           date="2 semanas atrás"
           userImage="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+          id={2}
         />
       </div>
     </div>

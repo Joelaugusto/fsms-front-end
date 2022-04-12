@@ -11,11 +11,15 @@ import Link from 'next/link'
 import Head from 'next/head'
 import LeftSidebar from '../../components/home/leftSidebar'
 import Navbar from '../../components/home/navbar'
+import { MdDeleteForever } from 'react-icons/md'
 
 const Post: NextPage = (props: any) => {
   const [post, setPost] = useState<any>()
   const [comment, setComment] = useState<string>()
   const [comments, setComments] = useState<Array<any>>([])
+
+
+  console.log(props.user)
 
   const router = useRouter()
   const { id } = router.query
@@ -58,6 +62,24 @@ const Post: NextPage = (props: any) => {
     }
   }
 
+  const deletePost = async () => {
+      try{
+      await toast.promise(
+        api
+          .delete('posts/'+id)
+          .then((data: any) => {
+            router.push({ pathname: '/' })
+          }),
+          {
+          pending: 'Enviando o artigo!',
+          success: 'Artigo enviado com sucesso! 👌',
+          error: 'Erro ao enviar artigo! 🤯',
+        }
+      )
+      }catch(e){
+      }
+    }
+
   if (post) {
     return (
       <div className="flex">
@@ -83,6 +105,12 @@ const Post: NextPage = (props: any) => {
                 className="mb-8 h-40 w-full"
                 src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
               />
+              <div className='flex flex-row-reverse'>
+                <button className='bg-red-300 flex text-black p-2 rounded-md gap-2' onClick={deletePost}>
+                  Apagar
+                  <MdDeleteForever className="text-red-500" size={27}/>
+                </button>
+              </div>
               <h1 className="mb-8 text-2xl">{post.title}</h1>
               <div className="flex justify-between border-b-2 border-gray-200 pb-4">
                 <div className="">
@@ -178,4 +206,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default Post
 
-{/*  */}
