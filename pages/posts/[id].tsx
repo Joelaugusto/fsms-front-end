@@ -105,12 +105,12 @@ const Post: NextPage = (props: any) => {
                 className="mb-8 h-40 w-full"
                 src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
               />
-              <div className='flex flex-row-reverse'>
+              {props.user.role === 'ADMIN' ? <div className='flex flex-row-reverse'>
                 <button className='bg-red-300 flex text-black p-2 rounded-md gap-2' onClick={deletePost}>
                   Apagar
                   <MdDeleteForever className="text-red-500" size={27}/>
                 </button>
-              </div>
+              </div>: null}
               <h1 className="mb-8 text-2xl">{post.title}</h1>
               <div className="flex justify-between border-b-2 border-gray-200 pb-4">
                 <div className="">

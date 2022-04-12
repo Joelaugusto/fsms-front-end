@@ -25,7 +25,7 @@ const Home: NextPage = (props:any) => {
     setPosts(data.data.data)
   }
 
-  
+  console.log(props.user.role)
 
   return (
     <div className="flex">
@@ -46,7 +46,7 @@ const Home: NextPage = (props:any) => {
         <Navbar user={props.user} onSearch={onSearch} showSearchBox={true} />
         <div className="h-[calc(100vh-115px)] overflow-auto">
           <AdsContainer />
-          <PostContainer posts={posts} refresh={postsRefresh} />
+          <PostContainer posts={posts} refresh={postsRefresh} user={props.user} />
           <footer className="text w-full py-6 text-center">
             <p>Gestão de Cadeia de suplementos agricolas</p>
           </footer>

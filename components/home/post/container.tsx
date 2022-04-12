@@ -16,7 +16,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 
 
-const PostContainer = (props: { posts: Array<any>, refresh: Function}) => {
+const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) => {
   
   const [showModal, setShowModal] = useState<boolean>(false)
 
@@ -86,9 +86,9 @@ const PostContainer = (props: { posts: Array<any>, refresh: Function}) => {
       {showModal ? modal : null}
       <div className="flex items-center gap-2">
         <h1 className="my-6 text-3xl">Postagens</h1>
-        <button className="bg-emerald-600 flex text-white p-2 rounded-md gap-2" onClick={()=> {setShowModal(true)}}>
+        {props.user.role === 'ADMIN' ? <button className="bg-emerald-600 flex text-white p-2 rounded-md gap-2" onClick={()=> {setShowModal(true)}}>
          Adicionar mais <FiPlusCircle size={25}/>
-        </button>
+        </button>: null}
       </div>
       <div className="mt-10 grid gap-6 md:grid-cols-3 lg:grid-cols-4">
         {props.posts.map((post) => (
