@@ -1,7 +1,20 @@
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import api from '../utils/api'
 
 function HomePage(props: any) {
+
+  const [latitude, setLatitude] = useState(-25.9456962)
+  const [longitude, setLongitude] = useState(32.4833466)
+
+
+  useEffect(() => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLatitude(position.coords.latitude)
+        setLongitude(position.coords.longitude)
+      })
+    }, [])
+
   const Map = dynamic(
     () => import('../components/map/supplyChainMap'),
     {
@@ -18,8 +31,8 @@ function HomePage(props: any) {
   return (
     <Map
       className="h-screen w-screen"
-      latitude={-25.9456962}
-      longitude={32.4833466}
+      latitude={latitude}
+      longitude={longitude}
       popup={'você está aqui!'}
       markers={props.markers}
       

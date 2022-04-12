@@ -21,6 +21,13 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <>
+        <Marker
+            position={[props.latitude, props.longitude]}
+            icon={mapIcons.getIcon("")}
+            key={'current_location'}
+          >
+            <Tooltip>Você está aqui!</Tooltip>
+          </Marker>
         {props.markers.map((marker: any, index) => (
           <Marker
             position={[marker.latitude, marker.longitude]}
