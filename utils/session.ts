@@ -1,20 +1,19 @@
 import type { GetServerSidePropsContext } from 'next'
+import api from './api'
 
 
 const getLoggedUser = async (context: GetServerSidePropsContext) => {
   const { accessToken } = context.req.cookies
 
 
-  const resp = await fetch('http://localhost:8080/api/v1/auth/me', {
-    method: 'get',
-    headers: new Headers({
-      Authorization: 'Bearer ' + accessToken,
-    }),
-  })
 
-  if (resp.ok) {
+
+  api.defaults.headers.common['Authorization'] = 'Bearer ' + context.req.cookies.accessToken
+  const resp = api.get('auth/me');
+
+  if ((await resp).status == 200) {
     return {
-      props: { user: await resp.json() }, // will be passed to the page component as props
+      props: { user: await (await resp).data }, // will be passed to the page component as props
     }
   } else {
     return {

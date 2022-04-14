@@ -18,7 +18,6 @@ const Login: NextPage = (props: any) => {
 
   const router = useRouter()
 
-
   const resetPassword = async (form: {email:string, password:string}, setSubmitting: Function) => {
     
       try{

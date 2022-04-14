@@ -6,7 +6,7 @@ import cookies from '../../utils/cookies'
 
 import { useState, useRef } from 'react'
 
-const SOCKET_URL = 'http://localhost:8080/stomp'
+const SOCKET_URL = process.env.NEXT_PUBLIC_BASE_URL + 'stomp'
 
 const MessageInput = (props: {
   chat: number,

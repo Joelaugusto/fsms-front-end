@@ -18,7 +18,7 @@ const Login: NextPage = (props: any) => {
 
     const { email } = form;
       await api
-        .post(`http://localhost:8080/api/v1/password-reset`, {
+        .post(`password-reset`, {
           email,
         })
         .then((data: any) => {

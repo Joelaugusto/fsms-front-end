@@ -22,7 +22,7 @@ const Recovery: NextPage = (props: any) => {
     const { email, password } = form
 
     await api
-      .post(`http://localhost:8080/api/v1/password-reset/${token}`, {
+      .post(`password-reset/${token}`, {
         password,
         email,
       })

@@ -46,8 +46,8 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
   
 
   const modal = (
-    <div className="fixed w-screen h-screen flex justify-center items-center flex-col bg-white top-0 left-0 z-10 p-5">
-      <h1 className="text-3xl m-20">Registrar novo Artigo</h1>
+    <div className="fixed w-screen h-screen flex justify-center items-center flex-col bg-white top-0 left-0 z-10 p-5 overflow-auto">
+      <h1 className=" md:text-3xl m-20">Registrar novo Artigo</h1>
       <div className="w-full md:w-1/2 bg-white">
         <MdClose size={25} className="fixed top-5 right-5" onClick={() => {setShowModal(false)}}/>
         <Formik
