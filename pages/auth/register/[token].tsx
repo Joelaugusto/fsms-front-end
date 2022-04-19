@@ -31,7 +31,9 @@ const Map = dynamic(
 const Login: NextPage = (props:any) => {
 
 
-    const router = useRouter()
+  const access_key = process.env.NEXT_PUBLIC_POSITION_STACK_ACCESS_KEY;
+
+  const router = useRouter();
     
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
     const backProvinces = ['MAPUTO', 'GAZA', 'INHAMBANE', 'MANICA', 'SOFALA','TETE', 'ZAMBEZIA', 'NAMPULA','NIASSA','CABO_DELGADO']
@@ -43,6 +45,11 @@ const Login: NextPage = (props:any) => {
     const [showMap, setShowMap] = useState<boolean>(true);
     const [latitude, setLatitude] = useState<number>(0)
     const [longitude, setLongitude] = useState<number>(0)
+    const [address, setAddress] = useState<Array<any>>([])
+
+  const [province, setProvince] = useState<string>()
+  const [district, setDistrict] = useState<string>()
+  const [locality, setLocality] = useState<string>()
 
     const [step, setStep] = useState(0);
     const stepValidations: Array<any> = [
@@ -54,14 +61,31 @@ const Login: NextPage = (props:any) => {
         locality: validate.genericField('Localidade'),
       },
     ]
-
-
+  
     useEffect(() => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude)
-        setLongitude(position.coords.longitude)
-      })
+      
+      const getGeolocation = async () => {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+          await api
+             .get(
+               `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${position.coords.latitude},${position.coords.longitude}`
+             )
+            .then((data: any) => {
+
+               setAddress(data.data.data)
+             })
+        })
+      }
+
+      getGeolocation()
     }, [])
+  
+  
+
+
+
 
 
     const steps = [
@@ -71,6 +95,7 @@ const Login: NextPage = (props:any) => {
           placeholder="Nome Complecto"
           label="Nome Completo"
           name="name"
+          key="name"
         />
         <Input
           type="select"
@@ -78,53 +103,58 @@ const Login: NextPage = (props:any) => {
           label="Funcão"
           options={roles}
           name="role"
+          key="role"
         />
       </>,
       <>
-        <Input
-          type="select"
-          placeholder="Selecione a província"
-          label="Província"
-          options={provinces}
-          name="province"
-        />
-        <Input
-          type="text"
-          placeholder="Distrito"
-          label="Distrito"
-          name="district"
-        />
-        <Input
-          type="text"
-          placeholder="Localidade"
-          label="Localidade"
-          name="locality"
-        />
         <Options
           options={['Coordenadas', 'Mapa']}
           select={(index: Number) => {
             setShowMap(index === 1 ? true : false)
           }}
         ></Options>
-        <div
-          className="grid gap-5 md:grid-cols-2"
-          style={showMap ? { display: 'none' } : undefined}
-        >
+        <div style={showMap ? { display: 'none' } : undefined}>
           <Input
-            type="number"
-            placeholder="Latitude"
-            label="Latitude"
-            name="latitude"
+            type="select"
+            placeholder="Selecione a província"
+            label="Província"
+            options={provinces}
+            name="province"
+            key="province"
           />
           <Input
-            type="number"
-            placeholder="Longitude"
-            label="Longitude"
-            name="longitude"
+            type="text"
+            placeholder="Distrito"
+            label="Distrito"
+            name="district"
+            key="district"
           />
+          <Input
+            type="text"
+            placeholder="Bairro/Localidade"
+            label="Localidade"
+            name="locality"
+            key="locality"
+          />
+          <div className="grid gap-5 md:grid-cols-2">
+            <Input
+              type="number"
+              placeholder="Latitude"
+              label="Latitude"
+              name="latitude"
+              key="latitude"
+            />
+            <Input
+              type="number"
+              placeholder="Longitude"
+              label="Longitude"
+              name="longitude"
+              key="longitude"
+            />
+          </div>
         </div>
         <div
-          className="grid place-items-center"
+          className="grid place-items-center mt-5"
           style={!showMap ? { display: 'none' } : undefined}
         >
           <Map
@@ -186,6 +216,8 @@ const Login: NextPage = (props:any) => {
         setStep(e)
     }
 
+  
+  
     return (
       <div>
         <Head>
@@ -196,17 +228,18 @@ const Login: NextPage = (props:any) => {
         <AuthContainer title="Concluir Registro">
           <ToastContainer />
           <Formik
+            enableReinitialize={true}
             initialValues={{
               name: '',
               role: roles[0],
-              province: provinces[0],
-              district: '',
-              locality: '',
+              province: address[0]?.region,
+              district: address[0]?.county,
+              locality: address[0]?.name,
               latitude: latitude,
               longitude: longitude,
             }}
             validationSchema={Yup.object({
-              ...stepValidations[step]
+              ...stepValidations[step],
             })}
             onSubmit={(values, { setSubmitting }) => {
               changeStep(values, setSubmitting)

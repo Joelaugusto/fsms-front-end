@@ -26,7 +26,6 @@ const Home: NextPage = (props:any) => {
     setPosts(data.data.data)
   }
 
-  console.log(props.user.role)
 
   return (
     

@@ -19,7 +19,6 @@ const Post: NextPage = (props: any) => {
   const [comments, setComments] = useState<Array<any>>([])
 
 
-  console.log(props.user)
 
   const router = useRouter()
   const { id } = router.query
@@ -43,7 +42,6 @@ const Post: NextPage = (props: any) => {
 
   const submitCommentHandler = async (e: any) => {
     e.preventDefault()
-    console.log(comment)
     if(comment){
       await toast.promise(
         api

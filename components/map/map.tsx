@@ -9,8 +9,6 @@ import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
 const Map = (props: { latitude: number; longitude: number; popup: String, className: string }) => {
   const setMap = () => {}
 
-  console.log(props)
-
   return (
     <MapContainer
       center={[props.latitude, props.longitude]}
