@@ -45,7 +45,6 @@ function HomePage(props: any) {
         <select
           className="w-40 rounded-md border border-slate-800 bg-transparent p-2"
           onChange={(e) => {
-            console.log(e.target.value)
             setFilteredMarkers(props.markers.filter((marker:any) => marker.role === e.target.value || e.target.value === ''))
           }}
         >
