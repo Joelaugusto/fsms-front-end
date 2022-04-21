@@ -9,7 +9,6 @@ function HomePage(props: any) {
   const [latitude, setLatitude] = useState(-25.9456962)
   const [longitude, setLongitude] = useState(32.4833466)
   const [filteredMarkers, setFilteredMarkers] = useState<Array<any>>(props.markers)
-  const [filter, setFilter] = useState<string>('');
 
 
   console.log()
