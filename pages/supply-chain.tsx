@@ -1,3 +1,4 @@
+import { filter } from 'lodash'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -8,8 +9,11 @@ function HomePage(props: any) {
 
   const [latitude, setLatitude] = useState(-25.9456962)
   const [longitude, setLongitude] = useState(32.4833466)
+  const [filteredMarkers, setFilteredMarkers] = useState<Array<any>>(props.markers)
+  const [filter, setFilter] = useState<string>('');
 
 
+  console.log()
   useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitude(position.coords.latitude)
@@ -32,27 +36,32 @@ function HomePage(props: any) {
   }]
   return (
     <div className="flex flex-col">
-      <div className="flex p-2 gap-4">
+      <div className="flex gap-4 p-2">
         <Link href="/">
           <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
             <IoArrowBack />
           </div>
         </Link>
-        <select className="border border-slate-800 p-2 bg-transparent rounded-md w-40">
-          <option>Visualizar Todos</option>
-          <option>Agricultores</option>
-          <option>Depósitos</option>
-          <option>Varejistas</option>
-          <option>Transportadores</option>
+        <select
+          className="w-40 rounded-md border border-slate-800 bg-transparent p-2"
+          onChange={(e) => {
+            console.log(e.target.value)
+            setFilteredMarkers(props.markers.filter((marker:any) => marker.role === e.target.value || e.target.value === ''))
+          }}
+        >
+          <option value="">Visualizar Todos</option>
+          <option value="FARMER">Agricultores</option>
+          <option value="STOCKIST">Depósitos</option>
+          <option value="RETAILER">Varejistas</option>
+          <option value="DISTRIBUTOR">Transportadores</option>
         </select>
-        <div></div>
       </div>
       <Map
         className="h-[calc(100vh-3.5rem)] w-screen"
         latitude={latitude}
         longitude={longitude}
         popup={'você está aqui!'}
-        markers={props.markers}
+        markers={filteredMarkers}
       />
     </div>
   )
