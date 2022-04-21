@@ -273,18 +273,26 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   })
 
-  if(user){
-    return {props: {
-    userId: user.id
-  }}
-  }else{
-    return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: false,
-      },
+  return {
+    props: {
+      user: {
+        userId: 1
+      }
     }
   }
+
+  // if(user){
+  //   return {props: {
+  //   userId: user.id
+  // }}
+  // }else{
+  //   return {
+  //     redirect: {
+  //       destination: '/auth/login',
+  //       permanent: false,
+  //     },
+  //   }
+  // }
 }
 
 export default Login; 

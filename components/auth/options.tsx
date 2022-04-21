@@ -9,7 +9,8 @@ const Options = (props : {options: Array<String>, select: Function}) => {
     (option, index) =>
      <button
       className={index === selected ? "text-indigo-700" : undefined}
-      onClick={() => {
+        onClick={(e) => {
+        e.preventDefault()
         setSelected(index)
         props.select(index)
         }
