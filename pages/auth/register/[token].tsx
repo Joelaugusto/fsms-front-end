@@ -46,11 +46,6 @@ const Login: NextPage = (props:any) => {
     const [latitude, setLatitude] = useState<number>(0)
     const [longitude, setLongitude] = useState<number>(0)
     const [address, setAddress] = useState<Array<any>>([])
-
-  const [province, setProvince] = useState<string>()
-  const [district, setDistrict] = useState<string>()
-  const [locality, setLocality] = useState<string>()
-
     const [step, setStep] = useState(0);
     const stepValidations: Array<any> = [
       {
@@ -283,9 +278,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     userId: user.id
   }}
   }else{
-    return{
-      props: {}
-    }
     return {
       redirect: {
         destination: '/auth/login',

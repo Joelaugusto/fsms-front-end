@@ -1,0 +1,27 @@
+{
+  "name": "Gestão de Cadeia de Suplementos Agricolas",
+  "short_name": "FSMS",
+  "icons": [
+    {
+      "src": "/logo/mobile-phone-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo/mobile-phone-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo/mobile-phone.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+} 
