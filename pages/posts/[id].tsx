@@ -29,6 +29,7 @@ const Post: NextPage = (props: any) => {
       await api
         .get(`/posts/${id}/`)
         .then((data: any) => {
+          console.log(data)
           setPost(data.data)
           api.get(`/posts/${id}/comments`).then((data) => {
             setComments(data.data.data.reverse())});
@@ -95,21 +96,30 @@ const Post: NextPage = (props: any) => {
           </div>
         </div>
         <main className="min-h-screen w-full bg-white">
-          <Navbar user={props.user} onSearch={() => {}} showSearchBox={false}/>
+          <Navbar user={props.user} onSearch={() => {}} showSearchBox={false} />
           <div className="h-[calc(100vh-115px)] overflow-auto">
             <div className="flex flex-col p-4 md:px-20">
               <ToastContainer />
-              <img
-                className="mb-8 h-40 w-full"
-                src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
-              />
-              {props.user.role === 'ADMIN' ? <div className='flex flex-row-reverse'>
-                <button className='bg-red-300 flex text-black p-2 rounded-md gap-2' onClick={deletePost}>
-                  Apagar
-                  <MdDeleteForever className="text-red-500" size={27}/>
-                </button>
-              </div>: null}
+              {props.user.role === 'ADMIN' ? (
+                <div className="flex flex-row-reverse">
+                  <button
+                    className="flex gap-2 rounded-md bg-red-300 p-2 text-black"
+                    onClick={deletePost}
+                  >
+                    Apagar
+                    <MdDeleteForever className="text-red-500" size={27} />
+                  </button>
+                </div>
+              ) : null}
               <h1 className="mb-8 text-2xl">{post.title}</h1>
+              <div className="mb-8 grid w-full grid-cols-4 gap-4">
+                {post.images.map((image: any) => (
+                  <img
+                    className="shadow-md"
+                    src={process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + image.path}
+                  />
+                ))}
+              </div>
               <div className="flex justify-between border-b-2 border-gray-200 pb-4">
                 <div className="">
                   <p className="text-sm text-gray-500">
@@ -157,7 +167,9 @@ const Post: NextPage = (props: any) => {
                         </strong>
                       </div>
                     </Link>
-                    <p className="p-4 text-gray-800 whitespace-pre-wrap">{comment.comment}</p>
+                    <p className="whitespace-pre-wrap p-4 text-gray-800">
+                      {comment.comment}
+                    </p>
                   </div>
                 ))}
               </div>

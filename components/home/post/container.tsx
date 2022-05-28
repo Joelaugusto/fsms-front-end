@@ -11,6 +11,7 @@ import { BsFileEarmarkPlus } from "react-icons/bs";
 import api from "../../../utils/api";
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from "react-toastify";
+import { ImageUploader } from "../../global/ImageUploader";
 
 
 
@@ -19,15 +20,16 @@ import { toast, ToastContainer } from "react-toastify";
 const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) => {
   
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [images, setImages] = useState<Array<any>>([]);
 
   const registNewPost = async (values: { title: string, body: string }, setSubmitting: Function) => {
     
     setSubmitting(true);
 
-    try{
+    try {
       await toast.promise(
         api
-          .post('posts', values)
+          .post('posts', {...values, images})
           .then((data: any) => {
             props.refresh()
             setShowModal(false)
@@ -49,6 +51,7 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
     <div className="fixed w-screen h-screen flex justify-center items-center flex-col bg-white top-0 left-0 z-10 p-5 overflow-auto">
       <h1 className=" md:text-3xl m-20">Registrar novo Artigo</h1>
       <div className="w-full md:w-1/2 bg-white">
+        <ImageUploader setImages={ setImages}/>
         <MdClose size={25} className="fixed top-5 right-5" onClick={() => {setShowModal(false)}}/>
         <Formik
         initialValues={{ title: '', body: '' }}
@@ -82,13 +85,20 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
 
   return (
     <div className="mx-6 my-20">
-      <ToastContainer/>
+      <ToastContainer />
       {showModal ? modal : null}
       <div className="flex items-center gap-2">
         <h1 className="my-6 text-3xl">Postagens</h1>
-        {props.user.role === 'ADMIN' ? <button className="bg-emerald-600 flex text-white p-2 rounded-md gap-2" onClick={()=> {setShowModal(true)}}>
-         Adicionar mais <FiPlusCircle size={25}/>
-        </button>: null}
+        {props.user.role === 'ADMIN' ? (
+          <button
+            className="flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
+            onClick={() => {
+              setShowModal(true)
+            }}
+          >
+            Adicionar mais <FiPlusCircle size={25} />
+          </button>
+        ) : null}
       </div>
       <div className="mt-10 grid gap-6 md:grid-cols-3 lg:grid-cols-4">
         {props.posts.map((post) => (
@@ -98,8 +108,12 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
             title={post.title}
             views={post.visualizations}
             date={dateUtil.timeAgo(post.createdAt)}
-            userImage="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
-            postBg="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+            userImage={
+              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0].path
+            }
+            postBg={
+              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0].path
+            }
           />
         ))}
       </div>
