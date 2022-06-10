@@ -1,11 +1,11 @@
 import React from 'react'
 import ImageUploading, { ImageListType } from 'react-images-uploading'
 import { AiFillDelete, AiFillSetting } from 'react-icons/ai'
-import { FiPlusCircle } from 'react-icons/fi'
+import { FiPlusCircle, FiUser } from 'react-icons/fi'
 
-export function ImageUploader(props: any) {
+export function ProfilePhotoUploader(props: any) {
   const [images, setImages] = React.useState([])
-  const maxNumber = props.max ? props.max : 69;  
+  const maxNumber = 1
 
     const onChange = (
         imageList: ImageListType,
@@ -44,7 +44,7 @@ export function ImageUploader(props: any) {
         }) => (
           // write your building UI
           <div className="upload__image-wrapper">
-            <div className='flex py-4 gap-4'>
+            <div className="flex gap-4 py-4">
               <button
                 style={isDragging ? { color: 'red' } : undefined}
                 className="flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
@@ -84,6 +84,14 @@ export function ImageUploader(props: any) {
           </div>
         )}
       </ImageUploading>
+
+      <div className="flex h-96 w-96 justify-center overflow-hidden rounded-full bg-slate-300 shadow-md">
+        <FiUser size={400}/>
+        <div className="absolute h-96 w-96 flex justify-center items-end gap-4 pb-16">
+          <button className="bg-red-700 h-10 w-16 mx-2 rounded-sm">sdfsdfs</button>
+          <button className="bg-green-700 h-10 w-20 rounded-sm">sdfsdfs</button>
+        </div>
+      </div>
     </div>
   )
 }

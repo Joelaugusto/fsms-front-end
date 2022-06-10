@@ -51,10 +51,10 @@ const Navbar = (props: { user: { name: string }, onSearch: Function, showSearchB
         <div className="flex items-center space-x-4">
           <img
             className="w-8 rounded-full"
-            src={`https://avatar.oxro.io/avatar.svg?name=${props.user.name ? props.user.name.replace(' ', '+') : ''}`}
+            src={`https://avatar.oxro.io/avatar.svg?name=${props.user?.name ? props.user.name.replace(' ', '+') : ''}`}
             alt="Joel Augusto"
           />
-          <p className="hidden md:block">{props.user.name}</p>
+          <p className="hidden md:block">{props.user?.name}</p>
         </div>
         <div className="relative inline-block text-left ml-2">
             <button onClick={() => { setSelect(!select) }} type="button" className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm  p-2 gap-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
