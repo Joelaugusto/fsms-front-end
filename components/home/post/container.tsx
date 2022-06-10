@@ -22,6 +22,8 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
   const [showModal, setShowModal] = useState<boolean>(false)
   const [images, setImages] = useState<Array<any>>([]);
 
+  console.log(props.posts)
+
   const registNewPost = async (values: { title: string, body: string }, setSubmitting: Function) => {
     
     setSubmitting(true);

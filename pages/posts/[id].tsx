@@ -22,6 +22,13 @@ const Post: NextPage = (props: any) => {
 
   const router = useRouter()
   const { id } = router.query
+  const profilePhoto: string = props.user.profilePhotoUrl
+    ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + props.user.profilePhotoUrl
+    : `https://avatar.oxro.io/avatar.svg?name=${
+        props.user?.name ? props.user.name.replace(' ', '+') : ''
+    }`
+  
+  console.log(profilePhoto)
 
   useEffect(() => {
     const findPost = async () => {
@@ -137,7 +144,7 @@ const Post: NextPage = (props: any) => {
               <div className="flex gap-5 border-t-2 border-gray-200 py-5">
                 <img
                   className="h-20 w-20 rounded-full"
-                  src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+                  src={profilePhoto}
                 />
                 <div className="grid place-content-center">
                   <p>Escrito por: </p>
@@ -159,7 +166,7 @@ const Post: NextPage = (props: any) => {
                       <div className="flex items-center gap-4 border border-b-2 p-4">
                         <img
                           className="h-10 w-10 rounded-full"
-                          src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+                          src={profilePhoto}
                         />
                         <strong className="">
                           {comment.user.name} -{' '}
