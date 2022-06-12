@@ -10,7 +10,7 @@ import AdsContainer from '../../components/home/ads/container'
 import PostContainer from '../../components/home/post/container'
 
 const Post: NextPage = (props: any) => {
-  const [post, setPost] = useState<any>()
+  const [posts, setPosts] = useState<any>(props.posts)
   const [comment, setComment] = useState<string>()
   const [comments, setComments] = useState<Array<any>>([])
 
@@ -19,6 +19,10 @@ const Post: NextPage = (props: any) => {
   const router = useRouter()
   const { id } = router.query
 
+  const postsRefresh = async () => {
+    const data = await api.get(`/groups/${id}/posts`)
+    setPosts(data.data.data)
+  }
   // useEffect(() => {
   //   const findPost = async () => {
   //     api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
@@ -77,26 +81,48 @@ const Post: NextPage = (props: any) => {
 
   return (
     <HomeContainer onSearch={() => {}} user={props.user}>
-      <AdsContainer />
-      <PostContainer posts={[]} refresh={() => {}} user={props.user} />
+      {/* <AdsContainer /> */}
+      <PostContainer
+        posts={posts}
+        refresh={postsRefresh}
+        user={props.user}
+        groupId={Number.parseInt(id)}
+      />
     </HomeContainer>
   )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const user = await session.getLoggedUser(context)
+  let user
+
+  //@ts-ignore
+  const { id } = context.params;
+  try {
+    user = await session.getLoggedUser(context)
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/auth/login',
+      }
+    }
+  }
 
   if (!user.props) {
     return user
   }
 
+  api.defaults.headers.common['Authorization'] =
+    'Bearer ' + context.req.cookies.accessToken
+
+  const posts = await api.get(`/groups/${id}/posts`)
+
   return {
     props: {
       user: user.props.user,
+      posts: posts.data.data,
       token: context.req.cookies.accessToken, //change after
     },
   }
 }
-
 export default Post
 

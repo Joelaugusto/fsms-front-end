@@ -13,6 +13,7 @@ const Home: NextPage = (props:any) => {
 
   const [posts, setPosts] = useState<Array<any>>(props.posts)
 
+  console.log(posts)
   const onSearch = async(value:string) => {
 
     const data = await api.get('/posts?query=' + value)

@@ -44,7 +44,7 @@ const Group = (props: { id: number, name: string, canJoin?: boolean }) => {
         )}
         <div>
           <div className="flex flex-row-reverse">
-            <small>10 membros</small>
+            <small>X membros</small>
           </div>
           {props.canJoin ? <div className="mt-2 flex flex-row-reverse">
             <button

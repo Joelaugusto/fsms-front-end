@@ -12,26 +12,28 @@ import api from "../../../utils/api";
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from "react-toastify";
 import { ImageUploader } from "../../global/ImageUploader";
+import cookies from "../../../utils/cookies";
 
 
 
 
 
-const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) => {
+const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function, groupId?: Number| undefined}) => {
   
   const [showModal, setShowModal] = useState<boolean>(false)
   const [images, setImages] = useState<Array<any>>([]);
+  api.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.getCookie('accessToken');
 
-  console.log(props.posts)
+
 
   const registNewPost = async (values: { title: string, body: string }, setSubmitting: Function) => {
-    
     setSubmitting(true);
+    
 
     try {
       await toast.promise(
         api
-          .post('posts', {...values, images})
+          .post(props.groupId ? `groups/${props.groupId}/posts`: 'posts', {...values, images})
           .then((data: any) => {
             props.refresh()
             setShowModal(false)
@@ -86,7 +88,7 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
   )
 
   return (
-    <div className="mx-6 my-20">
+    <div className="mx-6">
       <ToastContainer />
       {showModal ? modal : null}
       <div className="flex items-center gap-2">
@@ -114,7 +116,7 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
               process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.userProfilePhotoUrl
             }
             postBg={
-              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0].path
+              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0]?.path
             }
           />
         ))}
