@@ -111,7 +111,7 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function}) 
             views={post.visualizations}
             date={dateUtil.timeAgo(post.createdAt)}
             userImage={
-              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0].path
+              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.userProfilePhotoUrl
             }
             postBg={
               process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0].path

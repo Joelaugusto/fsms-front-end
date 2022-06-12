@@ -65,12 +65,13 @@ const Navbar = (props: {
         />
         <FiSearch />
       </div>
+      <div></div>
       <div className="flex">
         <div className="flex items-center space-x-4">
           <img
             className="w-8 rounded-full"
             src={profilePhoto}
-            alt="Joel Augusto"
+            alt="profile-photo"
           />
           <p className="hidden md:block">{props.user?.name}</p>
         </div>

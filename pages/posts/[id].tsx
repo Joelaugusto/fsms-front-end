@@ -19,24 +19,15 @@ const Post: NextPage = (props: any) => {
   const [comments, setComments] = useState<Array<any>>([])
 
 
-
   const router = useRouter()
   const { id } = router.query
-  const profilePhoto: string = props.user.profilePhotoUrl
-    ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + props.user.profilePhotoUrl
-    : `https://avatar.oxro.io/avatar.svg?name=${
-        props.user?.name ? props.user.name.replace(' ', '+') : ''
-    }`
   
-  console.log(profilePhoto)
-
   useEffect(() => {
     const findPost = async () => {
       api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
       await api
         .get(`/posts/${id}/`)
         .then((data: any) => {
-          console.log(data)
           setPost(data.data)
           api.get(`/posts/${id}/comments`).then((data) => {
             setComments(data.data.data.reverse())});
@@ -144,7 +135,11 @@ const Post: NextPage = (props: any) => {
               <div className="flex gap-5 border-t-2 border-gray-200 py-5">
                 <img
                   className="h-20 w-20 rounded-full"
-                  src={profilePhoto}
+                  src={
+                    post.userProfilePhotoUrl ? process.env
+                      .NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.userProfilePhotoUrl
+                      : `https://avatar.oxro.io/avatar.svg?name=${post.username}`
+                  }
                 />
                 <div className="grid place-content-center">
                   <p>Escrito por: </p>
@@ -166,7 +161,10 @@ const Post: NextPage = (props: any) => {
                       <div className="flex items-center gap-4 border border-b-2 p-4">
                         <img
                           className="h-10 w-10 rounded-full"
-                          src={profilePhoto}
+                          src={
+                            process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
+                            post.userProfilePhotoUrl
+                          }
                         />
                         <strong className="">
                           {comment.user.name} -{' '}
