@@ -15,6 +15,7 @@ const Settings: NextPage = (props: any) => {
         props.user?.name ? props.user.name.replace(' ', '+') : ''
       }`
 
+  console.log(props.user)
 
   const [image, setImage] = useState([]);
 
@@ -25,12 +26,23 @@ const Settings: NextPage = (props: any) => {
       api.put('users/profile-photo', images[0])
     }
   }
-  
-    return(
-      <HomeContainer user={ props.user} onSearch={() => { }} >
-        <ProfilePhotoUploader setImages={setPictures} profilePhoto={ profilePhoto} />
+    return (
+      <HomeContainer user={props.user} onSearch={() => {}}>
+        <div className="grid h-[calc(100vh-115px)] grid-cols-3 overflow-auto">
+          <div className="col-span-2 border-r border-l-slate-800 p-8">
+            <p>Nome: {props.user.name}</p>
+            <p>Função: {props.user.role}</p>
+            <p>Celular: {props.user.phone}</p>
+          </div>
+          <div className="col-span-1">
+            <ProfilePhotoUploader
+              setImages={setPictures}
+              profilePhoto={profilePhoto}
+            />
+          </div>
+        </div>
       </HomeContainer>
-    );
+    )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

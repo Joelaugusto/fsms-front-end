@@ -17,7 +17,7 @@ const Group = (props: { id: number, name: string, canJoin?: boolean }) => {
       try {
         await toast.promise(
           api
-            .post(`/groups/${props.id}`).then(() => {
+            .post(`/groups/${props.id}/join`).then(() => {
               router.push({ pathname: '/groups/'+props.id })
             }),
           {

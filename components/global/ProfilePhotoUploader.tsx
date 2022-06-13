@@ -44,10 +44,10 @@ export function ProfilePhotoUploader(props: any) {
           dragProps,
         }) => (
           // write your building UI
-          <div className="upload__image-wrapper py-10">
+          <div className="upload__image-wrapper">
             {imageList.length === 0 ? (
               <div className="flex justify-center gap-4">
-                <div className="image-item flex w-full flex-col items-center shadow-md">
+                <div className="image-item flex w-full flex-col items-center shadow-md p-2">
                   <img
                     src={props.profilePhoto}
                     className="aspect-square w-1/3 rounded-full cursor-pointer"
