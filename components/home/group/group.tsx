@@ -30,7 +30,7 @@ const Group = (props: { id: number, name: string, canJoin?: boolean }) => {
     }
 
     return (
-      <div className="h-90 flex flex-col justify-between rounded-md bg-gradient-to-r from-emerald-600 to-emerald-400 p-10">
+      <div className="h-90 flex flex-col justify-between rounded-md bg-gradient-to-r from-emerald-600 to-emerald-400 p-6">
         {props.canJoin ? (
           <strong className=" truncate text-3xl font-thin text-indigo-50">
             {props.name}

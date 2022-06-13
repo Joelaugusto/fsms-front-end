@@ -68,9 +68,9 @@ const Post: NextPage = (props: any) => {
             router.push({ pathname: '/' })
           }),
           {
-          pending: 'Enviando o artigo!',
-          success: 'Artigo enviado com sucesso! 👌',
-          error: 'Erro ao enviar artigo! 🤯',
+          pending: 'Apagando o artigo!',
+          success: 'Artigo apagado com sucesso! 👌',
+          error: 'Erro ao apagar artigo! 🤯',
         }
       )
       }catch(e){

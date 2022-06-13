@@ -21,7 +21,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Formik, Form } from 'formik';
 import validate from '../../../utils/formValidate';
 import * as Yup from 'yup'
-import { IoArrowBack } from 'react-icons/io5';
 
 const Map = dynamic(
     () => import('../../../components/map/map'),
@@ -30,8 +29,6 @@ const Map = dynamic(
 
 
 const Login: NextPage = (props:any) => {
-
-  console.log(props)
 
   const access_key = process.env.NEXT_PUBLIC_POSITION_STACK_ACCESS_KEY;
 
@@ -203,6 +200,7 @@ const Login: NextPage = (props:any) => {
             },
           })
           .then((data: any) => {
+            document.cookie = ''
             cookies.setAccessToken(data.data.accessToken, data.data.tokenTtl)
             router.push({ pathname: '/' })
           }),
@@ -280,8 +278,6 @@ const Login: NextPage = (props:any) => {
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 
-
-  console.log(context.params?.token)
   let user:any; 
   
   await api.post(`users/verify-email/${context.params?.token}`).then((data) => {
@@ -289,15 +285,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   }).catch(()=> {
 
   })
-
-  // console.log(user)
-  // return {
-  //   props: {
-  //     user: {
-  //       userId: 1
-  //     }
-  //   }
-  // }
 
   if(user){
     return {

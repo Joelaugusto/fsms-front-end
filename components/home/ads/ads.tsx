@@ -1,8 +1,8 @@
 const Ads = (props: {title: string, date: string, views: string, user: string, userImage: string}) => {
 
   return (
-    <div className="h-90 rounded-md bg-gradient-to-r from-emerald-600 to-emerald-400	 p-10">
-      <p className="cursor-pointer text-3xl font-thin text-indigo-50">
+    <div className="h-90 rounded-md bg-gradient-to-r from-emerald-600 to-emerald-400	 p-6">
+      <p className="cursor-pointer text-xl font-thin text-indigo-50">
         {props.title}
       </p>
       <div className="mt-4 flex items-center space-x-4">

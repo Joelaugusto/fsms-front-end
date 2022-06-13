@@ -18,13 +18,14 @@ import cookies from "../../../utils/cookies";
 
 
 
-const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function, groupId?: Number| undefined}) => {
+const PostContainer = (props: {
+  posts: Array<any>, user: any, refresh: Function,
+  groupId?: Number | undefined, groupName?: string | undefined
+}) => {
   
   const [showModal, setShowModal] = useState<boolean>(false)
   const [images, setImages] = useState<Array<any>>([]);
   api.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.getCookie('accessToken');
-
-
 
   const registNewPost = async (values: { title: string, body: string }, setSubmitting: Function) => {
     setSubmitting(true);
@@ -92,7 +93,15 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function, g
       <ToastContainer />
       {showModal ? modal : null}
       <div className="flex items-center gap-2">
-        <h1 className="my-6 text-3xl">Postagens</h1>
+        <h1 className="my-6 text-3xl">
+          Postagens
+          {props.groupName ? (
+            <>
+              <span> do grupo</span>
+              <span className="text-emerald-600"> {props.groupName}</span>
+            </>
+          ) : null}
+        </h1>
         {props.user.role === 'ADMIN' ? (
           <button
             className="flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
@@ -113,7 +122,8 @@ const PostContainer = (props: { posts: Array<any>,user: any,refresh: Function, g
             views={post.visualizations}
             date={dateUtil.timeAgo(post.createdAt)}
             userImage={
-              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.userProfilePhotoUrl
+              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
+              post.userProfilePhotoUrl
             }
             postBg={
               process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0]?.path

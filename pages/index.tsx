@@ -13,7 +13,6 @@ const Home: NextPage = (props:any) => {
 
   const [posts, setPosts] = useState<Array<any>>(props.posts)
 
-  console.log(posts)
   const onSearch = async(value:string) => {
 
     const data = await api.get('/posts?query=' + value)
@@ -27,7 +26,6 @@ const Home: NextPage = (props:any) => {
 
 
   return (
-    
 
     <HomeContainer user={props.user} onSearch={onSearch}>
       <Head>
@@ -38,7 +36,7 @@ const Home: NextPage = (props:any) => {
       <AdsContainer />
       <PostContainer posts={posts} refresh={postsRefresh} user={props.user} />
           <footer className="text w-full py-6 text-center">
-            <p>Gestão de Cadeia de suplementos agricolas</p>
+            <p className='text-gray-300'>Gestão de Cadeia de suplementos agricolas</p>
           </footer>
     </HomeContainer>
   )
