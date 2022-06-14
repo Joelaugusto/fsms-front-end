@@ -1,6 +1,6 @@
 import {FiArrowLeft} from 'react-icons/fi'
 
-const MessageUserInfo = (props: {goBack: any, username: string, userrole: string}) => (
+const MessageUserInfo = (props: {goBack: any, username: string, userrole: string, profilePhoto: string}) => (
   <div className="relative flex items-center space-x-4">
     <button className="flex items-center" onClick={props.goBack}>
       <div className='md:hidden'>
@@ -13,7 +13,7 @@ const MessageUserInfo = (props: {goBack: any, username: string, userrole: string
           </svg>
         </span>
         <img
-          src="https://avatar.oxro.io/avatar.svg?name=Joel+Augusto"
+          src={`${process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + props.profilePhoto}`}
           alt="Avatar"
           className="h-10 w-10 rounded-full sm:h-12 sm:w-12"
         />

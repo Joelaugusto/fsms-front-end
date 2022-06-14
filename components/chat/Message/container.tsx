@@ -15,6 +15,8 @@ const Container = (props: {
 
   const lastMessageRef = useRef<any>()
 
+  console.log(props.user)
+
 
   //move scroll to down
   useEffect(() => {
@@ -33,6 +35,7 @@ const Container = (props: {
             <div className="px flex h-full flex-col">
               <div className="flex justify-between border-b-2 border-gray-200 sm:items-center">
                 <MessageUserInfo
+                  profilePhoto={props.user.profilePhotoUrl}
                   goBack={props.goBack}
                   username={props.user.username}
                   userrole={props.user.userRole}
@@ -62,6 +65,7 @@ const Container = (props: {
                     text={message.message}
                     key={message.id}
                     seenAt={message.seenAt}
+                    image={message.sendByProfilePhotoUrl}
                   />
                 ))}
               </div>
