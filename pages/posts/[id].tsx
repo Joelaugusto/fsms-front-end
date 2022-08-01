@@ -130,7 +130,7 @@ const Post: NextPage = (props: any) => {
                 </div>
               </div>
               <div className="px-1 py-4">
-                <p className="whitespace-normal">{post.body}</p>
+                <p className="whitespace-pre-wrap">{post.body}</p>
               </div>
               <div className="flex gap-5 border-t-2 border-gray-200 py-5">
                 <img

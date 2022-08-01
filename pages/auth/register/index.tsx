@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
-import {useState } from 'react'
+import { useState } from 'react'
 
 //icons
 import { FcGoogle } from 'react-icons/fc'
-import { FiLogIn} from 'react-icons/fi'
+import { FiLogIn } from 'react-icons/fi'
 
 //components
 import AuthContainer from '../../../components/auth/container'
@@ -22,15 +22,15 @@ import * as Yup from 'yup'
 import validate from '../../../utils/formValidate'
 
 const Register: NextPage = () => {
-
-
   const router = useRouter()
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-
-  const sendEmail = async (form: {email: string, phone:string, password: string}) => {
-
+  const sendEmail = async (form: {
+    email: string
+    phone: string
+    password: string
+  }) => {
     setIsSubmitting(true)
 
     const { email, phone, password } = form
@@ -41,7 +41,7 @@ const Register: NextPage = () => {
         const phone: string = e.data.phone
 
         if (email) {
-          toast.error('Email já registrado!')
+          toast.error('Email já registrado! ')
         }
 
         if (phone) {
@@ -50,18 +50,14 @@ const Register: NextPage = () => {
 
         if (email || phone) {
           setIsSubmitting(false)
-          return
         }
       })
-    } catch (error) {
-      setIsSubmitting(false)
-    }
 
-
-    try{
       await toast.promise(
-        api.post(`users/verify-email`, {email, phone, password}).then(() => {
-          setTimeout(() => {router.push('/auth/login')}, 5000)
+        api.post(`users/verify-email`, { email, phone, password }).then(() => {
+          setTimeout(() => {
+            router.push('/auth/login')
+          }, 5000)
         }),
         {
           pending: 'Efectuando o registro',
@@ -70,13 +66,10 @@ const Register: NextPage = () => {
           error: 'Falha ao efectuar registro! 🤯',
         }
       )
-      }catch(e){
-        setIsSubmitting(false)
-      }
+    } finally {
       setIsSubmitting(false)
+    }
   }
-
-
 
   return (
     <div>
@@ -108,7 +101,7 @@ const Register: NextPage = () => {
           onSubmit={sendEmail}
         >
           <Form className="grid" noValidate>
-            <div className="grid md:gap-4 md:grid-cols-2 ">
+            <div className="grid md:grid-cols-2 md:gap-4 ">
               <Input
                 type="email"
                 placeholder="Introduza o seu email"
@@ -122,7 +115,7 @@ const Register: NextPage = () => {
                 name="phone"
               />
             </div>
-            <div className="grid md:gap-4 md:grid-cols-2">
+            <div className="grid md:grid-cols-2 md:gap-4">
               <Input
                 type="password"
                 placeholder="Introduza a senha"

@@ -3,10 +3,6 @@ import api from './api'
 
 
 const getLoggedUser = async (context: GetServerSidePropsContext) => {
-  const { accessToken } = context.req.cookies
-
-
-
 
   api.defaults.headers.common['Authorization'] = 'Bearer ' + context.req.cookies.accessToken
   const resp = api.get('auth/me');

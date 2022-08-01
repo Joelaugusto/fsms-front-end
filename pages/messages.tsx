@@ -11,7 +11,6 @@ const Message:NextPage = (props: any) => {
   const [messages, setMessages] = useState<Array<any>>([])
   const [chatId, setChatId] = useState<number>(0)
 
-  console.log(messages)
 
   const onMessageReceived = (message: any) => {
     let msg = message

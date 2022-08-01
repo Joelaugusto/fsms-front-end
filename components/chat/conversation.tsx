@@ -1,5 +1,3 @@
-import ChatGroup from "./chatGroup";
-
 const Conversation = (props: {
   onSelectChat: any
   chat: { name: string; notViewed: number, id: number}

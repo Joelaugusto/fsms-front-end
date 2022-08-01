@@ -1,13 +1,11 @@
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import api from '../../utils/api'
 import session from '../../utils/session'
 import 'react-toastify/dist/ReactToastify.css'
 import HomeContainer from '../../components/home/HomeContainer'
-import AdsContainer from '../../components/home/ads/container'
 import PostContainer from '../../components/home/post/container'
-import Groups from '.'
 
 const Post: NextPage = (props: any) => {
   const [posts, setPosts] = useState<any>(props.posts)
@@ -96,8 +94,7 @@ const Post: NextPage = (props: any) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   let user
 
-  //@ts-ignore
-  const { id } = context.params;
+  const { id } = context.params as any;
   try {
     user = await session.getLoggedUser(context)
   } catch (error) {
@@ -115,8 +112,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   api.defaults.headers.common['Authorization'] =
     'Bearer ' + context.req.cookies.accessToken
 
-  const posts = await api.get(`/groups/${id}/posts`)
-  const group = await api.get(`/groups/${id}`)
+
+  const [posts, group] = await Promise.all(
+    [
+      api.get(`/groups/${id}/posts`),
+      api.get(`/groups/${id}`)
+    ]
+  )
 
 
   return {

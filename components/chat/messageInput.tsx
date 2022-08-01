@@ -19,8 +19,7 @@ const MessageInput = (props: {
   const sendMessage = async (e: any) => {
     e.preventDefault()
 
-    //@ts-ignore
-    clientRef.sendMessage(
+      ; (clientRef as any).sendMessage(
       '/app/messages-all',
       JSON.stringify({
         chatId: props.chat,
