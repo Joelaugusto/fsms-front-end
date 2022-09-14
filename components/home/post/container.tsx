@@ -89,11 +89,11 @@ const PostContainer = (props: {
   )
 
   return (
-    <div className="mx-6">
+    <div className="mx-6 mt-10">
       <ToastContainer />
       {showModal ? modal : null}
       <div className="flex items-center gap-2">
-        <h1 className="my-6 text-3xl">
+        <h1 className="my-6 text-xl">
           Postagens
           {props.groupName ? (
             <>
@@ -104,16 +104,16 @@ const PostContainer = (props: {
         </h1>
         {props.user.role === 'ADMIN' ? (
           <button
-            className="flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
+            className="flex items-center gap-2 rounded-md bg-emerald-600 py-1 px-2 text-white"
             onClick={() => {
               setShowModal(true)
             }}
           >
-            Adicionar mais <FiPlusCircle size={25} />
+            Adicionar mais <FiPlusCircle size={18} />
           </button>
         ) : null}
       </div>
-      <div className="mt-10 grid gap-6 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-2 grid gap-6 md:grid-cols-3 lg:grid-cols-4">
         {props.posts.map((post) => (
           <Post
             id={post.id}

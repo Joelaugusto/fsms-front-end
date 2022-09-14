@@ -5,19 +5,23 @@ const Post = (props: {title: string, views: string, date: Date, userImage: strin
 
   return (
     <Link href={`/posts/${props.id}`}>
-      <div className="overflow-hidden rounded-t-md shadow-lg cursor-pointer">
-          <img className="w-sm" src={props.postBg} alt="Post Image" />
-          <div className="relative p-2">
-            <p className="mt-6 text-lg">{props.title}</p>
-            <p className="text-sm text-gray-500">
-              {`${props.views} visualizações`} • {props.date}
-            </p>
-            <img
-              className="absolute -top-6 right-6 h-12 w-12 rounded-full border-2 p-0.5"
-              src={props.userImage}
-              alt="User Image"
-            />
-          </div>
+      <div className="cursor-pointer overflow-hidden rounded-t-md shadow-lg">
+        <img
+          className="aspect-video"
+          src={props.postBg}
+          alt="Post Image"
+        />
+        <div className="relative p-2">
+          <p className="mt-6 text-gray-900">{props.title}</p>
+          <p className="text-xs text-gray-500">
+            {`${props.views} visualizações`} • {props.date}
+          </p>
+          <img
+            className="absolute -top-6 right-6 h-12 w-12 rounded-full border-2 p-0.5"
+            src={props.userImage}
+            alt="User Image"
+          />
+        </div>
       </div>
     </Link>
   )
