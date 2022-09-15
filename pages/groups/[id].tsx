@@ -85,7 +85,7 @@ const Post: NextPage = (props: any) => {
         refresh={postsRefresh}
         user={props.user}
         groupId={Number.parseInt(`${id}`)}
-        groupName={ props.group.name}
+        groupName={props.group.name}
       />
     </HomeContainer>
   )

@@ -20,7 +20,8 @@ import cookies from "../../../utils/cookies";
 
 const PostContainer = (props: {
   posts: Array<any>, user: any, refresh: Function,
-  groupId?: Number | undefined, groupName?: string | undefined
+  groupId?: Number | undefined, groupName?: string | undefined,
+
 }) => {
   
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -102,7 +103,7 @@ const PostContainer = (props: {
             </>
           ) : null}
         </h1>
-        {props.user.role === 'ADMIN' ? (
+        {props.groupId || props.user.role === 'ADMIN' ? (
           <button
             className="flex items-center gap-2 rounded-md bg-emerald-600 py-1 px-2 text-white"
             onClick={() => {
