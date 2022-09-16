@@ -42,6 +42,9 @@ const Login: NextPage = (props:any) => {
     const [address, setAddress] = useState<Array<any>>([])
     const [step, setStep] = useState(0);
   
+    const [name, setName] = useState('')
+    const [role, setRole] = useState(roles[0])
+  
 
 
     const stepValidations: Array<any> = [
@@ -54,7 +57,8 @@ const Login: NextPage = (props:any) => {
       },
     ]
   
-    const findAddress = async () => {
+  const findAddress = async () => {
+      console.log(latitude, longitude)
       await api
         .get(
           `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${latitude},${longitude}`
@@ -66,17 +70,18 @@ const Login: NextPage = (props:any) => {
   
     useEffect(() => {
       const getGeolocation = async () => {
-        navigator.geolocation.getCurrentPosition(async (position) => {
+        await navigator.geolocation.getCurrentPosition(async (position) => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
-          findAddress();
         })
       }
       getGeolocation()
     }, [])
   
     useEffect(() => {
-      findAddress();
+      if (latitude && longitude) {
+        findAddress();
+      } 
     }, [latitude, longitude])
 
     const steps = [
@@ -193,10 +198,12 @@ const Login: NextPage = (props:any) => {
 
     }
 
-    const changeStep = async (e: any, setSubmitting: Function) => {
+  const changeStep = async (e: any, setSubmitting: Function) => {
         if (steps.length - 1 <= step) {
             submitForm(e, setSubmitting)
         } else {
+          setName(e.name)
+          setRole(e.role)
             setStep(step + 1)
         }
     }
@@ -219,8 +226,8 @@ const Login: NextPage = (props:any) => {
           <Formik
             enableReinitialize={true}
             initialValues={{
-              name: '',
-              role: roles[0],
+              name: name,
+              role: role,
               province: address[0]?.region,
               district: address[0]?.county,
               locality: address[0]?.name,
