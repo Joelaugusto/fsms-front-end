@@ -11,7 +11,6 @@ function HomePage(props: any) {
   const [filteredMarkers, setFilteredMarkers] = useState<Array<any>>(props.markers)
 
 
-  console.log()
   useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitude(position.coords.latitude)

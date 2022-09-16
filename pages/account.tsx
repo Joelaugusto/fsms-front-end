@@ -15,7 +15,6 @@ const Settings: NextPage = (props: any) => {
         props.user?.name ? props.user.name.replace(' ', '+') : ''
       }`
 
-  console.log(props.user)
 
   const [image, setImage] = useState([]);
 

@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import {useEffect, useState} from 'react';
 
 //icons
-import {FiMaximize2, FiUserPlus} from "react-icons/fi";
+import {FiUserPlus} from "react-icons/fi";
 
 //components
 import AuthContainer from '../../../components/auth/container';
@@ -21,12 +21,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Formik, Form } from 'formik';
 import validate from '../../../utils/formValidate';
 import * as Yup from 'yup'
-
-const Map = dynamic(
-    () => import('../../../components/map/map'),
-    {ssr: false}
-)
-
+import MapBox from '../../../components/map/mapBox';
 
 const Login: NextPage = (props:any) => {
 
@@ -46,6 +41,9 @@ const Login: NextPage = (props:any) => {
     const [longitude, setLongitude] = useState<number>(0)
     const [address, setAddress] = useState<Array<any>>([])
     const [step, setStep] = useState(0);
+  
+
+
     const stepValidations: Array<any> = [
       {
         name: validate.name,
@@ -55,27 +53,31 @@ const Login: NextPage = (props:any) => {
         locality: validate.genericField('Localidade'),
       },
     ]
-    const [maximizeMap, setMaximizeMap] = useState<boolean>(false)
+  
+    const findAddress = async () => {
+      await api
+        .get(
+          `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${latitude},${longitude}`
+        )
+        .then((data: any) => {
+          setAddress(data.data.data)
+        })
+    }
   
     useEffect(() => {
-      
       const getGeolocation = async () => {
         navigator.geolocation.getCurrentPosition(async (position) => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
-          await api
-             .get(
-               `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${position.coords.latitude},${position.coords.longitude}`
-             )
-            .then((data: any) => {
-
-               setAddress(data.data.data)
-             })
+          findAddress();
         })
       }
-
       getGeolocation()
     }, [])
+  
+    useEffect(() => {
+      findAddress();
+    }, [latitude, longitude])
 
     const steps = [
       <>
@@ -142,34 +144,12 @@ const Login: NextPage = (props:any) => {
             />
           </div>
         </div>
-        <div
-          className={
-            maximizeMap
-              ? 'absolute top-0 left-0 h-screen w-screen'
-              : 'mt-5 grid place-items-center'
-          }
-          style={!showMap ? { display: 'none' } : undefined}
-        >
-          <div className="flex w-full flex-row-reverse">
-            <button
-              onClick={(e) => {
-                e.preventDefault()
-                setMaximizeMap(!maximizeMap)
-              }}
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700"
-            >
-              <FiMaximize2 />
-            </button>
-          </div>
-          <Map
+        <div style={!showMap ? { display: 'none' } : undefined}>
+          <MapBox
             latitude={latitude}
             longitude={longitude}
-            popup={'Voce está aqui!'}
-            className={
-              maximizeMap
-                ? 'h-[calc(100vh-3.5rem)] w-screen'
-                : 'h-96 w-full md:w-96'
-            }
+            setLatitude={setLatitude}
+            setLongitude={setLongitude}
           />
         </div>
         <Input />

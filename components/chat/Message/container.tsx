@@ -15,9 +15,6 @@ const Container = (props: {
 
   const lastMessageRef = useRef<any>()
 
-  console.log(props.user)
-
-
   //move scroll to down
   useEffect(() => {
     if (lastMessageRef.current) {

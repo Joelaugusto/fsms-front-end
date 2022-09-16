@@ -20,7 +20,6 @@ export function ProfilePhotoUploader(props: any) {
         }
       });
 
-      console.log(imgs)
 
       props.setImages(imgs);
   }

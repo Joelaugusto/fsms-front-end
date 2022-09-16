@@ -40,7 +40,6 @@ const Post: NextPage = (props: any) => {
 
   // const submitCommentHandler = async (e: any) => {
   //   e.preventDefault()
-  //   console.log(comment)
   //   if(comment){
   //     await toast.promise(
   //       api
