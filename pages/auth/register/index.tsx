@@ -14,7 +14,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 import api from '../../../utils/api'
-import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { Form, Formik } from 'formik'

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import api from '../../utils/api'
 import session from '../../utils/session'
-import 'react-toastify/dist/ReactToastify.css'
 import HomeContainer from '../../components/home/HomeContainer'
 import PostContainer from '../../components/home/post/container'
 

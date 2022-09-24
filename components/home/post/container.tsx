@@ -9,7 +9,6 @@ import * as Yup from 'yup'
 import { MdClose } from "react-icons/md";
 import { BsFileEarmarkPlus } from "react-icons/bs";
 import api from "../../../utils/api";
-import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from "react-toastify";
 import { ImageUploader } from "../../global/ImageUploader";
 import cookies from "../../../utils/cookies";

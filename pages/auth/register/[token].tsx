@@ -17,7 +17,6 @@ import type { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify'
 import cookies from '../../../utils/cookies'
-import 'react-toastify/dist/ReactToastify.css'
 import { Formik, Form } from 'formik';
 import validate from '../../../utils/formValidate';
 import * as Yup from 'yup'
