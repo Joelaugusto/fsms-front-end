@@ -58,7 +58,6 @@ const Login: NextPage = (props:any) => {
     ]
   
   const findAddress = async () => {
-      console.log(latitude, longitude)
       await api
         .get(
           `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${latitude},${longitude}`

@@ -114,7 +114,7 @@ const PostContainer = (props: {
           </button>
         ) : null}
       </div>
-      <div className="mt-2 grid gap-6 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-2 grid gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:flex">
         {props.posts.map((post) => (
           <Post
             id={post.id}

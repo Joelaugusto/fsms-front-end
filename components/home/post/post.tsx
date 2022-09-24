@@ -5,12 +5,8 @@ const Post = (props: {title: string, views: string, date: Date, userImage: strin
 
   return (
     <Link href={`/posts/${props.id}`}>
-      <div className="cursor-pointer overflow-hidden rounded-t-md shadow-lg">
-        <img
-          className="aspect-video"
-          src={props.postBg}
-          alt="Post Image"
-        />
+      <div className="max-w-md cursor-pointer overflow-hidden rounded-t-md shadow-lg">
+        <img className="aspect-video" src={props.postBg} alt="Post Image" />
         <div className="relative p-2">
           <p className="mt-6 text-gray-900">{props.title}</p>
           <p className="text-xs text-gray-500">

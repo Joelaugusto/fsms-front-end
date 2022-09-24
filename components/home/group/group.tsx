@@ -4,22 +4,19 @@ import { toast } from "react-toastify";
 import api from "../../../utils/api";
 import cookies from "../../../utils/cookies";
 
-const Group = (props: { id: number, name: string, canJoin?: boolean }) => { 
-  
+const Group = (props: { id: number, name: string, canJoin?: boolean }) => {   
 
   const router = useRouter()
-
 
     const joinGroup = async () => {
       api.defaults.headers.common['Authorization'] =
         'Bearer ' + cookies.getCookie('accessToken')
-
+      
       try {
         await toast.promise(
-          api
-            .post(`/groups/${props.id}/join`).then(() => {
-              router.push({ pathname: '/groups/'+props.id })
-            }),
+          api.post(`/groups/${props.id}/join`).then((data: any) => {
+            router.push({ pathname: `/groups/${props.id}` })
+          }),
           {
             pending: 'Entrando',
             success: 'Agora faz parte desse grupo! 👌',
