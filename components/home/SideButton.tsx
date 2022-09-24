@@ -5,7 +5,7 @@ const SideButton = (props: {text: string, icon: ReactElement, to: string}) => (
   <Link href={props.to}>
     <li className="mt-6 flex cursor-pointer space-x-2 duration-150 hover:text-emerald-400">
       {props.icon}
-      <span className="font-semibold">{props.text}</span>
+      <span className="font-semibold text-sm">{props.text}</span>
     </li>
   </Link>
 )
