@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import Link from 'next/link'
 import cookies from '../../utils/cookies'
 import Separator from '../../components/auth/separator'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { Form, Formik } from 'formik'
 import validate from '../../utils/formValidate'
 
@@ -41,7 +41,6 @@ const Login: NextPage = (props: any) => {
 
   return (
     <AuthContainer title="Tela de Login!">
-      <ToastContainer />
       <button className="flex h-12 justify-center gap-2.5 rounded-md border border-solid border-zinc-700 bg-white p-2.5">
         <FcGoogle size={24} />
         <span>Login com conta Google</span>

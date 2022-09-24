@@ -15,7 +15,7 @@ import Link from 'next/link';
 import api from '../../../utils/api';
 import type { GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router';
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import cookies from '../../../utils/cookies'
 import { Formik, Form } from 'formik';
 import validate from '../../../utils/formValidate';
@@ -220,7 +220,6 @@ const Login: NextPage = (props:any) => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <AuthContainer title="Concluir Registro">
-          <ToastContainer />
           <Formik
             enableReinitialize={true}
             initialValues={{

@@ -14,7 +14,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 import api from '../../../utils/api'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -78,7 +78,6 @@ const Register: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AuthContainer title="Criar conta">
-        <ToastContainer />
         <button className="flex h-9 items-center justify-center gap-2.5 rounded-md border border-solid border-zinc-700 bg-white">
           <FcGoogle size={20} />
           <span className="text-sm">Iniciar com conta Google</span>

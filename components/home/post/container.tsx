@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import { MdClose } from "react-icons/md";
 import { BsFileEarmarkPlus } from "react-icons/bs";
 import api from "../../../utils/api";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import { ImageUploader } from "../../global/ImageUploader";
 import cookies from "../../../utils/cookies";
 
@@ -90,7 +90,6 @@ const PostContainer = (props: {
 
   return (
     <div className="mx-6 mt-10">
-      <ToastContainer />
       {showModal ? modal : null}
       <div className="flex items-center gap-2">
         <h1 className="my-6 text-xl">

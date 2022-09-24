@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import api from '../../utils/api'
 import session from '../../utils/session'
 import { FiFacebook, FiTwitter } from 'react-icons/fi'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import dateUtil from '../../utils/dateUtil'
 import Link from 'next/link'
 import Head from 'next/head'
@@ -96,7 +96,6 @@ const Post: NextPage = (props: any) => {
           <Navbar user={props.user} onSearch={() => {}} showSearchBox={false} />
           <div className="h-[calc(100vh-115px)] overflow-auto">
             <div className="flex flex-col p-4 md:px-20">
-              <ToastContainer />
               {props.user.role === 'ADMIN' ? (
                 <div className="flex flex-row-reverse">
                   <button
