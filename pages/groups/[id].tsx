@@ -103,13 +103,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  if (!user.props) {
-    return user
-  }
-
-  api.defaults.headers.common['Authorization'] =
-    'Bearer ' + context.req.cookies.accessToken
-
 
   const [posts, group] = await Promise.all(
     [
@@ -121,10 +114,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      user: user.props.user,
+      user,
       posts: posts.data.data,
       group: group.data,
-      token: context.req.cookies.accessToken, //change after
     },
   }
 }

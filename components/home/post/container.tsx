@@ -11,8 +11,6 @@ import { BsFileEarmarkPlus } from "react-icons/bs";
 import api from "../../../utils/api";
 import { toast} from "react-toastify";
 import { ImageUploader } from "../../global/ImageUploader";
-import cookies from "../../../utils/cookies";
-
 
 
 
@@ -25,7 +23,6 @@ const PostContainer = (props: {
   
   const [showModal, setShowModal] = useState<boolean>(false)
   const [images, setImages] = useState<Array<any>>([]);
-  api.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.getCookie('accessToken');
 
   const registNewPost = async (values: { title: string, body: string }, setSubmitting: Function) => {
     setSubmitting(true);

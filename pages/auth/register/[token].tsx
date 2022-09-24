@@ -266,8 +266,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   
   await api.post(`users/verify-email/${context.params?.token}`).then((data) => {
     user = data.data;
-  }).catch(()=> {
-
   })
 
   if(user){

@@ -23,7 +23,6 @@ const Post: NextPage = (props: any) => {
   
   useEffect(() => {
     const findPost = async () => {
-      api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
       await api
         .get(`/posts/${id}/`)
         .then((data: any) => {
@@ -205,15 +204,10 @@ const Post: NextPage = (props: any) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await session.getLoggedUser(context)
 
-  if (!user.props) {
-    return user
-  }
-
   return {
     props: {
-      user: user.props.user,
-      token: context.req.cookies.accessToken, //change after
-    },
+      user: user,
+    }
   }
 }
 

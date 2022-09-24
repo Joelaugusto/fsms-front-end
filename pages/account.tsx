@@ -6,8 +6,6 @@ import api from "../utils/api";
 import session from "../utils/session";
 
 const Settings: NextPage = (props: any) => {
-  
-  api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
 
   const profilePhoto: string = props.user.profilePhotoUrl
     ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + props.user.profilePhotoUrl
@@ -57,17 +55,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  if (!user.props) {
-    return user
-  }
-
-  api.defaults.headers.common['Authorization'] =
-    'Bearer ' + context.req.cookies.accessToken
-
   return {
     props: {
-      user: user.props.user,
-      token: context.req.cookies.accessToken, //change after
+      user,
     },
   }
 }

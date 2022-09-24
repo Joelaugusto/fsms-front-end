@@ -9,8 +9,6 @@ import HomeContainer from '../components/home/HomeContainer'
 
 const Home: NextPage = (props:any) => {
 
-  api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
-
   const [posts, setPosts] = useState<Array<any>>(props.posts)
 
   const onSearch = async(value:string) => {
@@ -45,7 +43,7 @@ const Home: NextPage = (props:any) => {
 
 export async function getServerSideProps(context:GetServerSidePropsContext) {
 
-  let user;
+  let user:any;
   
   try {
     user = await session.getLoggedUser(context)
@@ -56,22 +54,14 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
       }
     }
   }
-    
-
-  if (!user.props) {
-    return user
-  }
-
-  api.defaults.headers.common['Authorization'] = 'Bearer ' + context.req.cookies.accessToken
   
   const posts = await api.get('/posts')
 
 
   return {
     props: {
-      user: user.props.user,
+      user: user,
       posts: posts.data.data,
-      token: context.req.cookies.accessToken, //change after
     },
   }
 }

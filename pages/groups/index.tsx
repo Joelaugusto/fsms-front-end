@@ -7,15 +7,12 @@ import GroupContainer from '../../components/home/group/container'
 
 const Groups = (props: {
   user: any
-  token: string
   groups: Array<any>
   otherGroups: any
 }) => {
   const [groups, setGroups] = useState<Array<any>>(props.groups)
 
   const refresh = async () => {
-    api.defaults.headers.common['Authorization'] = 'Bearer ' + props.token
-
     const groupsData = await api.get('/groups')
     setGroups(groupsData.data)
   }
@@ -44,12 +41,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  if (!user.props) {
-    return user
-  }
-
-  api.defaults.headers.common['Authorization'] =
-		'Bearer ' + context.req.cookies.accessToken
 	
 	const groups = await api.get('/groups');
 	const otherGroups = await api.get('/groups/top')
@@ -57,10 +48,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-			user: user.props.user,
+			user,
       groups: groups.data, 
       otherGroups: otherGroups.data,
-      token: context.req.cookies.accessToken, //change after
     },
   }
 }

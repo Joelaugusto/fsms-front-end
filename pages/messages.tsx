@@ -62,16 +62,11 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   
   const user = await session.getLoggedUser(context);
 
-  if(!user.props){
-    return user;
-  }
-
-   api.defaults.headers.common['Authorization'] = 'Bearer ' + context.req.cookies.accessToken
    const chats = await api.get('/chats/resume')
 
   return {
     props: {
-      user: user.props.user,
+      user,
       chats: chats.data,
       token: context.req.cookies.accessToken //change after
     },

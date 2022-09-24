@@ -9,7 +9,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../../utils/api";
 import * as Yup from 'yup'
-import cookies from "../../../utils/cookies";
 
 const GroupContainer = (props: {
   groups: Array<any>
@@ -21,8 +20,6 @@ const GroupContainer = (props: {
 
   const newGroup = async (form: { name: string }, setSubmitting: Function) => {
     setSubmitting(true)
-    api.defaults.headers.common['Authorization'] =
-      'Bearer ' + cookies.getCookie('accessToken')
 
     try {
       await toast.promise(
@@ -89,7 +86,7 @@ const GroupContainer = (props: {
       {showModal ? modal : null}
       <div>
         <div className="flex items-center gap-2">
-          <h1 className="my-6 text-3xl">Grupos</h1>
+          <h1 className="my-6 text-xl">Grupos</h1>
           <button
             className="flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
             onClick={() => {
@@ -108,11 +105,16 @@ const GroupContainer = (props: {
 
       <div>
         <div className="mt-20 flex items-center gap-2">
-          <h1 className="my-6 text-3xl">Alguns grupos populares</h1>
+          <h1 className="my-4 text-xl">Alguns grupos populares</h1>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {props.otherGroups.data.map((group) => (
-            <Group key={group.id} name={group.name} id={group.id} canJoin={ true}/>
+            <Group
+              key={group.id}
+              name={group.name}
+              id={group.id}
+              canJoin={true}
+            />
           ))}
         </div>
       </div>
