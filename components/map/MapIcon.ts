@@ -1,6 +1,13 @@
 import L from "leaflet";
 
 
+const getIconFromUrl = (iconUrl: string): L.Icon<L.IconOptions> => {
+  return L.icon({
+    iconUrl,
+    iconSize: [30, 30],
+  })
+}
+
 const getIcon = (role: string): L.Icon<L.IconOptions> => {
 
   let iconUrl:string = '';
@@ -43,7 +50,7 @@ const iconsUrl = {
 
 
 const mapIcons = {
-  getIcon
+  getIcon, getIconFromUrl
 }
 
 

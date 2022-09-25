@@ -22,16 +22,23 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
       />
       <>
         <Marker
-            position={[props.latitude, props.longitude]}
-            icon={mapIcons.getIcon("")}
-            key={'current_location'}
-          >
-            <Tooltip>Você está aqui!</Tooltip>
-          </Marker>
+          position={[props.latitude, props.longitude]}
+          icon={mapIcons.getIcon('')}
+          key={'current_location'}
+        >
+          <Tooltip>Você está aqui!</Tooltip>
+        </Marker>
         {props.markers.map((marker: any, index) => (
           <Marker
             position={[marker.latitude, marker.longitude]}
-            icon={mapIcons.getIcon(marker.role)}
+            icon={
+              marker.profileUrl
+                ? mapIcons.getIconFromUrl(
+                    process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
+                      marker.profileUrl
+                  )
+                : mapIcons.getIcon(marker.role)
+            }
             key={index}
           >
             <Tooltip>
