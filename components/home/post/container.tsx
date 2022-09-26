@@ -11,6 +11,7 @@ import { BsFileEarmarkPlus } from "react-icons/bs";
 import api from "../../../utils/api";
 import { toast} from "react-toastify";
 import { ImageUploader } from "../../global/ImageUploader";
+import AddVideo from "./addVideo";
 
 
 
@@ -22,7 +23,8 @@ const PostContainer = (props: {
 }) => {
   
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [images, setImages] = useState<Array<any>>([]);
+  const [images, setImages] = useState<Array<any>>([])
+  const [videosLink, setVideosLink] = useState<Array<string>>([])
 
   const registNewPost = async (values: { title: string, body: string }, setSubmitting: Function) => {
     setSubmitting(true);
@@ -31,7 +33,7 @@ const PostContainer = (props: {
     try {
       await toast.promise(
         api
-          .post(props.groupId ? `groups/${props.groupId}/posts`: 'posts', {...values, images})
+          .post(props.groupId ? `groups/${props.groupId}/posts`: 'posts', {...values, images, videosLink})
           .then((data: any) => {
             props.refresh()
             setShowModal(false)
@@ -50,21 +52,32 @@ const PostContainer = (props: {
   
 
   const modal = (
-    <div className="fixed w-screen h-screen flex justify-center items-center flex-col bg-white top-0 left-0 z-10 p-5 overflow-auto">
-      <h1 className=" md:text-3xl m-20">Registrar novo Artigo</h1>
-      <div className="w-full md:w-1/2 bg-white">
-        <ImageUploader setImages={ setImages}/>
-        <MdClose size={25} className="fixed top-5 right-5" onClick={() => {setShowModal(false)}}/>
+    <div className="fixed top-0 left-0 z-10 flex h-screen w-screen flex-col items-center justify-center overflow-auto bg-white p-5">
+      <h1 className=" m-20 md:text-3xl">Registrar novo artigo</h1>
+      <div className="w-full bg-white md:w-1/2">
+        <ImageUploader setImages={setImages} />
+        <AddVideo onUpdateLinks={(links: Array<any>) => {setVideosLink(links)}}/>
+        <MdClose
+          size={25}
+          className="fixed top-5 right-5"
+          onClick={() => {
+            setShowModal(false)
+          }}
+        />
         <Formik
-        initialValues={{ title: '', body: '' }}
-        validationSchema={Yup.object({
-          title: Yup.string().required('Este campo é Obrigatório').min(2, 'O Título deve ter pelo menos 2 caracteres'),
-          body: Yup.string().required('Este campo é Obrigatório').min(10, 'O corpo deve ter pelo menos 10 caracteres'),
-        })}
-        onSubmit={(values, { setSubmitting }) => {
-          registNewPost(values, setSubmitting)
-        }}
-      >
+          initialValues={{ title: '', body: '' }}
+          validationSchema={Yup.object({
+            title: Yup.string()
+              .required('Este campo é Obrigatório')
+              .min(2, 'O Título deve ter pelo menos 2 caracteres'),
+            body: Yup.string()
+              .required('Este campo é Obrigatório')
+              .min(10, 'O corpo deve ter pelo menos 10 caracteres'),
+          })}
+          onSubmit={(values, { setSubmitting }) => {
+            registNewPost(values, setSubmitting)
+          }}
+        >
           <Form noValidate>
             <Input
               label="Título"
@@ -76,11 +89,15 @@ const PostContainer = (props: {
               label="Artigo"
               type="textarea"
               name="body"
-              placeholder='Digite o corpo do artigo'
+              placeholder="Digite o corpo do artigo"
             />
-            <Input type="submit"  value='Adicionar Artigo' icon={<BsFileEarmarkPlus/>}/>
+            <Input
+              type="submit"
+              value="Adicionar Artigo"
+              icon={<BsFileEarmarkPlus />}
+            />
           </Form>
-      </Formik>
+        </Formik>
       </div>
     </div>
   )
