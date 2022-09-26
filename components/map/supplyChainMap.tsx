@@ -6,7 +6,26 @@ import { HiUser, HiViewGrid } from 'react-icons/hi'
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
 
 const Map = (props: { latitude: number; longitude: number; popup: String, className: string, markers: Array<any> }) => {
-  const setMap = () => {}
+  const setMap = () => { }
+  
+  const getRoleName = (role: string): string => {
+    const roles = [
+      'Agricultor',
+      'Estoquicista',
+      'Varejista',
+      'Distribuidor',
+      'Vendedor de insumos',
+    ]
+    const backRoles = [
+      'FARMER',
+      'STOCKIST',
+      'RETAILER',
+      'DISTRIBUTOR',
+      'INPUT_SALESMAN',
+    ]
+
+    return roles[backRoles.indexOf(role)]
+  }
 
   return (
     <MapContainer
@@ -49,7 +68,7 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
                 </div>
                 <div className="flex items-center gap-2">
                   <HiViewGrid size={20} />
-                  <p>{marker.role}</p>
+                  <p>{getRoleName(marker.role)}</p>
                 </div>
               </div>
             </Tooltip>
