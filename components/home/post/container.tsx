@@ -127,6 +127,7 @@ const PostContainer = (props: {
         ) : null}
       </div>
       <div className="mt-2 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {console.log(props.posts)}
         {props.posts.map((post) => (
           <Post
             id={post.id}
@@ -139,7 +140,7 @@ const PostContainer = (props: {
                 ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
                   post.userProfilePhotoUrl
                 : `https://avatar.oxro.io/avatar.svg?name=${
-                    props.user?.name ? props.user.name.replace(' ', '+') : ''
+                    post.username ? post.username.replace(' ', '+') : ''
                   }`
             }
             postBg={
