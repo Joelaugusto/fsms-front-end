@@ -30,8 +30,14 @@ const Login: NextPage = (props:any) => {
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
     const backProvinces = ['MAPUTO', 'GAZA', 'INHAMBANE', 'MANICA', 'SOFALA','TETE', 'ZAMBEZIA', 'NAMPULA','NIASSA','CABO_DELGADO']
     
-    const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor'];
-    const backRoles = [ 'FARMER', 'STOCKIST', 'RETAILER', 'DISTRIBUTOR']
+    const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor', 'Vendedor de insumos'];
+    const backRoles = [
+      'FARMER',
+      'STOCKIST',
+      'RETAILER',
+      'DISTRIBUTOR',
+      'INPUT_SALESMAN',
+    ]
 
 
     const [showMap, setShowMap] = useState<boolean>(true);

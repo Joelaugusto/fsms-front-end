@@ -28,6 +28,10 @@ const getIcon = (role: string): L.Icon<L.IconOptions> => {
       iconUrl = iconsUrl.stockist
       break
     }
+    case 'INPUT_SALESMAN': {
+      iconUrl = iconsUrl.inputSalesman
+      break
+    }
     default: {
       iconUrl = iconsUrl.default
       break
@@ -45,6 +49,7 @@ const iconsUrl = {
   distributor: 'https://cdn-icons-png.flaticon.com/512/948/948615.png',
   retailer: 'https://cdn-icons-png.flaticon.com/512/4290/4290854.png',
   stockist: 'https://cdn-icons-png.flaticon.com/512/2897/2897808.png',
+  inputSalesman: 'https://cdn-icons-png.flaticon.com/512/2826/2826356.png',
   default: 'https://cdn-icons-png.flaticon.com/512/252/252025.png',
 }
 

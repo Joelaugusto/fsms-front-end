@@ -42,7 +42,12 @@ function HomePage(props: any) {
         <select
           className="w-40 rounded-md border border-slate-800 bg-transparent p-2"
           onChange={(e) => {
-            setFilteredMarkers(props.markers.filter((marker:any) => marker.role === e.target.value || e.target.value === ''))
+            setFilteredMarkers(
+              props.markers.filter(
+                (marker: any) =>
+                  marker.role === e.target.value || e.target.value === ''
+              )
+            )
           }}
         >
           <option value="">Visualizar Todos</option>
@@ -50,6 +55,7 @@ function HomePage(props: any) {
           <option value="STOCKIST">Depósitos</option>
           <option value="RETAILER">Varejistas</option>
           <option value="DISTRIBUTOR">Transportadores</option>
+          <option value="INPUT_SALESMAN">Vendedor de insumos</option>
         </select>
       </div>
       <Map
