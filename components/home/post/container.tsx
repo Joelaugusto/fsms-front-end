@@ -18,7 +18,7 @@ import AddVideo from "./addVideo";
 
 const PostContainer = (props: {
   posts: Array<any>, user: any, refresh: Function,
-  groupId?: Number | undefined, groupName?: string | undefined,
+  groupId?: Number | undefined, groupName?: string | undefined,username: string
 
 }) => {
   
@@ -135,11 +135,20 @@ const PostContainer = (props: {
             views={post.visualizations}
             date={dateUtil.timeAgo(post.createdAt)}
             userImage={
-              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
               post.userProfilePhotoUrl
+                ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
+                  post.userProfilePhotoUrl
+                : `https://avatar.oxro.io/avatar.svg?name=${
+                    props.user?.name ? props.user.name.replace(' ', '+') : ''
+                  }`
             }
             postBg={
-              process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.images[0]?.path
+              post.images[0]
+                ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
+                  post.images[0]?.path
+                : `https://avatar.oxro.io/avatar.svg?name=${
+                    post.title ? post.title.toUpperCase().replace(' ', '+') : ''
+                  }`
             }
           />
         ))}
