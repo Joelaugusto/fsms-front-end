@@ -9,7 +9,6 @@ import AuthContainer from '../../../components/auth/container';
 import Input from '../../../components/global/Input';
 import Options from '../../../components/auth/options';
 import Stepper from '../../../components/auth/stepper';
-import dynamic from 'next/dynamic'
 import Head from 'next/head';
 import Link from 'next/link';
 import api from '../../../utils/api';
@@ -57,13 +56,12 @@ const Login: NextPage = (props:any) => {
     ]
   
   const findAddress = async () => {
-      await api
-        .get(
-          `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${latitude},${longitude}`
-        )
-        .then((data: any) => {
-          setAddress(data.data.data)
-        })
+
+      fetch(
+        `http://api.positionstack.com/v1/reverse?access_key=${access_key}&query=${latitude},${longitude}`
+      )
+        .then((response) => response.json())
+        .then((data) => setAddress(data.data))
     }
   
     useEffect(() => {
