@@ -107,14 +107,25 @@ const Post: NextPage = (props: any) => {
                 </div>
               ) : null}
               <h1 className="mb-8 text-2xl">{post.title}</h1>
-              <div className="mb-8 grid w-full grid-cols-4 gap-4">
+              <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                 {post.images.map((image: any) => (
                   <img
-                    className="shadow-md"
+                    className="aspect-video w-full shadow-md"
                     src={process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + image.path}
                   />
                 ))}
               </div>
+              <div className="mb-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                {post.videosLink.map((link: string) => (
+                  <iframe
+                    className="aspect-video w-full shadow-md"
+                    src={link}
+                    frameBorder="0"
+                    allowFullScreen
+                  ></iframe>
+                ))}
+              </div>
+
               <div className="flex justify-between border-b-2 border-gray-200 pb-4">
                 <div className="">
                   <p className="text-sm text-gray-500">
@@ -133,8 +144,9 @@ const Post: NextPage = (props: any) => {
                 <img
                   className="h-20 w-20 rounded-full"
                   src={
-                    post.userProfilePhotoUrl ? process.env
-                      .NEXT_PUBLIC_BASE_DOWNLOAD_URL + post.userProfilePhotoUrl
+                    post.userProfilePhotoUrl
+                      ? process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL +
+                        post.userProfilePhotoUrl
                       : `https://avatar.oxro.io/avatar.svg?name=${post.username}`
                   }
                 />

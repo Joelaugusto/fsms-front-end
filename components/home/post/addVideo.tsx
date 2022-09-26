@@ -2,20 +2,25 @@ import { useState } from 'react'
 import { FiPlusCircle } from 'react-icons/fi'
 import { RiCloseCircleLine } from 'react-icons/ri'
 import { BiHide, BiShow } from 'react-icons/bi'
+import api from '../../../utils/api'
 
-const AddVideo = (props: {onUpdateLinks: Function}) => {
+const AddVideo = (props: { onUpdateLinks: Function }) => {
   const [showTextField, setShowTextField] = useState<boolean>(false)
   const [showLinkList, setShowLinkList] = useState<boolean>(true)
 
-    const [links, setLinks] = useState<Array<string>>([])
-    const [link, setLink] = useState<string>()
+  const [links, setLinks] = useState<Array<string>>([])
+  const [link, setLink] = useState<string>()
 
-    const addLink = () => {
+  const addLink = () => {
     if (link) {
-      links.push(link)
+      if (link.includes('yout')) {
+          links.push(link.replace('/watch?v=', '/embed/'))
+      } else {
+        links.push(link)
+      }
     }
-        setShowTextField(false)
-        props.onUpdateLinks(links)
+    setShowTextField(false)
+    props.onUpdateLinks(links)
   }
 
   const addVideoBtn = (
@@ -27,26 +32,28 @@ const AddVideo = (props: {onUpdateLinks: Function}) => {
     >
       Adicionar Video <FiPlusCircle size={25} />
     </button>
-    )
+  )
 
-    const hideLinkListBtn = (
-      <button
-        onClick={() => {
-          setShowLinkList(!showLinkList)
-        }}
-        className="my-5 flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
-      >
-        {showLinkList ? 'Ocultar lista de vídeos' : 'Mostrar lista de vídeos'}{' '}
-        {showLinkList ? <BiHide size={25} /> : <BiShow size={25} />}
-      </button>
-    )
+  const hideLinkListBtn = (
+    <button
+      onClick={() => {
+        setShowLinkList(!showLinkList)
+      }}
+      className="my-5 flex gap-2 rounded-md bg-emerald-600 p-2 text-white"
+    >
+      {showLinkList ? 'Ocultar lista de vídeos' : 'Mostrar lista de vídeos'}{' '}
+      {showLinkList ? <BiHide size={25} /> : <BiShow size={25} />}
+    </button>
+  )
 
   const urlField = (
     <div className="flex gap-5">
       <input
         placeholder="Adicione o link do vídeo"
-              className="my-5 rounded-md border border-emerald-400 p-2 text-sm"
-              onChange={(e) => {setLink(e.target.value)}}
+        className="my-5 rounded-md border border-emerald-400 p-2 text-sm"
+        onChange={(e) => {
+          setLink(e.target.value)
+        }}
       />
       <div className="flex gap-5">
         <button
@@ -68,29 +75,29 @@ const AddVideo = (props: {onUpdateLinks: Function}) => {
       </div>
     </div>
   )
-    
 
   return (
     <div>
       <div className="flex gap-5">{showTextField ? urlField : addVideoBtn}</div>
       <div className="flex gap-5">{links.length !== 0 && hideLinkListBtn}</div>
       {}
-      {showLinkList && links.map((link, index) => (
-        <div key={index} className="my-2 flex items-center gap-5">
-          <button
-            onClick={() => {
-              const linksAux: Array<string> = links
-              linksAux.splice(index, 1)
-              setLinks([...linksAux])
-              props.onUpdateLinks(links)
-            }}
-            className="rounded-md bg-red-700 p-2 text-white "
-          >
-            <RiCloseCircleLine />
-          </button>
-          <p>{link}</p>
-        </div>
-      ))}
+      {showLinkList &&
+        links.map((link, index) => (
+          <div key={index} className="my-2 flex items-center gap-5">
+            <button
+              onClick={() => {
+                const linksAux: Array<string> = links
+                linksAux.splice(index, 1)
+                setLinks([...linksAux])
+                props.onUpdateLinks(links)
+              }}
+              className="rounded-md bg-red-700 p-2 text-white "
+            >
+              <RiCloseCircleLine />
+            </button>
+            <p>{link}</p>
+          </div>
+        ))}
     </div>
   )
 }
