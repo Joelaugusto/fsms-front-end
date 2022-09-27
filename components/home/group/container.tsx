@@ -33,7 +33,7 @@ const GroupContainer = (props: {
           }),
         {
           pending: 'A criar grupo!',
-          success: 'Grupo criado com sucesso! 👌',
+          success: 'Grupo criado! 👌',
           error: 'Erro ao criar grupo! 🤯',
         }
       )

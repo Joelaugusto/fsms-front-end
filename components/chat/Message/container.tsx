@@ -8,7 +8,8 @@ const Container = (props: {
   className: string
   goBack: Function
   messages: Array<any>
-  chatId: number
+  chatId: number,
+  chatName: string,
   user:any
   onMessageReceived: Function
 }) => {
@@ -36,6 +37,7 @@ const Container = (props: {
                   goBack={props.goBack}
                   username={props.user.username}
                   userrole={props.user.userRole}
+                  chatName={props.chatName}
                 />
                 <div className="flex items-center space-x-2">
                   <button

@@ -50,7 +50,7 @@ const Post: NextPage = (props: any) => {
   //       .catch(() => {}),
   //     {
   //       pending: 'Enviando o comentário!',
-  //       success: 'Comentário enviado com sucesso! 👌',
+  //       success: 'Comentário enviado! 👌',
   //       error: 'Falha ao comentar! 🤯',
   //     }
   //   )

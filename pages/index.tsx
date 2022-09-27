@@ -32,7 +32,7 @@ const Home: NextPage = (props:any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AdsContainer />
-      <PostContainer posts={posts} refresh={postsRefresh} user={props.user} />
+      <PostContainer posts={posts} refresh={postsRefresh} user={props.user}/> 
           <footer className="text w-full py-6 text-center">
             <p className='text-gray-300'>Gestão de Cadeia de suplementos agricolas</p>
           </footer>

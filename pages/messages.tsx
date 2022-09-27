@@ -10,6 +10,7 @@ const Message:NextPage = (props: any) => {
   const [isChatSelected, setIsChatSelected] = useState(false)
   const [messages, setMessages] = useState<Array<any>>([])
   const [chatId, setChatId] = useState<number>(0)
+  const [chatName, setChatName] = useState<string>('')
 
 
   const onMessageReceived = (message: any) => {
@@ -29,6 +30,7 @@ const Message:NextPage = (props: any) => {
     const resp = await api.get(`chats/${id}/with-messages`)
     setChatId(id)
     const data = resp.data
+    setChatName(data.name)
     setMessages(data.message.reverse())
     // setUsername(data.name)
     // setUserRole(data.userRole)
@@ -51,6 +53,7 @@ const Message:NextPage = (props: any) => {
           }}
           messages={messages}
           chatId={chatId}
+          chatName={chatName}
           user={props.user}
         />
       </div>
@@ -62,7 +65,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   
   const user = await session.getLoggedUser(context);
 
-   const chats = await api.get('/chats/resume')
+  const chats = await api.get('/chats/resume')
 
   return {
     props: {

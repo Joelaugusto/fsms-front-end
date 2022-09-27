@@ -29,7 +29,7 @@ const Login: NextPage = (props: any) => {
           }),
           {
           pending: 'Iniciando Sessão!',
-          success: 'Sessão iniciada com sucesso! 👌',
+          success: 'Sessão iniciada! 👌',
           error: 'Erro ao iniciar sessão! 🤯',
         }
       )

@@ -18,7 +18,7 @@ import AddVideo from "./addVideo";
 
 const PostContainer = (props: {
   posts: Array<any>, user: any, refresh: Function,
-  groupId?: Number | undefined, groupName?: string | undefined,username: string
+  groupId?: Number | undefined, groupName?: string | undefined
 
 }) => {
   
@@ -127,7 +127,6 @@ const PostContainer = (props: {
         ) : null}
       </div>
       <div className="mt-2 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {console.log(props.posts)}
         {props.posts.map((post) => (
           <Post
             id={post.id}
