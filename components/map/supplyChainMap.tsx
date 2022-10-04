@@ -83,7 +83,7 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
           />
           <button
             onClick={async () => {
-              await api.post('chats', { members: [clickedMarkerInfo?.id] })
+              await api.post('chats', { members: [clickedMarkerInfo?.id], name: clickedMarkerInfo.name })
                 .then((data) => {
                   router.push(`/messages?selected=${data.data.id}`)
                   console.log(data)
