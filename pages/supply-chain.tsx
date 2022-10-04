@@ -21,7 +21,7 @@ function HomePage(props: any) {
   const Map = dynamic(
     () => import('../components/map/supplyChainMap'),
     {
-      loading: () => <p>A map is loading</p>,
+      loading: () => <p>O Mapa está carregando!</p>,
       ssr: false, // This line is important. It's what prevents server-side render
     }
   )

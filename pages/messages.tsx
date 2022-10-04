@@ -1,17 +1,30 @@
 import { NextPage } from 'next'
+import { useRouter } from 'next/router'
 import type { GetServerSidePropsContext } from 'next'
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import Container from './../components/chat/Message/container'
 import Sidebar from './../components/chat/sidebar'
 import session from '../utils/session'
 
 import api from '../utils/api'
-const Message:NextPage = (props: any) => {
+const Message: NextPage = (props: any) => {
+  const router = useRouter();
   const [isChatSelected, setIsChatSelected] = useState(false)
   const [messages, setMessages] = useState<Array<any>>([])
   const [chatId, setChatId] = useState<number>(0)
   const [chatName, setChatName] = useState<string>('')
 
+  const { selected } = router.query
+
+  useEffect(() => {
+    
+    if (selected) {
+      handleSelectChat(Number.parseInt(`${selected}`))
+    }
+
+  
+  }, [])
+  
 
   const onMessageReceived = (message: any) => {
     let msg = message
