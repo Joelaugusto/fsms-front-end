@@ -33,7 +33,8 @@ const Settings: NextPage = (props: any) => {
             <p>Nome: {props.user.name}</p>
             <p>Função: {props.user.role}</p>
             <p>Celular: {props.user.phone}</p>
-            <p>Biografia: {}</p>
+            <p>Biografia: { }</p>
+            <p>Capacidade de produção</p>
           </div>
           <div className="col-span-1">
             <ProfilePhotoUploader
