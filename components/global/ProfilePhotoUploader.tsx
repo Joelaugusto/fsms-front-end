@@ -68,6 +68,7 @@ export function ProfilePhotoUploader(props: any) {
                       alt=""
                       className="aspect-square w-1/3 cursor-pointer rounded-full border-2 shadow-md"
                       onClick={() => onImageUpdate(index)}
+                      style={{width: 160}}
                     />
                     {/* <div className="image-item__btn-wrapper my-2 flex justify-center gap-2">
                       <button

@@ -17,10 +17,9 @@ const Post: NextPage = (props: any) => {
   const [comment, setComment] = useState<string>()
   const [comments, setComments] = useState<Array<any>>([])
 
-
   const router = useRouter()
   const { id } = router.query
-  
+
   useEffect(() => {
     const findPost = async () => {
       await api
@@ -28,7 +27,8 @@ const Post: NextPage = (props: any) => {
         .then((data: any) => {
           setPost(data.data)
           api.get(`/posts/${id}/comments`).then((data) => {
-            setComments(data.data.data.reverse())});
+            setComments(data.data.data.reverse())
+          })
         })
         .catch(() => {
           router.push('/')
@@ -39,41 +39,38 @@ const Post: NextPage = (props: any) => {
 
   const submitCommentHandler = async (e: any) => {
     e.preventDefault()
-    if(comment){
+    if (comment) {
       await toast.promise(
         api
-        .post(`/posts/${id}/comments`, { comment })
-        .then((c) => {
-          setComments([...comments, c.data])
-          setComment('')
-        })
-        .catch(() => {}),
-      {
-        pending: 'Enviando o comentário!',
-        success: 'Comentário enviado! 👌',
-        error: 'Falha ao comentar! 🤯',
-      }
-    )
+          .post(`/posts/${id}/comments`, { comment })
+          .then((c) => {
+            setComments([...comments, c.data])
+            setComment('')
+          })
+          .catch(() => {}),
+        {
+          pending: 'Enviando o comentário!',
+          success: 'Comentário enviado! 👌',
+          error: 'Falha ao comentar! 🤯',
+        }
+      )
     }
   }
 
   const deletePost = async () => {
-      try{
+    try {
       await toast.promise(
-        api
-          .delete('posts/'+id)
-          .then((data: any) => {
-            router.push({ pathname: '/' })
-          }),
-          {
+        api.delete('posts/' + id).then((data: any) => {
+          router.push({ pathname: '/' })
+        }),
+        {
           pending: 'Apagando o artigo!',
           success: 'Artigo apagado com sucesso! 👌',
           error: 'Erro ao apagar artigo! 🤯',
         }
       )
-      }catch(e){
-      }
-    }
+    } catch (e) {}
+  }
 
   if (post) {
     return (
@@ -219,9 +216,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       user: user,
-    }
+    },
   }
 }
 
 export default Post
-
