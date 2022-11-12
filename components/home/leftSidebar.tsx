@@ -22,7 +22,7 @@ const LeftSidebar = () => (
       text="Grupos"
       to="/groups"
     />
-    <SideButton icon={<FiUser size={20} />} text="Perfil" to="/account" />
+    <SideButton icon={<FiUser size={20} />} text="Perfil" to="/accounts" />
     <SideButton
       icon={<FiSettings size={20} />}
       text="Definições"

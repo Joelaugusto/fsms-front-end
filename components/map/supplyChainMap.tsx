@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import { MapContainer, TileLayer, Marker, Tooltip, useMapEvents } from 'react-leaflet'
 import { useRef, useState } from 'react'
 import api from '../../utils/api'
+import Link from 'next/link'
+import { FiMessageCircle, FiUser } from 'react-icons/fi'
 
 const Map = (props: { latitude: number; longitude: number; popup: String, className: string, markers: Array<any> }) => {
   const setMap = () => { }
@@ -59,7 +61,9 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
         <div
           tabIndex={-1}
           onBlur={(e) => {
-            setTimeout(()  => {console.log("JOEL MARCOS GIMO AUGUSTO",e)})
+            setTimeout(() => {
+              console.log('JOEL MARCOS GIMO AUGUSTO', e)
+            })
           }}
           ref={markerOption}
           className="absolute flex h-80 w-52 cursor-default flex-col justify-between rounded-md bg-white p-4"
@@ -80,23 +84,29 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
               clickedMarkerInfo?.profileUrl
             }
           />
-          <button
-            onClick={async () => {
-              await api
-                .post('chats', {
-                  members: [clickedMarkerInfo?.id],
-                  name: clickedMarkerInfo.name,
-                })
-                .then((data) => {
-                  setClickedMarkerPosition(undefined)
-                  router.push(`/messages?selected=${data.data.id}`)
-                  console.log(data)
-                })
-            }}
-            className="mb-2 flex items-center justify-center rounded-md border-2 border-emerald-600 bg-emerald-600 p-2 text-white hover:bg-white hover:text-emerald-600 "
-          >
-            Contactar
-          </button>
+          <div className="grid grid-cols-2 mt-2 gap-4 cursor-pointer">
+            <Link href={`/accounts/${clickedMarkerInfo?.id}`}>
+              <span className="mb-2 flex items-center justify-center rounded-md border-2 border-emerald-600 bg-emerald-600 p-2 text-white hover:bg-white hover:text-emerald-600 ">
+                <FiUser size={20} />
+              </span>
+            </Link>
+            <button
+              onClick={async () => {
+                await api
+                  .post('chats', {
+                    members: [clickedMarkerInfo?.id],
+                    name: clickedMarkerInfo.name,
+                  })
+                  .then((data) => {
+                    setClickedMarkerPosition(undefined)
+                    router.push(`/messages?selected=${data.data.id}`)
+                  })
+              }}
+              className="mb-2 flex items-center justify-center rounded-md border-2 border-emerald-600 bg-emerald-600 p-2 text-white hover:bg-white hover:text-emerald-600 "
+            >
+              <FiMessageCircle size={20} />
+            </button>
+          </div>
         </div>
       )}
       <MapContainer
