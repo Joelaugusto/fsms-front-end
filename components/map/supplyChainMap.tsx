@@ -23,24 +23,6 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
   const markerOption = useRef<any>(null)
   
   
-  const getRoleName = (role: string): string => {
-    const roles = [
-      'Agricultor',
-      'Estoquicista',
-      'Varejista',
-      'Distribuidor',
-      'Vendedor de insumos',
-    ]
-    const backRoles = [
-      'FARMER',
-      'STOCKIST',
-      'RETAILER',
-      'DISTRIBUTOR',
-      'INPUT_SALESMAN',
-    ]
-
-    return roles[backRoles.indexOf(role)]
-  }
 
     function MyComponent() {
       const map = useMapEvents({
@@ -74,9 +56,7 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
           }}
         >
           <p className="text-xl">{clickedMarkerInfo?.name}</p>
-          <p className="text-gray-500">
-            {getRoleName(clickedMarkerInfo?.role)}
-          </p>
+          <p className="text-gray-500">{clickedMarkerInfo?.role}</p>
           <img
             className="aspect-square"
             src={
@@ -84,7 +64,7 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
               clickedMarkerInfo?.profileUrl
             }
           />
-          <div className="grid grid-cols-2 mt-2 gap-4 cursor-pointer">
+          <div className="mt-2 grid cursor-pointer grid-cols-2 gap-4">
             <Link href={`/accounts/${clickedMarkerInfo?.id}`}>
               <span className="mb-2 flex items-center justify-center rounded-md border-2 border-emerald-600 bg-emerald-600 p-2 text-white hover:bg-white hover:text-emerald-600 ">
                 <FiUser size={20} />
@@ -135,7 +115,8 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
                 click: (e) => {
                   const { pageX, pageY } = e.originalEvent
                   setClickedMarkerPosition({ x: pageX, y: pageY })
-                  setClickedMarkerInfo(marker)
+                  console.log(marker)
+                  setClickedMarkerInfo({ profileUrl: marker.profileUrl, name: marker.name, id: marker.id })
                 },
               }}
               position={[marker.latitude, marker.longitude]}
