@@ -48,17 +48,15 @@ function HomePage(props: any) {
             setFilteredMarkers(
               props.markers.filter(
                 (marker: any) =>
-                  marker.role === e.target.value || e.target.value === ''
+                  marker.role.id == e.target.value || e.target.value == ''
               )
             )
           }}
         >
-          <option value="">Visualizar Todos</option>
-          <option value="FARMER">Agricultores</option>
-          <option value="STOCKIST">Depósitos</option>
-          <option value="RETAILER">Varejistas</option>
-          <option value="DISTRIBUTOR">Transportadores</option>
-          <option value="INPUT_SALESMAN">Vendedor de insumos</option>
+          <option value=''>Mostrar Todos</option>
+          {props.roles.map((role: any) => (
+            <option value={role.id}>{role.name}</option>
+          ))}
         </select>
       </div>
       <Map
@@ -76,11 +74,13 @@ export const getServerSideProps = async () => {
 
 
   const markers = await api.get('/users/map-markers')
+  const roles = await api.get('/users/roles')
 
 
   return {
     props: {
-      markers: markers.data
+      markers: markers.data,
+      roles: roles.data
     },
   }
 }
