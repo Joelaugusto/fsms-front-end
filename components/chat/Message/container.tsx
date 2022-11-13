@@ -10,6 +10,7 @@ const Container = (props: {
   messages: Array<any>
   chatId: number,
   chatName: string,
+  chatIcon:string,
   user:any
   onMessageReceived: Function
 }) => {
@@ -38,6 +39,7 @@ const Container = (props: {
                   username={props.user.username}
                   userrole={props.user.userRole}
                   chatName={props.chatName}
+                  chatIcon={ props.chatIcon}
                 />
                 <div className="flex items-center space-x-2">
                   <button

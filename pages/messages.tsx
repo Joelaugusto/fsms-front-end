@@ -13,6 +13,7 @@ const Message: NextPage = (props: any) => {
   const [messages, setMessages] = useState<Array<any>>([])
   const [chatId, setChatId] = useState<number>(0)
   const [chatName, setChatName] = useState<string>('')
+  const [chatIcon, setChatIcon] = useState<string>('')
 
   const { selected } = router.query
 
@@ -45,6 +46,7 @@ const Message: NextPage = (props: any) => {
     const data = resp.data
     setChatName(data.name)
     setMessages(data.message.reverse())
+    setChatIcon(data.chatIcon)
     // setUsername(data.name)
     // setUserRole(data.userRole)
   }
@@ -68,6 +70,7 @@ const Message: NextPage = (props: any) => {
           chatId={chatId}
           chatName={chatName}
           user={props.user}
+          chatIcon={chatIcon}
         />
       </div>
     </div>

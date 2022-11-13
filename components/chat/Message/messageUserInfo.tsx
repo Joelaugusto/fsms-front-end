@@ -5,7 +5,8 @@ const MessageUserInfo = (props: {
   username: string
   userrole: string
   profilePhoto: string
-  chatName: string
+  chatName: string,
+  chatIcon: string
 }) => (
   <div className="relative flex items-center space-x-4">
     <button className="flex items-center" onClick={props.goBack}>
@@ -19,7 +20,7 @@ const MessageUserInfo = (props: {
           </svg>
         </span>
         <img
-          src={`https://avatar.oxro.io/avatar.svg?name=${props.chatName && props.chatName.toUpperCase().replace(' ', '+')}`}
+          src={props.chatIcon ? `${process.env.NEXT_PUBLIC_BASE_DOWNLOAD_URL + props.chatIcon}`: `https://avatar.oxro.io/avatar.svg?name=${props.chatName && props.chatName.toUpperCase().replace(' ', '+')}`}
           alt="Avatar"
           className="h-10 w-10 rounded-full sm:h-12 sm:w-12"
         />
