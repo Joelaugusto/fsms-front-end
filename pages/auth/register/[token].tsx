@@ -21,7 +21,8 @@ import validate from '../../../utils/formValidate';
 import * as Yup from 'yup'
 import MapBox from '../../../components/map/mapBox';
 
-const Login: NextPage = (props:any) => {
+const Login: NextPage = (props: any) => {
+  
 
   const access_key = process.env.NEXT_PUBLIC_POSITION_STACK_ACCESS_KEY;
 
@@ -30,15 +31,6 @@ const Login: NextPage = (props:any) => {
     const provinces = ['Maputo', 'Gaza', 'Inhambane', 'Manica', 'Sofala', 'Tete', 'Zambézia', 'Nampula', 'Niassa', 'Cabo Delgado'];
     const backProvinces = ['MAPUTO', 'GAZA', 'INHAMBANE', 'MANICA', 'SOFALA','TETE', 'ZAMBEZIA', 'NAMPULA','NIASSA','CABO_DELGADO']
     
-    const roles = ['Agricultor', 'Estoquicista', 'Varejista', 'Distribuidor', 'Vendedor de insumos'];
-    const backRoles = [
-      'FARMER',
-      'STOCKIST',
-      'RETAILER',
-      'DISTRIBUTOR',
-      'INPUT_SALESMAN',
-    ]
-
 
     const [showMap, setShowMap] = useState<boolean>(true);
     const [latitude, setLatitude] = useState<number>(0)
@@ -47,7 +39,7 @@ const Login: NextPage = (props:any) => {
     const [step, setStep] = useState(0);
   
     const [name, setName] = useState('')
-    const [role, setRole] = useState(roles[0])
+    const [role, setRole] = useState(props.roles[0])
   
 
 
@@ -99,7 +91,7 @@ const Login: NextPage = (props:any) => {
           type="select"
           placeholder="Selecione a sua funcão"
           label="Funcão"
-          options={roles}
+          options={props.roles.map((role: any) => role.name)}
           name="role"
           key="role"
         />
@@ -166,9 +158,11 @@ const Login: NextPage = (props:any) => {
 
     const submitForm = async (
       form: { province: string, name: string, district: string, locality:string,
-         latitude: string, longitude:string, role:string },
+         latitude: string, longitude:string, role:number },
       setSubmitting: Function
     ) => {
+
+      
 
       setSubmitting(true)
 
@@ -176,7 +170,7 @@ const Login: NextPage = (props:any) => {
         api
           .post(`users/${props.userId}`, {
             name: form.name,
-            role: backRoles[roles.findIndex((n: string) => n === form.role)],
+            role: role,
             address: {
               province:
                 backProvinces[provinces.findIndex((n: string) => n === form.province)],
@@ -201,13 +195,15 @@ const Login: NextPage = (props:any) => {
     }
 
   const changeStep = async (e: any, setSubmitting: Function) => {
+    console.log(e)
         if (steps.length - 1 <= step) {
             submitForm(e, setSubmitting)
         } else {
           setName(e.name)
-          setRole(e.role)
+          setRole(props.roles.filter((rol:any) => rol.name === e.role)[0].id)
             setStep(step + 1)
         }
+    console.log(e)
     }
 
     const onchangeStep = async (e: any) => {
@@ -228,7 +224,7 @@ const Login: NextPage = (props:any) => {
             enableReinitialize={true}
             initialValues={{
               name: name,
-              role: role,
+              role: role.name,
               province: address[0]?.region,
               district: address[0]?.county,
               locality: address[0]?.name,
@@ -266,16 +262,22 @@ const Login: NextPage = (props:any) => {
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
 
-  let user:any; 
+  let user: any
+  let roles: any
   
   await api.post(`users/verify-email/${context.params?.token}`).then((data) => {
     user = data.data;
   })
 
+  await api.get('users/roles').then((data) => { 
+    roles = data.data;
+  })
+
   if(user){
     return {
       props: {
-        userId: user.id
+        userId: user.id,
+        roles: roles
       }
     }
   }else{

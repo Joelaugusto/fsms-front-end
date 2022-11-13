@@ -77,6 +77,7 @@ export const getServerSideProps = async () => {
 
   const markers = await api.get('/users/map-markers')
 
+
   return {
     props: {
       markers: markers.data

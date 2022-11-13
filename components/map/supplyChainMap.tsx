@@ -157,7 +157,7 @@ const Map = (props: { latitude: number; longitude: number; popup: String, classN
                   </div>
                   <div className="flex items-center gap-2">
                     <HiViewGrid size={20} />
-                    <p>{getRoleName(marker.role)}</p>
+                    <p>{marker.role.name}</p>
                   </div>
                 </div>
               </Tooltip>
