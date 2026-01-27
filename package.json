@@ -9,7 +9,7 @@
     "axios": "^0.26.0",
     "formik": "^2.2.9",
     "leaflet": "^1.7.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "next": "latest",
     "next-pwa": "^5.5.2",
     "prop-types": "^15.8.1",
